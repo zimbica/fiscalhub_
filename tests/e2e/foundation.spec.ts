@@ -19,6 +19,8 @@ test('rotas privadas e endpoints rejeitam acesso anônimo',async ({page,request}
   await page.goto('/painel');await expect(page).toHaveURL(/\/entrar$/);
   const response=await request.patch('/api/profile',{headers:{origin:'http://localhost:3000'},data:{fullName:'Sem Sessão'}});
   expect(response.status()).toBe(401);
+  expect((await request.get('/api/companies')).status()).toBe(401);
+  expect((await request.post('/api/companies',{headers:{origin:'http://localhost:3000'},data:{cnpj:'00000000000191'}})).status()).toBe(401);
   const csrf=await request.post('/api/auth/login',{headers:{origin:'https://evil.example'},data:{email,password}});
   expect(csrf.status()).toBe(403);
 });
@@ -34,7 +36,7 @@ test('login, perfil, preferências persistentes, histórico, navegação e exclu
   await expect(page).toHaveURL(/\/painel$/);
   await expect(page.getByRole('heading',{name:/Olá, Pessoa/})).toBeVisible();
   await expect(page.getByText('R$ 0,00',{exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Configurar meu perfil',exact:true}).click();
+  await page.getByRole('link',{name:'Personalizar meu espaço',exact:true}).click();
   await page.getByLabel('Nome completo',{exact:true}).fill('Pessoa Atualizada');
   await page.getByRole('button',{name:'Salvar perfil',exact:true}).click();
   await expect(page.getByText('Perfil atualizado.',{exact:true})).toBeVisible();

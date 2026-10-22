@@ -14,6 +14,8 @@ Revisão em 22/10/2026. As versões efetivamente usadas estão fixadas em `packa
 - [shadcn/ui — Next.js](https://ui.shadcn.com/docs/installation/next): instalação e componentes pelo CLI oficial.
 - [Vercel Hobby](https://vercel.com/docs/plans/hobby): uso pessoal/não comercial e limites gratuitos.
 
+Para a etapa 2, também foram revisados BrasilAPI (documentação e código do provedor), manual oficial de DV do CNPJ, CCC e cadastro SEFAZ-RS. Links, contrato e limites estão em [provedores cadastrais](company-providers.md).
+
 Fontes fiscais indicadas para as próximas etapas, ainda sem regras implementadas:
 
 - [Portal Nacional da NF-e](https://www.nfe.fazenda.gov.br/portal/).

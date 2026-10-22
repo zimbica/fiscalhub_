@@ -2,7 +2,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
-  
+
   "public": {
           Tables: {
             "activity_events": {
@@ -53,14 +53,14 @@ isOneToOne: false
                   ]
                 },"companies": {
                   Row: {
-                    "cnpj": string,"created_at": string,"data": NonNullable<Json>,"expires_at": string,"id": string,"legal_name": string,"queried_at": string,"registration_status": string | null,"sources": NonNullable<Json>,"trade_name": string | null,"updated_at": string,"user_id": string
+                    "cnpj": string,"created_at": string,"data": NonNullable<Json>,"expires_at": string,"id": string,"ie_result": NonNullable<Json>,"is_favorite": boolean,"legal_name": string,"queried_at": string,"registration_status": string | null,"sources": NonNullable<Json>,"trade_name": string | null,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "cnpj": string,"created_at"?: string,"data"?: NonNullable<Json>,"expires_at": string,"id"?: string,"legal_name": string,"queried_at"?: string,"registration_status"?: string | null,"sources"?: NonNullable<Json>,"trade_name"?: string | null,"updated_at"?: string,"user_id": string
+                    "cnpj": string,"created_at"?: string,"data"?: NonNullable<Json>,"expires_at": string,"id"?: string,"ie_result"?: NonNullable<Json>,"is_favorite"?: boolean,"legal_name": string,"queried_at"?: string,"registration_status"?: string | null,"sources"?: NonNullable<Json>,"trade_name"?: string | null,"updated_at"?: string,"user_id": string
                   }
                   Update: {
-                    "cnpj"?: string,"created_at"?: string,"data"?: NonNullable<Json>,"expires_at"?: string,"id"?: string,"legal_name"?: string,"queried_at"?: string,"registration_status"?: string | null,"sources"?: NonNullable<Json>,"trade_name"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "cnpj"?: string,"created_at"?: string,"data"?: NonNullable<Json>,"expires_at"?: string,"id"?: string,"ie_result"?: NonNullable<Json>,"is_favorite"?: boolean,"legal_name"?: string,"queried_at"?: string,"registration_status"?: string | null,"sources"?: NonNullable<Json>,"trade_name"?: string | null,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -181,7 +181,7 @@ isOneToOne: false
                     "created_at"?: string,"full_name"?: string,"id"?: string,"role"?: string,"updated_at"?: string
                   }
                   Relationships: [
-                    
+
                   ]
                 },"rejection_catalog": {
                   Row: {
@@ -195,7 +195,7 @@ isOneToOne: false
                     "causes"?: NonNullable<Json>,"code"?: string,"corrections"?: NonNullable<Json>,"created_at"?: string,"description"?: string,"example"?: string | null,"explanation"?: string,"id"?: string,"models"?: (string)[],"reviewed_at"?: string,"search_vector"?: never,"title"?: string,"updated_at"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"xml_fields"?: (string)[]
                   }
                   Relationships: [
-                    
+
                   ]
                 },"rejection_favorites": {
                   Row: {
@@ -255,7 +255,7 @@ isOneToOne: false
                     "document_type"?: string,"id"?: string,"installed_at"?: string,"name"?: string,"sha256"?: string,"source_url"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"version"?: string
                   }
                   Relationships: [
-                    
+
                   ]
                 },"search_history": {
                   Row: {
@@ -421,6 +421,9 @@ isOneToOne: false
                            },
 "has_active_session":
 { Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"save_company_query":
+{ Args: { "p_cnpj": string,"p_company": Json,"p_ie": Json,"p_ttl_seconds"?: number }; Returns: Json
                            }
           }
           Enums: {
@@ -540,7 +543,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            
+
           }
         }
 } as const

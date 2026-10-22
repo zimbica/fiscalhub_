@@ -2,7 +2,7 @@
 
 Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeScript, Tailwind, shadcn/ui e Supabase**.
 
-**Entrega atual: Etapa 1 — Fundação.** Autenticação, perfil, preferências e isolamento de dados funcionais. Os módulos fiscais das etapas 2–6 ainda não estão implementados. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
+**Entrega atual: Etapas 1 e 2 — Fundação e consulta cadastral.** Autenticação, perfil, preferências, isolamento de dados e consulta real de CNPJ funcionais. Os módulos fiscais das etapas 3–6 ainda não estão implementados. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
 
 ## Implementado
 
@@ -15,6 +15,9 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Painel com indicadores consultados do banco e histórico real com filtro e paginação.
 - Modelagem inicial das entidades fiscais, índices, valores decimais, vínculos por proprietário e bucket XML privado.
 - Limites persistentes de requisição, validação server-side, proteção de origem, erros padronizados e segredos restritos ao servidor.
+- Consulta real de CNPJ pela BrasilAPI, dados normalizados e fontes por campo; validação de dígitos numéricos e alfanuméricos.
+- Cache privado por 24 horas, atualização manual, fallback identificado, histórico pesquisável, favoritos e exclusão.
+- IE separada do CNPJ: links oficiais e adaptador opcional para provedor autorizado, sem inferir inscrição ou situação.
 - Testes unitários, integração com Supabase real, navegador e workflow CI.
 
 ## Rodar localmente
@@ -34,7 +37,7 @@ Abra <http://localhost:3000>. Os e-mails de confirmação/recuperação locais f
 
 `setup:local` cria `.env.local` com credenciais do Supabase **local**, sem imprimi-las, e recusa sobrescrever um arquivo existente. Não use essas credenciais no deploy. As migrations são aplicadas ao iniciar/resetar o banco local. `db:reset` apaga os dados locais; use apenas no ambiente de desenvolvimento.
 
-Para usar Supabase hospedado, copie `.env.example` para `.env.local` e configure as cinco variáveis, aplique a migration e ajuste as URLs de Auth conforme [implantação](docs/deployment.md). Sem configuração, a aplicação mostra a página de instalação; não inventa uma sessão nem permite acessar dados privados.
+Para usar Supabase hospedado, copie `.env.example` para `.env.local` e configure as cinco variáveis obrigatórias, aplique as migrations e ajuste as URLs de Auth conforme [implantação](docs/deployment.md). Sem configuração, a aplicação mostra a página de instalação; não inventa uma sessão nem permite acessar dados privados.
 
 ## Verificar
 
@@ -51,6 +54,8 @@ npm run test:e2e
 
 Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. A integração testa o modelo do banco, não o parser XML, que ainda não existe.
 
+Detalhes e limitações das fontes: [consulta de CNPJ e IE](docs/company-providers.md). As duas variáveis `IE_PROVIDER_*` são opcionais. Não é necessário contratar um serviço para consultar CNPJ.
+
 Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.md), [segurança](docs/security.md) e [fontes consultadas](docs/sources.md).
 
 ## Próximas etapas
@@ -58,7 +63,7 @@ Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.
 | Etapa | Escopo | Estado |
 |---|---|---|
 | 1 | Fundação, Auth, perfil, temas, banco e RLS | Implementada; verificar relatório dos testes |
-| 2 | Consulta real de CNPJ, provedores de IE, cache e histórico | Pendente |
+| 2 | Consulta real de CNPJ, provedores de IE, cache e histórico | Implementada; IE automática depende de fonte autorizada |
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Pendente |
 | 4 | Editor XML, motor XSD real com schemas oficiais, regras fiscais e relatório | Pendente |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Pendente |
@@ -69,7 +74,8 @@ Validação local nunca será apresentada como autorização da SEFAZ. IE não s
 ## GitHub, Supabase e Vercel
 
 - Repositório: <https://github.com/zimbica/fiscalhub_>.
-- Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`.
+- Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`; migrations das etapas 1 e 2 já aplicadas e verificadas.
+- Publicação Vercel, variáveis secretas e URLs/SMTP de Auth ainda precisam da configuração descrita abaixo.
 - [Passo a passo de implantação](docs/deployment.md), incluindo variáveis, migrations, Auth, SMTP e planos gratuitos.
 
 Nenhum serviço pago é necessário para desenvolver/testar localmente. Vercel Hobby permite uso pessoal e não comercial; uso comercial exige revisão do plano/termos. Supabase Free e SMTP possuem limites: custo zero depende de permanecer dentro das cotas e ter serviços de e-mail adequados. Não foram habilitados serviços pagos automaticamente.

@@ -1,6 +1,7 @@
 import { LayoutDashboard, History, Settings2, Route, Building2, Files, ScanSearch, BookOpenText } from 'lucide-react';
 export const navigation = [
   { title: 'Visão geral', href: '/painel', icon: LayoutDashboard },
+  { title: 'Consulta de CNPJ', href: '/consulta-cnpj', icon: Building2 },
   { title: 'Histórico de atividade', href: '/historico', icon: History },
   { title: 'Configurações', href: '/configuracoes', icon: Settings2 },
   { title: 'Etapas do projeto', href: '/projeto', icon: Route },

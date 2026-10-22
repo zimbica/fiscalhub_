@@ -2,11 +2,11 @@
 
 ## Estado desta entrega
 
-Etapa 1 implementada. As etapas 2 a 6 permanecem planejadas. O banco antecipa as entidades fiscais, mas **tabelas não equivalem a módulos implementados**. Não há validador XSD, importador de XML, consulta de CNPJ, catálogo de rejeições ou gráficos fictícios nesta entrega.
+Etapas 1 e 2 implementadas. As etapas 3 a 6 permanecem planejadas. O banco antecipa as entidades fiscais, mas **tabelas não equivalem a módulos implementados**. Não há validador XSD, importador de XML, catálogo de rejeições ou gráficos fictícios nesta entrega.
 
 ## Decisões
 
-- Next.js App Router, React e TypeScript. Route Handlers executam autenticação, perfil e preferências no runtime Node.js da Vercel.
+- Next.js App Router, React e TypeScript. Route Handlers executam autenticação, perfil, preferências e consultas cadastrais no runtime Node.js da Vercel.
 - Supabase Auth é o único sistema de identidade. Cookies SSR com `@supabase/ssr`; `proxy.ts` renova tokens com `getClaims`; acesso a dados usa `getUser` e verificação de sessão ativa no banco.
 - Todo registro privado pertence a `profiles.id`, vinculado a `auth.users.id`. Políticas combinam `auth.uid()` e existência da sessão. `user_metadata` nunca concede privilégios.
 - Relacionamentos entre registros privados usam FKs compostas `(user_id,id)`, impedindo itens, consultas ou validações de apontarem para dados de outro proprietário.
@@ -45,12 +45,19 @@ docs/                     arquitetura, implantação, fontes e resultados
 | PATCH | `/api/profile` | Atualização do nome |
 | PATCH | `/api/settings` | Atualização de tema e cor |
 | GET | `/auth/callback` | Troca do código PKCE por sessão |
+| POST | `/api/companies` | Consulta CNPJ, cache e atualização manual |
+| GET | `/api/companies` | Histórico pesquisável, paginação e filtro de favoritos |
+| PATCH | `/api/companies/[id]` | Favoritar/desfavoritar consulta própria |
+| DELETE | `/api/companies/[id]` | Excluir cache e consultas relacionadas próprias |
 
 Respostas: `{ data: ... }` ou `{ error: { code, message } }`. Limite de corpo: 8 KiB. Mutação exige origem exatamente igual a `NEXT_PUBLIC_APP_URL`. Rotas autenticadas validam a sessão no servidor. Não usar cache público/ISR nas rotas com cookies.
 
+## Consulta cadastral
+
+`services/providers` define contratos intercambiáveis. BrasilAPI é a fonte padrão de CNPJ; o adaptador de IE só usa um gateway HTTPS explicitamente configurado. A transação `save_company_query` atualiza o cache, substitui IEs e registra a consulta; falhas revertem todo o conjunto. Não guarda QSA nem CPF de sócios. Detalhes em [provedores](company-providers.md).
+
 ## Plano das próximas etapas
 
-2. Provedores de CNPJ e IE intercambiáveis, identificador numérico e alfanumérico conforme fonte oficial vigente, cache por proprietário, histórico e fontes por campo. Confirmar capacidades atuais da BrasilAPI antes de implementar. Não contornar CAPTCHA nem certificados.
 3. Parser seguro, arquivos XML/ZIP com limites de tamanho/quantidade/expansão, fila em lotes curtos e retomada. Extração de modelos 55/65 e eventos, dashboard real com Recharts, filtros e exportações.
 4. Homologar um motor XSD real compatível com Vercel, empacotar dependências oficiais e fixar hashes/versões. Avaliar WebAssembly/libxml2 com isolamento e limites. Testar `xs:include/import`, ordem, obrigatoriedade, namespaces e esquemas IBS/CBS. Não usar regex como validador XSD.
 5. Catálogo pesquisável com resumos próprios, referências oficiais e links Oobj revisados, favoritos e histórico. Mecanismo de atualização permitido e versionado.

@@ -2,7 +2,7 @@ import 'server-only';
 import { z } from 'zod';
 import { requirePageUser } from '@/lib/auth/session';
 import { settingsSchema } from '@/lib/auth/schemas';
-export const activityNames: Record<string, string> = { account_created: 'Conta criada', profile_updated: 'Perfil atualizado', preferences_updated: 'Preferências atualizadas' };
+export const activityNames: Record<string, string> = { account_created: 'Conta criada', profile_updated: 'Perfil atualizado', preferences_updated: 'Preferências atualizadas', cnpj_queried: 'Consulta de CNPJ registrada' };
 
 export async function getWorkspace() {
   const { supabase, user } = await requirePageUser();
