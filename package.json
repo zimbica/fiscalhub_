@@ -6,21 +6,58 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:integration": "node --env-file=.env.local --test tests/integration/*.test.mjs",
+    "test:e2e": "playwright test",
+    "db:start": "supabase start",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types --local --schema public > src/types/database.ts",
+    "db:check": "supabase db lint --local --schema public,private --fail-on warning",
+    "setup:local": "node scripts/setup-local.mjs",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "5.3.0",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.118.0",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "cn": "0.5.0",
+    "lucide-react": "1.61.0",
     "next": "16.4.2",
+    "next-themes": "0.4.6",
+    "radix-ui": "1.8.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "sonner": "2.0.8",
+    "tailwind-merge": "3.7.0",
+    "tw-animate-css": "1.4.0",
+    "zod": "4.6.7"
   },
   "devDependencies": {
-    "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.2",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.4.2",
+    "@playwright/test": "1.64.1",
+    "@tailwindcss/turbopack": "4.3.3",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.13.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "jsdom": "30.1.3",
+    "supabase": "2.121.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "type": "module"
 }
