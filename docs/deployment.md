@@ -5,7 +5,7 @@
 O projeto informado nesta sessão é `kwgrlocfbkxbupydxmdu`. Confirme no painel que é o FiscalHub antes de aplicar qualquer SQL. Nenhum outro projeto deve receber estas migrations.
 
 1. Em uma organização Free, crie ou use o projeto FiscalHub. A cota gratuita é contabilizada conforme as condições atuais da conta/organizações; criar outra organização não garante mais projetos gratuitos.
-2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` e `20261022232514_document_reports.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
+2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` `20261022232514_document_reports.sql` e `20261023125337_xml_validation.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
 
    ```bash
    npx supabase login
@@ -67,11 +67,11 @@ O repositório foi criado público pelo proprietário. Somente código, document
 
 Não foi adicionado serviço pago. O Vercel Hobby é destinado a uso **pessoal e não comercial**. Para uso empresarial/comercial, revisar o plano ou escolher hospedagem compatível com os termos. Supabase Free tem limites de banco, arquivos, tráfego e e-mail e pode pausar projetos inativos; consulte os limites atuais antes de importar arquivos reais. Não ativar recursos pagos automaticamente.
 
-A etapa 3 envia um XML de até 2 MiB por requisição, com pausa/retomada e descompactação no navegador. Nenhuma função precisa permanecer ativa durante todo o lote. ZIPs e centenas de originais consomem cotas de Storage, banco e tráfego: monitore o uso no painel. Consulte [limites](xml-imports.md). A etapa 4 só será considerada pronta após demonstrar XSD real no runtime de produção.
+A etapa 3 envia um XML de até 2 MiB por requisição, com pausa/retomada e descompactação no navegador. Nenhuma função precisa permanecer ativa durante todo o lote. ZIPs e centenas de originais consomem cotas de Storage, banco e tráfego: monitore o uso no painel. Consulte [limites](xml-imports.md). O validador usa uma função Node com worker WASM limitado a 15 segundos; não precisa de serviço permanente ou binário nativo externo. Preserve `outputFileTracingIncludes` do Next.js para empacotar os XSDs e o WASM. No domínio publicado, execute validações positiva/negativa com fixtures sintéticas antes de utilizar documentos reais.
 
 ## Estado de verificação
 
-Em 23/10/2026 as cinco migrations das etapas 1–3 estão aplicadas no projeto `kwgrlocfbkxbupydxmdu`. Foram conferidas 19 tabelas públicas com RLS, funções de importação/relatórios/detalhes e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório somente após conferir os hashes do SQL aplicado; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR.
+Em 23/10/2026 as seis migrations das etapas 1–4 estão aplicadas no projeto `kwgrlocfbkxbupydxmdu`. Foram conferidas 19 tabelas públicas com RLS, funções de importação/relatórios/detalhes/validação, dois pacotes de schemas registrados e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório somente após conferir os hashes do SQL aplicado; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR.
 
 Os INFO restantes são [índices ainda não usados](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index) no banco sem documentos e [RLS sem política no limitador privado](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), intencionalmente acessível apenas ao serviço. Não abra políticas para usuários nesse limitador.
 

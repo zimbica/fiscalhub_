@@ -429,23 +429,27 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
             </div>
           ))}
         </div>
-        <details className="mt-5 rounded-lg bg-muted/40 p-4">
-          <summary className="cursor-pointer text-sm font-medium">
+        <div className="mt-5 rounded-lg bg-muted/40 p-4">
+          <p className="text-sm font-medium">
             <FileCheck2 className="mr-2 inline size-4" />
-            Validação fiscal · próxima etapa
-          </summary>
-          <p className="mt-3 text-xs leading-6 text-muted-foreground">
-            O editor, a validação XSD oficial e as regras fiscais completas
-            serão implementados na etapa 4. Nenhuma alteração foi feita nos XMLs
-            assinados.
+            Validação de XML
           </p>
-          <Link
-            href="/projeto#etapa-4"
-            className="mt-2 inline-block text-xs text-primary"
-          >
-            Ver escopo da etapa 4
-          </Link>
-        </details>
+          <p className="mt-2 text-xs leading-6 text-muted-foreground">
+            Abra uma cópia do original no validador. A verificação local não
+            comprova autorização SEFAZ nem validade criptográfica da assinatura.
+          </p>
+          {files
+            .filter((file) => file.original_path)
+            .map((file) => (
+              <Link
+                key={file.id}
+                href={`/validador?source=${file.id}`}
+                className="mt-3 block text-xs text-primary underline"
+              >
+                Validar XML · {file.filename}
+              </Link>
+            ))}
+        </div>
       </section>
       <Dialog
         open={confirm}

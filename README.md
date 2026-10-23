@@ -2,7 +2,7 @@
 
 Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeScript, Tailwind, shadcn/ui e Supabase**.
 
-**Entrega atual: Etapas 1–3 — Fundação, consulta cadastral e análise de XML.** Autenticação, consulta real de CNPJ, importação de XML/ZIP, documentos, gráficos e exportações funcionais. Validador XSD e catálogo de rejeições pertencem às próximas etapas. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
+**Entrega atual: Etapas 1–4 — Fundação, consulta cadastral, análise e validação XML.** Autenticação, CNPJ, importação de XML/ZIP, gráficos, exportações e validador XSD real funcionais. Catálogo de rejeições é a próxima etapa. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
 
 ## Implementado
 
@@ -23,6 +23,7 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Duplicidade por usuário/chave/ambiente, conflito de conteúdo e situação derivada das evidências importadas.
 - Dashboard Recharts, filtros avançados, tabela paginada, detalhes, CSV e Excel; exclusão de documentos/lotes com confirmação.
 - Proteções XXE, profundidade, tamanho, expansão ZIP e cálculos decimais exatos.
+- Validador com editor CodeMirror, 14 XSDs oficiais fixados, motor libxml2/WASM, seis regras locais condicionais, relatório JSON, histórico privado e preservação de originais.
 - Testes unitários, integração com Supabase real, navegador e workflow CI.
 
 ## Rodar localmente
@@ -57,13 +58,15 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. O parser é testado com arquivos sintéticos; os testes não certificam assinatura, XSD ou autorização SEFAZ.
+Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. O parser é testado com arquivos sintéticos; as fixtures de validação também testam XSD real, sem certificar assinatura ou autorização SEFAZ.
 
 Detalhes e limitações das fontes: [consulta de CNPJ e IE](docs/company-providers.md). As duas variáveis `IE_PROVIDER_*` são opcionais. Não é necessário contratar um serviço para consultar CNPJ.
 
 Consulte [importação XML, regras de extração e limites](docs/xml-imports.md). O teste opcional de mil XMLs é executado com `BULK_XML_TEST=1 npm run test:e2e -- tests/e2e/documents.spec.ts --grep "mil XMLs"`.
 
 Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.md), [segurança](docs/security.md) e [fontes consultadas](docs/sources.md).
+
+Consulte o [validador XML, schemas instalados e limites](docs/xml-validation.md).
 
 ## Próximas etapas
 
@@ -72,11 +75,11 @@ Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.
 | 1 | Fundação, Auth, perfil, temas, banco e RLS | Implementada; verificar relatório dos testes |
 | 2 | Consulta real de CNPJ, provedores de IE, cache e histórico | Implementada; IE automática depende de fonte autorizada |
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
-| 4 | Editor XML, motor XSD real com schemas oficiais, regras fiscais e relatório | Pendente |
+| 4 | Editor XML, XSD oficial real, regras locais condicionais, histórico e relatório | Implementada no escopo de [validação](docs/xml-validation.md) |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Pendente |
 | 6 | Testes fiscais completos, otimização e publicação final | Pendente |
 
-Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo permanece vazio até haver referências revisadas. A estratégia de XSD será homologada no runtime da Vercel na etapa 4.
+Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo permanece vazio até haver referências revisadas. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
 
 ## GitHub, Supabase e Vercel
 

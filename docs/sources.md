@@ -35,3 +35,12 @@ Esses links não significam que schemas ou artigos já foram baixados, homologad
 - [NT 2018.004](https://www.nfe.fazenda.gov.br/Portal/exibirArquivo.aspx?conteudo=DEisbx2XCIs%3D): evento 110112 de cancelamento por substituição de NFC-e.
 
 A presença de grupos da reforma tributária é preservada na extração; não foram inferidas regras de vigência nem homologado um pacote XSD nesta entrega.
+
+## Etapa 4 — revisadas em 23/10/2026
+
+- [Portal Nacional: schemas oficiais](https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D) e [SVRS: documentos](https://dfe-portal.svrs.rs.gov.br/Nfe/Documentos): links exatos, hashes e composição em `schemas/manifest.json` e `docs/xml-validation.md`.
+- [xmllint-wasm](https://github.com/noppa/xmllint-wasm): API e protocolo do worker 5.3.0; libxml2 2.13.8 confirmado pelo motor instalado.
+- [CodeMirror](https://codemirror.net/docs/): editor, compartimentos, diagnósticos e busca.
+- [xml-formatter](https://github.com/chrisbottin/xml-formatter): formatação de prévia, sem substituir original assinado.
+- Next.js 16.4.2, documentação instalada de Route Handlers, `serverExternalPackages` e `outputFileTracingIncludes`.
+- [MOC 7 Anexo I](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf): chave, campos, direção/totais e exceções; IBS usa estrutura do XSD 010f e não é atribuído ao MOC anterior à reforma.

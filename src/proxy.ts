@@ -1,6 +1,6 @@
-import { createServerClient } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
-import { publicEnv } from '@/lib/env';
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+import { publicEnv } from "@/lib/env";
 
 export async function proxy(request: NextRequest) {
   const env = publicEnv();
@@ -12,15 +12,31 @@ export async function proxy(request: NextRequest) {
       setAll(cookies, headers) {
         cookies.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
-        cookies.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
-        Object.entries(headers ?? {}).forEach(([name, value]) => response.headers.set(name, value));
+        cookies.forEach(({ name, value, options }) =>
+          response.cookies.set(name, value, options),
+        );
+        Object.entries(headers ?? {}).forEach(([name, value]) =>
+          response.headers.set(name, value),
+        );
       },
     },
   });
   // Verifies signature and refreshes tokens. Authorization is repeated at the data boundary.
   await supabase.auth.getClaims();
-  response.headers.set('Cache-Control', 'private, no-store');
+  response.headers.set("Cache-Control", "private, no-store");
   return response;
 }
 
-export const config = { matcher: ['/painel/:path*', '/consulta-cnpj/:path*', '/documentos/:path*', '/configuracoes/:path*', '/historico/:path*', '/projeto/:path*', '/nova-senha', '/api/:path*'] };
+export const config = {
+  matcher: [
+    "/painel/:path*",
+    "/consulta-cnpj/:path*",
+    "/documentos/:path*",
+    "/validador/:path*",
+    "/configuracoes/:path*",
+    "/historico/:path*",
+    "/projeto/:path*",
+    "/nova-senha",
+    "/api/:path*",
+  ],
+};

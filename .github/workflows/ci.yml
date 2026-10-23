@@ -36,6 +36,9 @@ jobs:
       - run: npx supabase db advisors --local --type security --level warn --fail-on error
       - run: npm run test:integration
       - run: npx playwright install --with-deps chromium
+      - run: npm run build
       - run: npm run test:e2e
+        env:
+          E2E_PRODUCTION: "1"
       - if: always()
         run: npx supabase stop

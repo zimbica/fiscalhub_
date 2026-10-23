@@ -1,0 +1,92 @@
+{
+  "reviewedAt": "2026-10-23",
+  "packages": [
+    {
+      "id": "010f",
+      "url": "https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=8ITFuBLltXs%3D",
+      "sha256": "b8589490a58a09a993a80e6ac4d7ed10f20892061ecfc56719337098d4b95998"
+    },
+    {
+      "id": "009k",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=PL_009k_NT2023_001_v120.zip",
+      "sha256": "80688b920523307e2cdd8359b03c0df017ccb5210d4cce6f53e4391443ed833f"
+    },
+    {
+      "id": "cancelamento",
+      "url": "https://dfe-portal.svrs.rs.gov.br/NFE/DownloadArquivoEstatico/?sistema=NFE&tipoArquivo=2&nomeArquivo=Evento_Canc_PL_v1.01_NT_2018_004.zip",
+      "sha256": "71ccd5fcc48f9604a2a8965146df45e3b73e96e87942ab3391be0d55cc0df718"
+    }
+  ],
+  "files": [
+    {
+      "path": "nfe-4.00/DFeTiposBasicos_v1.00.xsd",
+      "sha256": "173577a4e3a9dc1d0deced85b89b955b6064bb5a4ae5a96f6727d2da8a694d09",
+      "package": "010f"
+    },
+    {
+      "path": "nfe-4.00/leiauteNFe_v4.00.xsd",
+      "sha256": "2bace939973916d54184ff3e2740041a932de5d79772f3363504504160f22542",
+      "package": "010f"
+    },
+    {
+      "path": "nfe-4.00/nfe_v4.00.xsd",
+      "sha256": "adce3646c13ceb54922ec3142fc1dc45bd4fb839ac35ad583e86c733c07d27df",
+      "package": "010f"
+    },
+    {
+      "path": "nfe-4.00/tiposBasico_v4.00.xsd",
+      "sha256": "772619c85723e598840667ca66e7298a250442df47eeb94b397d2a333ce62047",
+      "package": "010f"
+    },
+    {
+      "path": "nfe-4.00/xmldsig-core-schema_v1.01.xsd",
+      "sha256": "f56744a5f51c03f027de13f39f869307091781a9ef1d91b1ebe14719ce28e1ac",
+      "package": "010f"
+    },
+    {
+      "path": "nfe-4.00/procNFe_v4.00.xsd",
+      "sha256": "d61d15303f8ccf77e6e5d77a8153255a6906e0d00385dc5000db19ed3bfa96e0",
+      "package": "009k"
+    },
+    {
+      "path": "cancelamento-1.00/e110111_v1.00.xsd",
+      "sha256": "56fcdad336b281a9de5e7aae27850bc2c5bd7714e267c891e1b4d0dc227c65da",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/envEventoCancNFe_v1.00.xsd",
+      "sha256": "d3f1550b1c3fa6974690cc27e5b74a55fbec3dd11ecdd2992fbcd248b015d534",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/eventoCancNFe_v1.00.xsd",
+      "sha256": "3e5a2840a42f1f66bbbcb21066dcde6aa90407c1ef05456ad9ac38456d96982d",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/leiauteEventoCancNFe_v1.00.xsd",
+      "sha256": "9426ec0d8e3ce441c78d61cf2bd8b6910b7b1cc377a0b337a5a1a9dbe438a66f",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/procEventoCancNFe_v1.00.xsd",
+      "sha256": "7e85da1583df86aee753400286d4aad48160846090cd6ecd2c1400fed4afaa69",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/retEnvEventoCancNFe_v1.00.xsd",
+      "sha256": "a0a81bf59c9c166f4061f52f8d74cd7aa21bdc1bd8c9b0e0b8bc44d0df34e665",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/tiposBasico_v1.03.xsd",
+      "sha256": "486f7b7e2ac053eddf87661858fbeb171f8dce2e805d501d388665269c95dbf3",
+      "package": "cancelamento"
+    },
+    {
+      "path": "cancelamento-1.00/xmldsig-core-schema_v1.01.xsd",
+      "sha256": "8ce2a385b593c85acf09cb03521f9e730dad2b2e6a5d02cc6f5b688ca94ce230",
+      "package": "cancelamento"
+    }
+  ]
+}

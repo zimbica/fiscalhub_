@@ -2,7 +2,7 @@
 
 ## Estado desta entrega
 
-Etapas 1–3 implementadas. Importação, persistência, filtros, gráficos e exportações usam dados reais do usuário. Validador XSD e catálogo de rejeições permanecem pendentes; as tabelas dessas funcionalidades antecipam a estrutura.
+Etapas 1–4 implementadas, com escopo e limites documentados. Importação, persistência, filtros, gráficos e exportações usam dados reais do usuário. Validador XSD executa schemas oficiais locais; catálogo de rejeições permanece pendente.
 
 ## Decisões
 
@@ -80,6 +80,15 @@ Veja [regras, limites e evidências](xml-imports.md).
 
 ## Plano das próximas etapas
 
-4. Homologar um motor XSD real compatível com Vercel, empacotar dependências oficiais e fixar hashes/versões. Avaliar WebAssembly/libxml2 com isolamento e limites. Testar `xs:include/import`, ordem, obrigatoriedade, namespaces e esquemas IBS/CBS. Não usar regex como validador XSD.
 5. Catálogo pesquisável com resumos próprios, referências oficiais e links Oobj revisados, favoritos e histórico. Mecanismo de atualização permitido e versionado.
 6. Testes fiscais completos, revisão de acessibilidade, desempenho, segurança e implantação. Os testes atuais não certificam regras fiscais nem conformidade tributária.
+
+## Validação XML — etapa 4
+
+`validators` separa seleção/integridade de schemas, worker libxml2/WASM, regras locais e composição de relatório. `services/validations.ts` controla concorrência, armazenamento e persistência transacional via RPC invoker. `components/validation` contém editor, resultados e histórico.
+
+`GET/POST /api/validations` lista/executa; `GET/DELETE /api/validations/[id]` consulta/exclui; `?format=xml|json` baixa original/relatório. `?source=<import_file_id>` carrega original autorizado no servidor. Todas exigem sessão ativa; mutações exigem mesma origem.
+
+O worker usa o protocolo interno fixado de xmllint-wasm 5.3.0 para permitir interrupção real por timeout. `Reflect.construct(Worker, ...)` preserva execução nativa do arquivo, evitando que Turbopack mova o worker para longe do WASM. `outputFileTracingIncludes` empacota XSDs e arquivos do motor no Route Handler; `serverExternalPackages` preserva a dependência. Upgrade exige teste do protocolo, timeout, build e E2E em produção.
+
+Veja [escopo, fontes e regras](xml-validation.md).

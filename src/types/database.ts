@@ -283,14 +283,14 @@ isOneToOne: false
                   ]
                 },"schema_versions": {
                   Row: {
-                    "document_type": string,"id": string,"installed_at": string,"name": string,"sha256": string,"source_url": string,"valid_from": string | null,"valid_until": string | null,"version": string
+                    "document_type": string,"id": string,"installed_at": string,"manifest": NonNullable<Json>,"name": string,"sha256": string,"source_url": string,"valid_from": string | null,"valid_until": string | null,"version": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "document_type": string,"id"?: string,"installed_at"?: string,"name": string,"sha256": string,"source_url": string,"valid_from"?: string | null,"valid_until"?: string | null,"version": string
+                    "document_type": string,"id"?: string,"installed_at"?: string,"manifest"?: NonNullable<Json>,"name": string,"sha256": string,"source_url": string,"valid_from"?: string | null,"valid_until"?: string | null,"version": string
                   }
                   Update: {
-                    "document_type"?: string,"id"?: string,"installed_at"?: string,"name"?: string,"sha256"?: string,"source_url"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"version"?: string
+                    "document_type"?: string,"id"?: string,"installed_at"?: string,"manifest"?: NonNullable<Json>,"name"?: string,"sha256"?: string,"source_url"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"version"?: string
                   }
                   Relationships: [
 
@@ -415,14 +415,14 @@ isOneToOne: false
                   ]
                 },"xml_validations": {
                   Row: {
-                    "access_key": string | null,"checks_run": number,"created_at": string,"document_id": string | null,"document_type": string | null,"error_count": number,"id": string,"layout_version": string | null,"not_verified": NonNullable<Json>,"rules_result": string,"schema_id": string | null,"structural_result": string,"user_id": string,"warning_count": number,"xsd_result": string
+                    "access_key": string | null,"checks_run": number,"created_at": string,"document_id": string | null,"document_type": string | null,"error_count": number,"filename": string,"id": string,"layout_version": string | null,"not_verified": NonNullable<Json>,"original_path": string | null,"report": NonNullable<Json>,"rules_result": string,"schema_id": string | null,"sha256": string | null,"structural_result": string,"user_id": string,"warning_count": number,"xsd_result": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "access_key"?: string | null,"checks_run"?: number,"created_at"?: string,"document_id"?: string | null,"document_type"?: string | null,"error_count"?: number,"id"?: string,"layout_version"?: string | null,"not_verified"?: NonNullable<Json>,"rules_result": string,"schema_id"?: string | null,"structural_result": string,"user_id": string,"warning_count"?: number,"xsd_result": string
+                    "access_key"?: string | null,"checks_run"?: number,"created_at"?: string,"document_id"?: string | null,"document_type"?: string | null,"error_count"?: number,"filename"?: string,"id"?: string,"layout_version"?: string | null,"not_verified"?: NonNullable<Json>,"original_path"?: string | null,"report"?: NonNullable<Json>,"rules_result": string,"schema_id"?: string | null,"sha256"?: string | null,"structural_result": string,"user_id": string,"warning_count"?: number,"xsd_result": string
                   }
                   Update: {
-                    "access_key"?: string | null,"checks_run"?: number,"created_at"?: string,"document_id"?: string | null,"document_type"?: string | null,"error_count"?: number,"id"?: string,"layout_version"?: string | null,"not_verified"?: NonNullable<Json>,"rules_result"?: string,"schema_id"?: string | null,"structural_result"?: string,"user_id"?: string,"warning_count"?: number,"xsd_result"?: string
+                    "access_key"?: string | null,"checks_run"?: number,"created_at"?: string,"document_id"?: string | null,"document_type"?: string | null,"error_count"?: number,"filename"?: string,"id"?: string,"layout_version"?: string | null,"not_verified"?: NonNullable<Json>,"original_path"?: string | null,"report"?: NonNullable<Json>,"rules_result"?: string,"schema_id"?: string | null,"sha256"?: string | null,"structural_result"?: string,"user_id"?: string,"warning_count"?: number,"xsd_result"?: string
                   }
                   Relationships: [
                     {
@@ -471,6 +471,9 @@ isOneToOne: false
                            },
 "save_import_file":
 { Args: { "p_error"?: string,"p_filename": string,"p_import_id": string,"p_path"?: string,"p_payload": Json,"p_sha256": string }; Returns: Json
+                           },
+"save_xml_validation":
+{ Args: { "p_document_id"?: string,"p_id": string,"p_path": string,"p_report": Json }; Returns: string
                            }
           }
           Enums: {

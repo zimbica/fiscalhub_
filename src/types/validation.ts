@@ -1,0 +1,56 @@
+export type ValidationState = "passed" | "failed" | "not_verified";
+export type ValidationIssue = {
+  severity: "error" | "warning" | "info";
+  level: "structure" | "xsd" | "rule";
+  ruleId: string;
+  message: string;
+  rawMessage?: string;
+  rejectionCode?: string;
+  tag?: string;
+  xpath?: string;
+  line?: number;
+  column?: number;
+  found?: string;
+  expected?: string;
+  reason: string;
+  suggestion: string;
+  source: { title: string; url: string; version: string; reviewedAt: string };
+};
+export type RuleCheck = {
+  id: string;
+  title: string;
+  status: ValidationState;
+  reason?: string;
+};
+export type SchemaSelection = {
+  id: string;
+  title: string;
+  version: string;
+  directory: string;
+  entry: string;
+  sourceUrl: string;
+  bundleHash: string;
+};
+export type ValidationReport = {
+  id?: string;
+  createdAt: string;
+  filename: string;
+  sha256: string;
+  documentType: string | null;
+  model: string | null;
+  layoutVersion: string | null;
+  accessKey: string | null;
+  structure: ValidationState;
+  xsd: ValidationState;
+  rules: ValidationState;
+  schema: SchemaSelection | null;
+  engine: string;
+  ruleVersion: string;
+  issues: ValidationIssue[];
+  checks: RuleCheck[];
+  checksRun: number;
+  errors: number;
+  warnings: number;
+  notVerified: string[];
+  truncated: boolean;
+};

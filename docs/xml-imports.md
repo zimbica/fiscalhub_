@@ -62,4 +62,4 @@ CSV usa UTF-8 com BOM e ponto e vírgula; prefixos de fórmula são neutralizado
 
 ## O que ainda falta
 
-Editor XML, XSD real com pacotes oficiais versionados, assinatura digital, regras fiscais por UF/vigência e relatório completo de validação pertencem à etapa 4. A extração desta etapa não executa essas verificações e não declara XML fiscalmente válido. Catálogo pesquisável de rejeições/Oobj pertence à etapa 5. Nenhum XML original é corrigido automaticamente.
+Editor, XSD oficial e relatório local estão disponíveis na [etapa 4](xml-validation.md). Verificação criptográfica e regras completas por UF/vigência continuam pendentes. A extração desta etapa não executa essas verificações e não declara XML fiscalmente válido. Catálogo pesquisável de rejeições/Oobj pertence à etapa 5. Nenhum XML original é corrigido automaticamente.

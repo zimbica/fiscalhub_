@@ -27,10 +27,14 @@ O parser Saxes rejeita DOCTYPE/entidades externas, XML malformado, namespace inc
 
 Originais são baixados como anexos por endpoint autenticado, nunca renderizados como HTML. CSV neutraliza prefixos de fórmula; XLSX grava dados como texto para preservar chaves e decimais. Storage e PostgreSQL não compartilham transação: uma falha de remoção interrompe a exclusão e permite retomar. Falha de compensação após upload pode deixar objeto privado órfão, removido na exclusão da conta; não há coletor automático de órfãos nesta etapa.
 
-Assinaturas digitais, XSD e regras fiscais completas serão verificados na etapa 4. Importação e evidência de protocolo não comprovam autenticidade nem autorização online pela SEFAZ.
+A etapa 4 acrescenta XSD real e regras locais condicionais. Verificação criptográfica de assinatura e regras fiscais completas permanecem pendentes. Importação e evidência de protocolo não comprovam autenticidade nem autorização online pela SEFAZ.
 
 Antes de uso público, o controlador deve completar a página de privacidade, contato, base legal, retenção, política de backups, resposta a incidentes e atendimento LGPD. Esses procedimentos organizacionais não são substituídos por código.
 
 ## Segredos
 
 Nunca versionar `.env.local`, tokens, XMLs reais, exportações ou capturas com dados de clientes. `.env.example` contém apenas nomes. Não colocar `SUPABASE_SECRET_KEY` ou `RATE_LIMIT_SECRET` em variáveis `NEXT_PUBLIC_*`. Os testes só aceitam endpoints locais e criam/removem contas sintéticas.
+
+## Validador da etapa 4
+
+DTD/XXE rejeitados antes do libxml2; schemas locais fixados com hashes, sem resolução de URLs fornecidas pelo XML. WASM com memória/prazo limitados e worker encerrado ao concluir/falhar. Cópias privadas e relatórios têm RLS, FK de proprietário e exclusão própria. Arquivos nunca são corrigidos automaticamente; edição explícita ocorre em cópia. Consulte [limites](xml-validation.md). Validação XSD da estrutura de assinatura não equivale à verificação criptográfica.

@@ -70,7 +70,7 @@ Fixtures e resultados esperados: `tests/fixtures/xml/README.md`. Os arquivos sã
 
 ## Limites da verificação
 
-- XSD, assinatura digital, regras fiscais completas por UF/vigência e pesquisa de rejeições ainda não foram implementados/testados. Os XMLs sintéticos de extração não têm assinatura nem validade fiscal e não são fixtures que alegam conformidade XSD.
+- Verificação criptográfica de assinatura, regras fiscais completas por UF/vigência e pesquisa de rejeições continuam pendentes. Fixtures de extração não alegam conformidade XSD; as novas fixtures em `tests/fixtures/xsd` exercitam explicitamente schemas oficiais, com placeholders de assinatura sem validade criptográfica.
 - Não foi testada entrega de e-mail por SMTP externo; os fluxos usam Mailpit local.
 - Não equivale a teste de carga, auditoria independente, homologação fiscal ou certificação LGPD.
 - No ambiente gerenciado, o driver de imagens Docker exigiu consolidar a imagem oficial do PostgreSQL para evitar amplificação de disco. Os healthchecks de Auth/Storage recebiam 403 ao tentar o endereço local pelo proxy do ambiente; as APIs foram verificadas diretamente e os testes completos passaram. Em desenvolvimento comum/CI, use `supabase start` sem ignorar healthchecks.
@@ -95,3 +95,21 @@ REAL_CNPJ_TEST=1 npm run test:e2e -- tests/e2e/companies.spec.ts
 ```
 
 Os testes de integração e navegador recusam executar contra um host Supabase remoto. Relatórios/capturas locais ficam ignorados pelo Git.
+
+## Etapa 4 — validação XSD real (23/10/2026)
+
+- `npm run check`: hashes/dependências de 14 XSDs, ESLint, TypeScript, **106 testes unitários** e build aprovados. O build verifica que todos os XSDs, worker Node e WASM constam do rastreamento da função.
+- `npm run test:integration`: **43 testes aprovados** (39 casos mais quatro grupos), incluindo persistência transacional, isolamento entre usuários, rollback, proteção do catálogo e exclusão de issues.
+- `npm run db:check`: sem erros. As seis migrations foram aplicadas do zero no banco local; o CLI terminou com timeout do healthcheck de Storage no ambiente gerenciado, não com erro de migration. As APIs, integração e navegador foram testados novamente após a recriação.
+- Suíte completa E2E com `E2E_PRODUCTION=1`: **7 cenários aprovados**, 2 opcionais não executados nesta rodada (BrasilAPI ao vivo e mil XMLs, já registrados na etapa 3). E2E do validador: aprovado usando **next start**, não servidor de desenvolvimento. Exercita upload, formato/bruto, schema real, erro de obrigatoriedade, navegação à linha, relatório/original privado, ausência de sessão, edição explícita de cópia, histórico, celular com rolagem interna, exclusão, carregamento do documento importado e preservação da validação após excluir esse documento.
+- `npm audit --omit=dev --audit-level=moderate`: nenhuma vulnerabilidade reportada nesta execução. Não substitui auditoria independente.
+- Supabase remoto: migration `20261023125337_xml_validation` aplicada e registro conciliado após comparação de MD5 do SQL; schemas registrados com hashes do manifesto, advisors sem WARN/ERROR. Restam os INFO já documentados.
+
+Os testes XSD incluem modelos 55/65, eventos 110111, grupos IBS/CBS, ordem, obrigatoriedade, duplicação de tags, XML malformado/XXE, pacote não disponível, prazo do worker e regras aritméticas com Decimal. Arquivos sintéticos para teste manual: `tests/fixtures/xsd/`. Assinaturas placeholders não têm validade criptográfica.
+
+```bash
+npm run build
+E2E_PRODUCTION=1 npm run test:e2e
+```
+
+O workflow CI passou a executar o navegador contra o build de produção. O domínio Vercel ainda não foi publicado nem homologado.

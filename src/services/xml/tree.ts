@@ -15,6 +15,9 @@ export type XmlNode = {
   attributes: Record<string, string>;
   text: string;
   children: XmlNode[];
+  line?: number;
+  column?: number;
+  path?: string;
 };
 export function parseXml(bytes: Uint8Array): XmlNode {
   if (bytes.byteLength > MAX_XML_BYTES)
@@ -26,7 +29,21 @@ export function parseXml(bytes: Uint8Array): XmlNode {
     throw new XmlImportError("O XML precisa estar codificado em UTF-8.");
   }
   const parser = new SaxesParser({ xmlns: true });
+  const lineStarts = [0];
+  for (let i = 0; i < xml.length; i++)
+    if (xml[i] === "\n") lineStarts.push(i + 1);
+  const location = (offset: number) => {
+    let low = 0,
+      high = lineStarts.length - 1;
+    while (low < high) {
+      const mid = Math.ceil((low + high) / 2);
+      if (lineStarts[mid] <= offset) low = mid;
+      else high = mid - 1;
+    }
+    return { line: low + 1, column: offset - lineStarts[low] + 1 };
+  };
   const stack: XmlNode[] = [];
+  const siblingCounts = new WeakMap<XmlNode, Map<string, number>>();
   let root: XmlNode | undefined;
   let nodes = 0;
   parser.on("error", (error) => {
@@ -52,6 +69,14 @@ export function parseXml(bytes: Uint8Array): XmlNode {
         "XML excede os limites de complexidade.",
         "XML_LIMIT",
       );
+    const start = xml.lastIndexOf("<", parser.position - 1);
+    const parent = stack.at(-1);
+    const counts = parent
+      ? siblingCounts.get(parent)!
+      : new Map<string, number>();
+    const siblingKey = `${tag.uri}|${tag.local}`;
+    const sibling = (counts.get(siblingKey) || 0) + 1;
+    counts.set(siblingKey, sibling);
     const node: XmlNode = {
       name: tag.local,
       uri: tag.uri,
@@ -62,7 +87,12 @@ export function parseXml(bytes: Uint8Array): XmlNode {
       ),
       text: "",
       children: [],
+      ...location(start),
+      path: parent
+        ? `${parent.path}/${tag.local}[${sibling}]`
+        : `/${tag.local}`,
     };
+    siblingCounts.set(node, new Map());
     if (stack.length) stack[stack.length - 1].children.push(node);
     else root = node;
     stack.push(node);
