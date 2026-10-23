@@ -126,7 +126,7 @@ export function DocumentWorkspace({
     <div className="space-y-7">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-medium text-primary">
+          <p className="text-xs font-medium text-primary-text">
             ANÁLISE DE DOCUMENTOS FISCAIS
           </p>
           <h1 className="mt-2 text-2xl font-semibold tracking-tight">
@@ -167,7 +167,7 @@ export function DocumentWorkspace({
         {busy && (
           <p
             role="status"
-            className="flex items-center gap-2 text-sm text-primary"
+            className="flex items-center gap-2 text-sm text-primary-text"
           >
             <Loader2 className="size-4 animate-spin" />
             Atualizando a análise...
@@ -214,7 +214,7 @@ export function DocumentWorkspace({
           <Charts report={report} />
         ) : (
           <div className="rounded-xl border border-dashed bg-card/40 p-10 text-center">
-            <Files className="mx-auto size-9 text-primary/50" />
+            <Files className="mx-auto size-9 text-primary-text/50" />
             <h2 className="mt-4 font-semibold">
               Nenhum documento nesta seleção.
             </h2>
@@ -255,7 +255,7 @@ export function DocumentWorkspace({
                     <td className="min-w-48 px-5 py-4">
                       <Link
                         href={`/documentos/${row.id}`}
-                        className="font-medium text-primary"
+                        className="font-medium text-primary-text"
                       >
                         {row.model === "55" ? "NF-e" : "NFC-e"} {row.number} /{" "}
                         {row.series}

@@ -265,7 +265,7 @@ export function ValidationWorkspace({
   return (
     <div className="space-y-7">
       <header>
-        <p className="text-[11px] font-semibold tracking-wider text-primary">
+        <p className="text-[11px] font-semibold tracking-wider text-primary-text">
           VALIDAÇÃO FISCAL LOCAL
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">
@@ -280,7 +280,7 @@ export function ValidationWorkspace({
       <section className="rounded-xl border bg-card p-4 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <FileCode2 className="size-5 text-primary" />
+            <FileCode2 className="size-5 text-primary-text" />
             Documento para validação
           </h2>
           <Button
@@ -304,8 +304,8 @@ export function ValidationWorkspace({
           }}
           className="mt-5 rounded-lg border border-dashed p-5 text-center"
         >
-          <UploadCloud className="mx-auto size-6 text-primary" />
-          <label className="mt-3 inline-block cursor-pointer text-sm font-medium text-primary">
+          <UploadCloud className="mx-auto size-6 text-primary-text" />
+          <label className="mt-3 inline-block cursor-pointer text-sm font-medium text-primary-text">
             Selecionar XML
             <input
               aria-label="Selecionar XML para validar"
@@ -408,7 +408,7 @@ export function ValidationWorkspace({
       <section className="rounded-xl border bg-card p-4 sm:p-6">
         <div className="flex items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <History className="size-5 text-primary" />
+            <History className="size-5 text-primary-text" />
             Histórico de validações
           </h2>
           <span className="text-xs text-muted-foreground">
@@ -439,7 +439,7 @@ export function ValidationWorkspace({
                     <td className="max-w-64 truncate py-4">
                       <button
                         disabled={busy}
-                        className="text-primary underline"
+                        className="text-primary-text underline"
                         onClick={() => openHistory(item.id)}
                       >
                         {item.filename}

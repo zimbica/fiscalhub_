@@ -36,11 +36,10 @@ export function GlobalSearch() {
     <>
       <button
         onClick={() => setOpen(true)}
-        aria-label="Buscar páginas"
         className="flex h-9 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground hover:bg-muted sm:w-64 sm:border sm:bg-muted/40"
       >
         <Search className="size-4" />
-        <span className="hidden sm:inline">Buscar páginas...</span>
+        <span className="sr-only sm:not-sr-only">Buscar páginas</span>
         <kbd className="ml-auto hidden rounded border bg-background px-1.5 py-0.5 text-[10px] sm:inline">
           Ctrl K
         </kbd>
@@ -67,7 +66,7 @@ export function GlobalSearch() {
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-3 rounded-lg p-3 text-sm hover:bg-muted"
               >
-                <Icon className="size-4 text-primary" />
+                <Icon className="size-4 text-primary-text" />
                 {title}
                 <ArrowUpRight className="ml-auto size-4 text-muted-foreground" />
               </Link>
@@ -76,7 +75,7 @@ export function GlobalSearch() {
               <Link
                 href={`/rejeicoes?q=${encodeURIComponent(query.trim())}`}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg border p-3 text-sm text-primary hover:bg-muted"
+                className="block rounded-lg border p-3 text-sm text-primary-text hover:bg-muted"
               >
                 Pesquisar no catálogo de rejeições
                 <ArrowUpRight className="ml-2 inline size-4" />

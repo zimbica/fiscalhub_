@@ -46,7 +46,7 @@ export function DocumentFilterForm({
       className="rounded-xl border bg-card p-5"
     >
       <div className="mb-4 flex items-center gap-2">
-        <Filter className="size-4 text-primary" />
+        <Filter className="size-4 text-primary-text" />
         <h2 className="text-sm font-semibold">Filtros da análise</h2>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -93,7 +93,7 @@ export function DocumentFilterForm({
         ))}
       </div>
       <details className="mt-4">
-        <summary className="cursor-pointer text-xs font-medium text-primary">
+        <summary className="cursor-pointer text-xs font-medium text-primary-text">
           Mais filtros: empresas, produtos, tributos e valores
         </summary>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

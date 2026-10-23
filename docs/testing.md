@@ -144,3 +144,23 @@ Não houve mudança em aplicação, SQL ou políticas nesta revisão; integraç�
 E2E não foram repetidos. Os resultados anteriores estão registrados acima.
 A verificação usa dados sintéticos e não comprova credenciais de produção.
 Publicação e testes no domínio Vercel permanecem pendentes.
+
+## Etapa 6 — contraste e navegação por teclado (23/10/2026)
+
+Corrigidos contrastes de textos primários/secundários e controles destrutivos,
+nomes acessíveis do cabeçalho e foco no destino do atalho para o conteúdo.
+Adicionado axe-core ao Playwright, sem desabilitar regras nas tags selecionadas.
+Veja [escopo e limites da revisão](accessibility.md).
+
+Executado após as correções:
+
+- `npm run check`: aprovado, com 7 testes de implantação, 121 unitários, lint,
+  TypeScript, catálogo, integridade dos schemas e build com worker/WASM.
+- `E2E_PRODUCTION=1 npm run test:e2e`: 10 aprovados em 42,4 segundos e 2 opcionais
+  não executados (BrasilAPI ao vivo e lote de mil XMLs).
+- Os dois testes novos não encontraram violações automáticas nas páginas/estados
+  cobertos; também verificaram foco por teclado e fechamento do menu móvel.
+
+Não houve mudança de schema ou backend nesta revisão. A suíte de integração SQL
+não foi repetida; os E2E usaram autenticação e persistência reais no Supabase local.
+Esses resultados não são uma certificação WCAG nem teste do domínio de produção.

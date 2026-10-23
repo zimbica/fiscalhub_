@@ -120,14 +120,14 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
     <div className="space-y-6">
       <Link
         href="/documentos"
-        className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary"
+        className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary-text"
       >
         <ArrowLeft className="size-4" />
         Voltar à análise
       </Link>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-medium text-primary">
+          <p className="text-xs font-medium text-primary-text">
             DETALHES DO DOCUMENTO
           </p>
           <h1 className="mt-2 text-2xl font-semibold">
@@ -231,7 +231,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
                   href={issue.source}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 inline-block text-xs text-primary"
+                  className="mt-2 inline-block text-xs text-primary-text"
                 >
                   Referência do leiaute ↗
                 </a>
@@ -420,7 +420,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
               {file.original_path && (
                 <a
                   href={`/api/import-files/${file.id}`}
-                  className="inline-flex items-center gap-2 text-xs font-medium text-primary"
+                  className="inline-flex items-center gap-2 text-xs font-medium text-primary-text"
                 >
                   <Download className="size-4" />
                   Baixar XML original
@@ -444,7 +444,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
               <Link
                 key={file.id}
                 href={`/validador?source=${file.id}`}
-                className="mt-3 block text-xs text-primary underline"
+                className="mt-3 block text-xs text-primary-text underline"
               >
                 Validar XML · {file.filename}
               </Link>

@@ -21,7 +21,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
     <main className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-12">
       <div className="mb-10 flex items-center justify-between lg:justify-end"><Link href="/entrar" className="lg:hidden"><Logo /></Link><span className="flex items-center gap-1.5 text-xs text-muted-foreground"><ShieldCheck className="size-3.5" /> Acesso seguro</span></div>
       <div className="mx-auto my-auto w-full max-w-[400px] py-10">{children}</div>
-      <p className="mt-10 text-center text-xs leading-6 text-muted-foreground">Seus dados pertencem a você. <Link href="/privacidade" className="underline underline-offset-4 hover:text-primary">Conheça os controles de privacidade.</Link></p>
+      <p className="mt-10 text-center text-xs leading-6 text-muted-foreground">Seus dados pertencem a você. <Link href="/privacidade" className="underline underline-offset-4 hover:text-primary-text">Conheça os controles de privacidade.</Link></p>
     </main>
   </div>;
 }

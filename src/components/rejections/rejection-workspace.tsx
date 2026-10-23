@@ -92,7 +92,7 @@ export function RejectionWorkspace({
   return (
     <div className="space-y-7">
       <header>
-        <p className="text-[11px] font-semibold tracking-wider text-primary">
+        <p className="text-[11px] font-semibold tracking-wider text-primary-text">
           BASE DE CONHECIMENTO FISCAL
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">
@@ -242,7 +242,7 @@ export function RejectionWorkspace({
                 : "pela descrição exata"}
               :{" "}
               <Link
-                className="font-semibold text-primary underline"
+                className="font-semibold text-primary-text underline"
                 href={`/rejeicoes/${results.identifiedCode}`}
               >
                 rejeição {results.identifiedCode}
@@ -268,7 +268,7 @@ export function RejectionWorkspace({
             href="https://oobj.com.br/bc/"
             target="_blank"
             rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 text-sm text-primary underline"
+            className="mt-5 inline-flex items-center gap-2 text-sm text-primary-text underline"
           >
             Abrir base original da Oobj
             <ArrowUpRight className="size-4" />
@@ -285,7 +285,7 @@ export function RejectionWorkspace({
               className="rounded-xl border bg-card p-5 transition-shadow hover:shadow-sm"
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="rounded-lg bg-primary/10 px-3 py-1.5 font-mono text-sm font-semibold text-primary">
+                <span className="rounded-lg bg-primary/10 px-3 py-1.5 font-mono text-sm font-semibold text-primary-text">
                   {item.code}
                 </span>
                 <FavoriteButton
@@ -308,7 +308,7 @@ export function RejectionWorkspace({
               </div>
               <Link
                 href={`/rejeicoes/${item.code}`}
-                className="mt-4 block text-base font-semibold leading-6 hover:text-primary"
+                className="mt-4 block text-base font-semibold leading-6 hover:text-primary-text"
               >
                 {item.title}
               </Link>
@@ -322,7 +322,7 @@ export function RejectionWorkspace({
               </p>
               <Link
                 href={`/rejeicoes/${item.code}`}
-                className="mt-5 inline-flex items-center gap-2 text-xs font-medium text-primary"
+                className="mt-5 inline-flex items-center gap-2 text-xs font-medium text-primary-text"
               >
                 Ver causas e orientação
                 <ArrowUpRight className="size-3.5" />
@@ -353,7 +353,7 @@ export function RejectionWorkspace({
       <section className="rounded-xl border bg-card p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <History className="size-4 text-primary" />
+            <History className="size-4 text-primary-text" />
             Últimas 20 pesquisas
           </h2>
           <Button

@@ -80,7 +80,7 @@ Veja [regras, limites e evidências](xml-imports.md).
 
 ## Plano das próximas etapas
 
-6. Revisão de acessibilidade, desempenho, segurança e implantação; verificador offline de configuração em `scripts/deployment-preflight.mjs` implementado. Publicação e testes no domínio final ainda pendentes. Os testes atuais não certificam regras fiscais nem conformidade tributária.
+6. Revisão de acessibilidade, desempenho, segurança e implantação; verificador offline de configuração em `scripts/deployment-preflight.mjs` implementado. Revisão automatizada de contraste, nomes acessíveis e navegação por teclado documentada em [acessibilidade](accessibility.md). Publicação e testes no domínio final ainda pendentes. Os testes atuais não certificam regras fiscais nem conformidade tributária.
 
 ## Validação XML — etapa 4
 

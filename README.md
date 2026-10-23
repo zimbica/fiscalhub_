@@ -79,7 +79,7 @@ Consulte o [validador XML, schemas instalados e limites](docs/xml-validation.md)
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
 | 4 | Editor XML, XSD oficial real, regras locais condicionais, histórico e relatório | Implementada no escopo de [validação](docs/xml-validation.md) |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Implementada; [cobertura e atualização](docs/rejections.md) |
-| 6 | Revisão, testes e preparação para publicação | Em andamento; verificador de configuração implementado, publicação pendente |
+| 6 | Revisão, testes e preparação para publicação | Em andamento; verificador de configuração e revisão automatizada de acessibilidade implementados; publicação pendente |
 
 Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo inicial é limitado às oito entradas revisadas; não representa todas as rejeições. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
 
@@ -93,3 +93,5 @@ Validação local nunca será apresentada como autorização da SEFAZ. IE não s
 Nenhum serviço pago é necessário para desenvolver/testar localmente. Vercel Hobby permite uso pessoal e não comercial; uso comercial exige revisão do plano/termos. Supabase Free e SMTP possuem limites: custo zero depende de permanecer dentro das cotas e ter serviços de e-mail adequados. Não foram habilitados serviços pagos automaticamente.
 
 **Nunca envie `.env.local`, credenciais ou XMLs reais ao repositório.** `.env.example` contém apenas nomes de variáveis. A integração do GitHub com o Supabase não aplica por si só as migrations nem configura a hospedagem da aplicação.
+
+Veja a [cobertura de acessibilidade e navegação por teclado](docs/accessibility.md).

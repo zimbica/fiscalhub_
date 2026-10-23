@@ -21,7 +21,7 @@ export default function Project() {
   ];
   return (
     <div className="max-w-4xl">
-      <p className="text-xs font-medium text-primary">CONSTRUÇÃO POR ETAPAS</p>
+      <p className="text-xs font-medium text-primary-text">CONSTRUÇÃO POR ETAPAS</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight">
         Cada etapa, uma base mais sólida.
       </h1>
@@ -90,7 +90,7 @@ export default function Project() {
         href="https://github.com/zimbica/fiscalhub_"
         target="_blank"
         rel="noreferrer"
-        className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary"
+        className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary-text"
       >
         Acompanhar código no GitHub <ExternalLink className="size-4" />
       </a>

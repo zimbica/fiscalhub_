@@ -73,7 +73,7 @@ export function AppShell({
           <Logo />
         </Link>
         <div className="mt-8 flex items-center gap-3 rounded-xl border bg-background px-3 py-3">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary">
+          <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary-text">
             {initials}
           </div>
           <div className="min-w-0">
@@ -97,7 +97,7 @@ export function AppShell({
                 className={cn(
                   "flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] font-medium transition-colors hover:bg-muted",
                   pathname === href
-                    ? "bg-primary/10 text-primary"
+                    ? "bg-primary/10 text-primary-text"
                     : "text-muted-foreground",
                 )}
               >
@@ -109,7 +109,7 @@ export function AppShell({
         </nav>
         <div className="mt-auto pt-8">
           <div className="mb-5 rounded-xl border border-primary/10 bg-primary/[0.035] p-4">
-            <ShieldCheck className="mb-2 size-5 text-primary" />
+            <ShieldCheck className="mb-2 size-5 text-primary-text" />
             <p className="text-xs font-medium">Seu espaço é privado</p>
             <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
               Seus documentos e consultas ficam associados à sua conta.
@@ -124,7 +124,7 @@ export function AppShell({
               className={cn(
                 "flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] hover:bg-muted",
                 pathname === href
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary/10 text-primary-text"
                   : "text-muted-foreground",
               )}
             >
@@ -210,10 +210,10 @@ export function AppShell({
             <span className="hidden h-6 border-l sm:block" />
             <Link
               href="/configuracoes"
-              aria-label="Abrir configurações do perfil"
               className="flex items-center gap-2.5"
             >
-              <span className="flex size-9 items-center justify-center rounded-full border border-primary/10 bg-primary/10 text-xs font-semibold text-primary">
+              <span className="sr-only">Abrir configurações do perfil </span>
+              <span aria-hidden="true" className="flex size-9 items-center justify-center rounded-full border border-primary/10 bg-primary/10 text-xs font-semibold text-primary-text">
                 {initials}
               </span>
               <span className="hidden max-w-32 truncate text-xs font-medium xl:block">
@@ -224,13 +224,14 @@ export function AppShell({
         </header>
         <main
           id="conteudo"
+          tabIndex={-1}
           className="mx-auto max-w-[1440px] px-4 py-7 sm:px-8 lg:py-9"
         >
           {children}
         </main>
         <footer className="mx-auto flex max-w-[1440px] flex-wrap justify-between gap-2 px-4 py-7 text-[11px] text-muted-foreground sm:px-8">
           <span>FiscalHub · Etapa 5 — Consulta de rejeições</span>
-          <Link href="/privacidade" className="hover:text-primary">
+          <Link href="/privacidade" className="hover:text-primary-text">
             Privacidade e seus dados
           </Link>
         </footer>

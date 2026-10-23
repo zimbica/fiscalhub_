@@ -281,7 +281,7 @@ export function ImportPanel({
     <section id="importar" className="scroll-mt-24 space-y-5">
       <div className="rounded-xl border bg-card p-5 sm:p-6">
         <div className="flex items-start gap-3">
-          <span className="rounded-xl bg-primary/10 p-3 text-primary">
+          <span className="rounded-xl bg-primary/10 p-3 text-primary-text">
             <UploadCloud className="size-5" />
           </span>
           <div>
@@ -328,7 +328,7 @@ export function ImportPanel({
             if (!busy) setFiles(Array.from(e.dataTransfer.files));
           }}
         >
-          <FolderOpen className="size-7 text-primary" />
+          <FolderOpen className="size-7 text-primary-text" />
           <span className="mt-3 text-sm font-medium">
             Arraste arquivos aqui ou clique para selecionar
           </span>
@@ -430,7 +430,7 @@ export function ImportPanel({
                   <tr key={job.id}>
                     <td className="min-w-48 px-5 py-4">
                       <button
-                        className="font-medium text-primary"
+                        className="font-medium text-primary-text"
                         onClick={() => show(job)}
                       >
                         {job.name}
@@ -542,14 +542,14 @@ export function ImportPanel({
             {detail?.files.map((file) => (
               <div key={file.id} className="rounded-lg border p-3 text-sm">
                 <div className="flex gap-2">
-                  <FileText className="size-4 shrink-0 text-primary" />
+                  <FileText className="size-4 shrink-0 text-primary-text" />
                   <span className="break-all font-medium">{file.filename}</span>
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">
                   {outcomes[file.outcome]}
                   {file.message ? ` · ${file.message}` : ""}
                 </p>
-                <div className="mt-2 flex gap-4 text-xs text-primary">
+                <div className="mt-2 flex gap-4 text-xs text-primary-text">
                   {file.document_id && (
                     <Link href={`/documentos/${file.document_id}`}>
                       Abrir nota

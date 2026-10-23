@@ -42,14 +42,14 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
     <article className="mx-auto max-w-5xl space-y-6">
       <Link
         href="/rejeicoes"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary-text"
       >
         <ArrowLeft className="size-4" />
         Voltar ao catálogo
       </Link>
       <header className="rounded-2xl border bg-card p-5 sm:p-8">
         <div className="flex items-start justify-between gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary-text">
             <BookOpenText className="size-4" />
             Rejeição {entry.code}
           </span>
@@ -111,7 +111,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
             {entry.code === "215" && (
               <Link
                 href="/validador"
-                className="mt-5 inline-block text-sm text-primary underline"
+                className="mt-5 inline-block text-sm text-primary-text underline"
               >
                 Abrir validador de XML
               </Link>
@@ -143,7 +143,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
           </section>
           <section className="rounded-xl border bg-card p-5">
             <h2 className="flex items-center gap-2 text-sm font-semibold">
-              <ShieldCheck className="size-4 text-primary" />
+              <ShieldCheck className="size-4 text-primary-text" />
               Fontes
             </h2>
             <div className="mt-4 space-y-4">
@@ -153,7 +153,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
                   href={s.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="block text-xs leading-5 text-primary hover:underline"
+                  className="block text-xs leading-5 text-primary-text hover:underline"
                 >
                   <span className="mb-1 block text-[10px] text-muted-foreground">
                     {s.is_official
@@ -175,7 +175,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
                   <Link
                     key={r.code}
                     href={`/rejeicoes/${r.code}`}
-                    className="block text-xs leading-5 text-primary hover:underline"
+                    className="block text-xs leading-5 text-primary-text hover:underline"
                   >
                     {r.code} — {r.title}
                   </Link>

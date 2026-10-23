@@ -63,7 +63,7 @@ export default async function Dashboard() {
           </div>
           <h1 className="text-[28px] font-semibold tracking-tight">
             Olá, {profile.full_name.split(" ")[0]}{" "}
-            <span className="text-primary">.</span>
+            <span className="text-primary-text">.</span>
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Uma visão clara de tudo que acontece no seu espaço fiscal.
@@ -89,7 +89,7 @@ export default async function Dashboard() {
                 {label}
               </p>
               <span className="rounded-lg bg-primary/5 p-2">
-                <Icon className="size-4 text-primary" />
+                <Icon className="size-4 text-primary-text" />
               </span>
             </div>
             <p className="mt-4 text-[29px] font-semibold tracking-tight tabular-nums">
@@ -108,7 +108,7 @@ export default async function Dashboard() {
                 Uma base organizada para os próximos passos.
               </p>
             </div>
-            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary">
+            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary-text">
               ETAPA 05
             </span>
           </div>
@@ -135,7 +135,7 @@ export default async function Dashboard() {
               className="relative mx-auto hidden size-36 items-center justify-center rounded-full border border-primary/10 bg-primary/[0.03] sm:flex"
             >
               <div className="flex size-24 items-center justify-center rounded-2xl border border-primary/15 bg-card shadow-lg shadow-primary/5">
-                <ScanLine className="size-12 text-primary" strokeWidth={1.2} />
+                <ScanLine className="size-12 text-primary-text" strokeWidth={1.2} />
               </div>
               <div className="absolute right-2 bottom-2 flex size-9 items-center justify-center rounded-full border-4 border-card bg-emerald-500 text-white">
                 <Check className="size-4" />
@@ -148,7 +148,7 @@ export default async function Dashboard() {
               isolados por conta
             </span>
             <span className="flex items-center gap-1.5">
-              <Fingerprint className="size-3.5 text-primary" /> Autenticação
+              <Fingerprint className="size-3.5 text-primary-text" /> Autenticação
               Supabase
             </span>
           </div>
@@ -197,7 +197,7 @@ export default async function Dashboard() {
           </div>
           <Link
             href="/projeto"
-            className="flex items-center gap-1.5 text-xs font-medium text-primary"
+            className="flex items-center gap-1.5 text-xs font-medium text-primary-text"
           >
             Acompanhar etapas <ArrowRight className="size-3.5" />
           </Link>
@@ -220,7 +220,7 @@ export default async function Dashboard() {
               className="group rounded-xl border bg-card p-5 transition hover:border-primary/30 hover:shadow-sm"
             >
               <div className="flex items-center justify-between">
-                <Icon className="size-5 text-muted-foreground transition group-hover:text-primary" />
+                <Icon className="size-5 text-muted-foreground transition group-hover:text-primary-text" />
                 <span className="rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground">
                   {stage <= 5 ? "Disponível" : `Etapa ${stage}`}
                 </span>
@@ -229,7 +229,7 @@ export default async function Dashboard() {
               <p className="mt-2 text-xs leading-5 text-muted-foreground">
                 {description}
               </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
+              <span className="mt-5 inline-flex items-center gap-1 text-[11px] font-medium text-primary-text">
                 {stage === 2
                   ? "Consultar uma empresa"
                   : stage === 3

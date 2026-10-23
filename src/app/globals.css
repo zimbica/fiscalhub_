@@ -36,6 +36,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-text: var(--primary-text);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -133,26 +134,26 @@
  --background: #f8fafc; --foreground: #17243b;
  --card: #ffffff; --card-foreground: #17243b;
  --popover: #ffffff; --popover-foreground: #17243b;
- --primary: #2563eb; --primary-foreground: #ffffff;
+ --primary: #2563eb; --primary-text: #1d4ed8; --primary-foreground: #ffffff;
  --secondary: #eef2f8; --secondary-foreground: #334155;
- --muted: #f1f5f9; --muted-foreground: #64748b;
+ --muted: #f1f5f9; --muted-foreground: #52637a;
  --accent: #eff4ff; --accent-foreground: #1e40af;
  --border: #e5eaf1; --input: #dce3ed; --ring: #2563eb;
- --radius: 0.75rem; --destructive: #dc2626;
+ --radius: 0.75rem; --destructive: #b91c1c;
 }
 .dark {
  --background: #0f172a; --foreground: #e5edf8;
  --card: #162136; --card-foreground: #e5edf8;
  --popover: #162136; --popover-foreground: #e5edf8;
- --primary: #3b82f6; --primary-foreground: #ffffff;
+ --primary: #2563eb; --primary-text: #93c5fd; --primary-foreground: #ffffff;
  --secondary: #1e2d45; --secondary-foreground: #dbeafe;
  --muted: #1e2d45; --muted-foreground: #9aaec7;
  --accent: #1b315b; --accent-foreground: #bfdbfe;
  --border: #29374c; --input: #34445d; --ring: #60a5fa;
  --destructive: #fb7185;
 }
-:root[data-accent="purple"] { --primary: #7c3aed; --ring: #7c3aed; --accent: #f2eaff; --accent-foreground: #6d28d9; }
-.dark[data-accent="purple"] { --primary: #8b5cf6; --ring: #a78bfa; --accent: #30204e; --accent-foreground: #ddd6fe; }
+:root[data-accent="purple"] { --primary: #7c3aed; --primary-text: #6d28d9; --ring: #7c3aed; --accent: #f2eaff; --accent-foreground: #6d28d9; }
+.dark[data-accent="purple"] { --primary: #7c3aed; --primary-text: #c4b5fd; --ring: #a78bfa; --accent: #30204e; --accent-foreground: #ddd6fe; }
 .auth-panel::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 15% 55%, #1e4da33b, transparent 60%), radial-gradient(ellipse at 100% 0%, #2563eb24, transparent 45%); }
 .auth-panel::after { content: ''; position: absolute; width: 600px; height: 600px; right: -350px; bottom: -280px; border: 1px solid #93c5fd12; border-radius: 50%; box-shadow: 0 0 0 60px #93c5fd05, 0 0 0 120px #93c5fd04, 0 0 0 180px #93c5fd03; }
 button, [role="button"] { cursor: pointer; }

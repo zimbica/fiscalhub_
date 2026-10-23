@@ -47,7 +47,7 @@ export function ValidationResults({
           {report.id && (
             <a
               href={`/api/validations/${report.id}?format=json`}
-              className="inline-flex items-center gap-2 text-sm text-primary"
+              className="inline-flex items-center gap-2 text-sm text-primary-text"
             >
               <ArrowDownToLine className="size-4" />
               Baixar relatório JSON
@@ -108,7 +108,7 @@ export function ValidationResults({
       {report.xsd === "failed" && (
         <Link
           href="/rejeicoes/215"
-          className="inline-block text-sm text-primary underline"
+          className="inline-block text-sm text-primary-text underline"
         >
           Consultar orientação sobre falha de schema (215)
         </Link>
@@ -124,7 +124,7 @@ export function ValidationResults({
           <article key={index} className="rounded-xl border bg-card p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <p
-                className={`text-xs font-semibold ${issue.severity === "error" ? "text-red-600" : issue.severity === "warning" ? "text-amber-700" : "text-primary"}`}
+                className={`text-xs font-semibold ${issue.severity === "error" ? "text-red-600" : issue.severity === "warning" ? "text-amber-700" : "text-primary-text"}`}
               >
                 {issue.level === "xsd"
                   ? "Schema XSD"
@@ -171,7 +171,7 @@ export function ValidationResults({
               )}
               {issue.line && (
                 <button
-                  className="text-primary underline"
+                  className="text-primary-text underline"
                   onClick={() => onLine(issue.line!)}
                 >
                   Ir à linha {issue.line}
@@ -202,7 +202,7 @@ export function ValidationResults({
               href={issue.source.url}
               target="_blank"
               rel="noreferrer"
-              className="mt-3 inline-block text-xs text-primary underline"
+              className="mt-3 inline-block text-xs text-primary-text underline"
             >
               {issue.source.title} · {issue.source.version}
             </a>
