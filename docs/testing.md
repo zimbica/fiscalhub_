@@ -126,3 +126,21 @@ O workflow CI passou a executar o navegador contra o build de produção. O dom�
 O teste de navegador da etapa percorre pesquisa, página de explicação/fontes, cópia real para clipboard, favoritos, filtros, erro de digitação, identificação de ERP, código desconhecido, mensagem ambígua, ausência de sessão, origem inválida, segunda conta sem acesso a dados privados, limpeza com confirmação e responsividade. Mensagem com chave sintética não fica persistida no histórico.
 
 As entradas são conteúdo editorial referenciado, não testes de conformidade tributária completa. Não houve varredura/cópia integral de artigos nem requisições às fontes durante a pesquisa do usuário.
+
+## Etapa 6 — verificação de implantação (23/10/2026)
+
+Adicionado `npm run deploy:check`, verificador offline de configuração de produção,
+e sete testes em `tests/deployment/preflight.test.mjs`. Cobertura: variáveis
+obrigatórias, URLs HTTPS, chaves trocadas/expostas, JWT legado service_role,
+segredo fraco, configuração parcial de IE e saída de erro sem valores sensíveis.
+
+Executado nesta revisão: `npm run check` aprovado (7 testes de implantação,
+121 testes unitários, catálogo, integridade dos 14 schemas, lint, TypeScript,
+build e rastreamento do worker/WASM). `npm audit --omit=dev --audit-level=moderate`
+retornou zero vulnerabilidades conhecidas. CI da etapa 5, execução `39992419007`,
+confirmado com conclusão `success`.
+
+Não houve mudança em aplicação, SQL ou políticas nesta revisão; integração e
+E2E não foram repetidos. Os resultados anteriores estão registrados acima.
+A verificação usa dados sintéticos e não comprova credenciais de produção.
+Publicação e testes no domínio Vercel permanecem pendentes.

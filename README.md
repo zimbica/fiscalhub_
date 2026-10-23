@@ -49,6 +49,7 @@ Para usar Supabase hospedado, copie `.env.example` para `.env.local` e configure
 ## Verificar
 
 ```bash
+npm run test:deployment
 npm run lint
 npm run typecheck
 npm test
@@ -78,7 +79,7 @@ Consulte o [validador XML, schemas instalados e limites](docs/xml-validation.md)
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
 | 4 | Editor XML, XSD oficial real, regras locais condicionais, histórico e relatório | Implementada no escopo de [validação](docs/xml-validation.md) |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Implementada; [cobertura e atualização](docs/rejections.md) |
-| 6 | Testes fiscais completos, otimização e publicação final | Pendente |
+| 6 | Revisão, testes e preparação para publicação | Em andamento; verificador de configuração implementado, publicação pendente |
 
 Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo inicial é limitado às oito entradas revisadas; não representa todas as rejeições. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
 

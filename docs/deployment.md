@@ -5,7 +5,7 @@
 O projeto informado nesta sessão é `kwgrlocfbkxbupydxmdu`. Confirme no painel que é o FiscalHub antes de aplicar qualquer SQL. Nenhum outro projeto deve receber estas migrations.
 
 1. Em uma organização Free, crie ou use o projeto FiscalHub. A cota gratuita é contabilizada conforme as condições atuais da conta/organizações; criar outra organização não garante mais projetos gratuitos.
-2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` `20261022232514_document_reports.sql` `20261023125337_xml_validation.sql`, `20261023164911_rejection_search.sql` e `20261023164912_rejection_catalog_initial.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
+2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql`, `20261022232514_document_reports.sql`, `20261023125337_xml_validation.sql`, `20261023164911_rejection_search.sql` e `20261023164912_rejection_catalog_initial.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
 
    ```bash
    npx supabase login
@@ -80,3 +80,34 @@ Os INFO restantes são [índices ainda não usados](https://supabase.com/docs/gu
 Veja `docs/testing.md` para os testes realmente executados. Ter o projeto vinculado ao GitHub no Supabase não configura automaticamente o deploy da Vercel, as migrations, o SMTP nem as variáveis da aplicação.
 
 Atualizações do catálogo não exigem API paga: siga o [procedimento editorial e gerador de migrations](rejections.md). Usuários da aplicação não recebem permissão de editar o catálogo global.
+
+## Verificação de configuração antes de publicar
+
+No ambiente que já contém as variáveis de produção, execute `npm run deploy:check`.
+Se elas estiverem em um arquivo local ignorado pelo Git, use explicitamente
+`node --env-file=.env.local scripts/deployment-preflight.mjs`. Não use o arquivo
+criado por `setup:local`: o verificador de produção recusa localhost e HTTP.
+O comando não carrega arquivos automaticamente nem imprime valores de variáveis.
+
+Para bloquear um deploy com configuração incompleta, configure na Vercel o Build
+Command como `npm run deploy:check && npm run build`. As variáveis públicas são
+incorporadas ao bundle durante o build; alterá-las exige novo deploy. Configure
+cada ambiente de Production/Preview antes de habilitar essa verificação.
+
+O verificador é offline e não autentica chaves, mede entropia ou comprova acesso
+aos serviços. Ele detecta formato e erros comuns: cinco variáveis obrigatórias,
+HTTPS, ausência de credenciais em URLs, troca de chaves pública/secreta, exposição
+de segredos conhecidos em `NEXT_PUBLIC_*`, segredo do limitador curto/repetitivo
+e configuração incompleta do provedor opcional de IE. Os sete testes desse comando
+fazem parte de `npm run check` e do CI, usando apenas valores sintéticos.
+
+Após publicar, execute no domínio final, com uma conta de teste:
+
+1. Cadastro e confirmação, login, recuperação de senha e logout.
+2. Consulta de CNPJ e indicação separada de IE não verificada.
+3. Importação de XML sintético, filtros e download do original autenticado.
+4. Validação das fixtures XSD válida e inválida, conferindo a mensagem real.
+5. Pesquisa de rejeição, favorito, preferências e exclusão da conta de teste.
+
+A aprovação da configuração local não substitui esses testes nem confirma que
+SMTP, redirects de Auth, migrations e empacotamento funcionam no domínio final.

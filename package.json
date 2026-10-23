@@ -16,10 +16,12 @@
     "db:types": "supabase gen types --local --schema public > src/types/database.ts",
     "db:check": "supabase db lint --local --schema public,private --fail-on warning",
     "setup:local": "node scripts/setup-local.mjs",
-    "check": "npm run catalog:check && npm run schemas:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "check": "npm run test:deployment && npm run catalog:check && npm run schemas:check && npm run lint && npm run typecheck && npm test && npm run build",
     "schemas:check": "node scripts/verify-schemas.mjs",
     "catalog:check": "node scripts/catalog.mjs",
-    "catalog:migration": "node scripts/catalog.mjs"
+    "catalog:migration": "node scripts/catalog.mjs",
+    "deploy:check": "node scripts/deployment-preflight.mjs",
+    "test:deployment": "node --test tests/deployment/*.test.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "6.11.1",
