@@ -2,7 +2,7 @@
 
 Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeScript, Tailwind, shadcn/ui e Supabase**.
 
-**Entrega atual: Etapas 1–4 — Fundação, consulta cadastral, análise e validação XML.** Autenticação, CNPJ, importação de XML/ZIP, gráficos, exportações e validador XSD real funcionais. Catálogo de rejeições é a próxima etapa. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
+**Entrega atual: Etapas 1–5 — Fundação, consulta cadastral, XML e pesquisa de rejeições.** Autenticação, CNPJ, importação de XML/ZIP, gráficos, exportações e validador XSD real funcionais. Catálogo inicial com oito rejeições revisadas, busca, favoritos e histórico. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
 
 ## Implementado
 
@@ -24,6 +24,7 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Dashboard Recharts, filtros avançados, tabela paginada, detalhes, CSV e Excel; exclusão de documentos/lotes com confirmação.
 - Proteções XXE, profundidade, tamanho, expansão ZIP e cálculos decimais exatos.
 - Validador com editor CodeMirror, 14 XSDs oficiais fixados, motor libxml2/WASM, seis regras locais condicionais, relatório JSON, histórico privado e preservação de originais.
+- Consulta de rejeições por código/texto/aproximação, identificação conservadora de mensagens ERP, fontes oficiais/Oobj, favoritos, histórico e atualização editorial por migration.
 - Testes unitários, integração com Supabase real, navegador e workflow CI.
 
 ## Rodar localmente
@@ -76,10 +77,10 @@ Consulte o [validador XML, schemas instalados e limites](docs/xml-validation.md)
 | 2 | Consulta real de CNPJ, provedores de IE, cache e histórico | Implementada; IE automática depende de fonte autorizada |
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
 | 4 | Editor XML, XSD oficial real, regras locais condicionais, histórico e relatório | Implementada no escopo de [validação](docs/xml-validation.md) |
-| 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Pendente |
+| 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Implementada; [cobertura e atualização](docs/rejections.md) |
 | 6 | Testes fiscais completos, otimização e publicação final | Pendente |
 
-Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo permanece vazio até haver referências revisadas. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
+Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo inicial é limitado às oito entradas revisadas; não representa todas as rejeições. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
 
 ## GitHub, Supabase e Vercel
 

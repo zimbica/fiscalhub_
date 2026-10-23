@@ -2,7 +2,7 @@
 
 ## Estado desta entrega
 
-Etapas 1–4 implementadas, com escopo e limites documentados. Importação, persistência, filtros, gráficos e exportações usam dados reais do usuário. Validador XSD executa schemas oficiais locais; catálogo de rejeições permanece pendente.
+Etapas 1–5 implementadas, com escopo e limites documentados. Importação, persistência, filtros, gráficos e exportações usam dados reais do usuário. Validador XSD executa schemas oficiais locais; catálogo inicial de rejeições tem fontes oficiais e Oobj revisadas.
 
 ## Decisões
 
@@ -80,7 +80,6 @@ Veja [regras, limites e evidências](xml-imports.md).
 
 ## Plano das próximas etapas
 
-5. Catálogo pesquisável com resumos próprios, referências oficiais e links Oobj revisados, favoritos e histórico. Mecanismo de atualização permitido e versionado.
 6. Testes fiscais completos, revisão de acessibilidade, desempenho, segurança e implantação. Os testes atuais não certificam regras fiscais nem conformidade tributária.
 
 ## Validação XML — etapa 4
@@ -92,3 +91,7 @@ Veja [regras, limites e evidências](xml-imports.md).
 O worker usa o protocolo interno fixado de xmllint-wasm 5.3.0 para permitir interrupção real por timeout. `Reflect.construct(Worker, ...)` preserva execução nativa do arquivo, evitando que Turbopack mova o worker para longe do WASM. `outputFileTracingIncludes` empacota XSDs e arquivos do motor no Route Handler; `serverExternalPackages` preserva a dependência. Upgrade exige teste do protocolo, timeout, build e E2E em produção.
 
 Veja [escopo, fontes e regras](xml-validation.md).
+
+## Catálogo de rejeições
+
+`catalog/rejections.json` contém resumos próprios e referências; `catalog/contract.mjs` valida o pacote editorial e gera SQL de UPSERT preservando IDs. Migrations separam estrutura de busca e conteúdo inicial. `pg_trgm` complementa busca textual portuguesa; a RPC invoker retorna página, total e tipo de correspondência. `lib/rejections/query.ts` extrai códigos explícitos, detecta ambiguidade e minimiza histórico; a identificação textual confirmada exige descrição exata. `services/rejections.ts` aplica sessão/RLS e consulta dados reais. UI, endpoints e atualização documentados em [catálogo](rejections.md).

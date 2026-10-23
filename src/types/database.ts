@@ -223,14 +223,14 @@ isOneToOne: false
                   ]
                 },"rejection_catalog": {
                   Row: {
-                    "causes": NonNullable<Json>,"code": string,"corrections": NonNullable<Json>,"created_at": string,"description": string,"example": string | null,"explanation": string,"id": string,"models": (string)[],"reviewed_at": string,"search_vector": unknown,"title": string,"updated_at": string,"valid_from": string | null,"valid_until": string | null,"xml_fields": (string)[]
+                    "aliases": (string)[],"causes": NonNullable<Json>,"code": string,"corrections": NonNullable<Json>,"created_at": string,"description": string,"example": string | null,"explanation": string,"id": string,"models": (string)[],"related_codes": (string)[],"reviewed_at": string,"revision": string,"scope_note": string,"search_title": string | null,"search_vector": unknown,"title": string,"updated_at": string,"valid_from": string | null,"valid_until": string | null,"xml_fields": (string)[]
                   }
                   ComputedFields: never
                   Insert: {
-                    "causes"?: NonNullable<Json>,"code": string,"corrections"?: NonNullable<Json>,"created_at"?: string,"description": string,"example"?: string | null,"explanation": string,"id"?: string,"models": (string)[],"reviewed_at": string,"search_vector"?: never,"title": string,"updated_at"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"xml_fields"?: (string)[]
+                    "aliases"?: (string)[],"causes"?: NonNullable<Json>,"code": string,"corrections"?: NonNullable<Json>,"created_at"?: string,"description": string,"example"?: string | null,"explanation": string,"id"?: string,"models": (string)[],"related_codes"?: (string)[],"reviewed_at": string,"revision"?: string,"scope_note"?: string,"search_title"?: never,"search_vector"?: never,"title": string,"updated_at"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"xml_fields"?: (string)[]
                   }
                   Update: {
-                    "causes"?: NonNullable<Json>,"code"?: string,"corrections"?: NonNullable<Json>,"created_at"?: string,"description"?: string,"example"?: string | null,"explanation"?: string,"id"?: string,"models"?: (string)[],"reviewed_at"?: string,"search_vector"?: never,"title"?: string,"updated_at"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"xml_fields"?: (string)[]
+                    "aliases"?: (string)[],"causes"?: NonNullable<Json>,"code"?: string,"corrections"?: NonNullable<Json>,"created_at"?: string,"description"?: string,"example"?: string | null,"explanation"?: string,"id"?: string,"models"?: (string)[],"related_codes"?: (string)[],"reviewed_at"?: string,"revision"?: string,"scope_note"?: string,"search_title"?: never,"search_vector"?: never,"title"?: string,"updated_at"?: string,"valid_from"?: string | null,"valid_until"?: string | null,"xml_fields"?: (string)[]
                   }
                   Relationships: [
 
@@ -474,6 +474,9 @@ isOneToOne: false
                            },
 "save_xml_validation":
 { Args: { "p_document_id"?: string,"p_id": string,"p_path": string,"p_report": Json }; Returns: string
+                           },
+"search_rejections":
+{ Args: { "p_code"?: string,"p_favorites"?: boolean,"p_model"?: string,"p_page"?: number,"p_query"?: string }; Returns: Json
                            }
           }
           Enums: {

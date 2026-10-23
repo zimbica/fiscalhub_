@@ -6,6 +6,7 @@ export const activityNames: Record<string, string> = {
   account_created: "Conta criada",
   profile_updated: "Perfil atualizado",
   preferences_updated: "Preferências atualizadas",
+  rejection_searched: "Pesquisa de rejeição registrada",
   xml_validated: "Validação de XML concluída",
   xml_imported: "Importação de XML concluída",
   cnpj_queried: "Consulta de CNPJ registrada",

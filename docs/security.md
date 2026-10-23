@@ -38,3 +38,7 @@ Nunca versionar `.env.local`, tokens, XMLs reais, exportações ou capturas com 
 ## Validador da etapa 4
 
 DTD/XXE rejeitados antes do libxml2; schemas locais fixados com hashes, sem resolução de URLs fornecidas pelo XML. WASM com memória/prazo limitados e worker encerrado ao concluir/falhar. Cópias privadas e relatórios têm RLS, FK de proprietário e exclusão própria. Arquivos nunca são corrigidos automaticamente; edição explícita ocorre em cópia. Consulte [limites](xml-validation.md). Validação XSD da estrutura de assinatura não equivale à verificação criptográfica.
+
+## Rejeições da etapa 5
+
+Catálogo e fontes têm apenas SELECT para usuários autenticados com sessão ativa; favoritos/histórico usam RLS do proprietário. A busca executa com privilégios do chamador e parâmetros SQL, sem acesso administrativo. Mensagem completa do ERP não é gravada; veja limites da minimização de texto livre em [catálogo](rejections.md). URLs externas são referências editoriais HTTPS; entradas do usuário não controlam requisições externas. Resumos e exemplos são renderizados como texto, sem HTML injetado.

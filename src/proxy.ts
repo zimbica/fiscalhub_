@@ -33,6 +33,7 @@ export const config = {
     "/consulta-cnpj/:path*",
     "/documentos/:path*",
     "/validador/:path*",
+    "/rejeicoes/:path*",
     "/configuracoes/:path*",
     "/historico/:path*",
     "/projeto/:path*",

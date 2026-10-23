@@ -5,7 +5,7 @@
 O projeto informado nesta sessão é `kwgrlocfbkxbupydxmdu`. Confirme no painel que é o FiscalHub antes de aplicar qualquer SQL. Nenhum outro projeto deve receber estas migrations.
 
 1. Em uma organização Free, crie ou use o projeto FiscalHub. A cota gratuita é contabilizada conforme as condições atuais da conta/organizações; criar outra organização não garante mais projetos gratuitos.
-2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` `20261022232514_document_reports.sql` e `20261023125337_xml_validation.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
+2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` `20261022232514_document_reports.sql` `20261023125337_xml_validation.sql`, `20261023164911_rejection_search.sql` e `20261023164912_rejection_catalog_initial.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
 
    ```bash
    npx supabase login
@@ -71,10 +71,12 @@ A etapa 3 envia um XML de até 2 MiB por requisição, com pausa/retomada e desc
 
 ## Estado de verificação
 
-Em 23/10/2026 as seis migrations das etapas 1–4 estão aplicadas no projeto `kwgrlocfbkxbupydxmdu`. Foram conferidas 19 tabelas públicas com RLS, funções de importação/relatórios/detalhes/validação, dois pacotes de schemas registrados e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório somente após conferir os hashes do SQL aplicado; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR.
+Em 23/10/2026 as oito migrations das etapas 1–5 estão aplicadas no projeto `kwgrlocfbkxbupydxmdu`. Foram conferidas 19 tabelas públicas com RLS, funções de importação/relatórios/detalhes/validação, dois pacotes de schemas registrados, oito rejeições com 16 referências e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório somente após conferir os hashes do SQL aplicado; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR.
 
 Os INFO restantes são [índices ainda não usados](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index) no banco sem documentos e [RLS sem política no limitador privado](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), intencionalmente acessível apenas ao serviço. Não abra políticas para usuários nesse limitador.
 
 **Ainda não publicado na Vercel.** A conexão disponível não fornece chave secreta nem configura URLs/SMTP de Auth. Configure essas opções e as variáveis diretamente nos painéis, sem enviar segredos no chat. Os testes completos de usuário foram executados no Supabase local; no remoto foi conferida a estrutura, não o login no domínio final.
 
 Veja `docs/testing.md` para os testes realmente executados. Ter o projeto vinculado ao GitHub no Supabase não configura automaticamente o deploy da Vercel, as migrations, o SMTP nem as variáveis da aplicação.
+
+Atualizações do catálogo não exigem API paga: siga o [procedimento editorial e gerador de migrations](rejections.md). Usuários da aplicação não recebem permissão de editar o catálogo global.

@@ -10,7 +10,7 @@ export default function Project() {
         "Next.js, interface responsiva, temas, autenticação Supabase, perfil, exclusão de conta, banco com RLS e histórico de atividade.",
       complete: true,
     },
-    ...modules.map((item) => ({ ...item, complete: item.stage <= 4 })),
+    ...modules.map((item) => ({ ...item, complete: item.stage <= 5 })),
     {
       stage: 6,
       title: "Revisão e publicação",
@@ -58,6 +58,13 @@ export default function Project() {
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
                   {description}
                 </p>
+                {stage === 5 && (
+                  <p className="mt-3 text-xs leading-6 text-muted-foreground">
+                    Base inicial com oito rejeições revisadas, busca local,
+                    favoritos e histórico. Não representa todas as rejeições nem
+                    pesquisa automática na internet.
+                  </p>
+                )}
                 {stage === 4 && (
                   <p className="mt-3 text-xs leading-6 text-muted-foreground">
                     Motor XSD real com pacote oficial versionado, editor,

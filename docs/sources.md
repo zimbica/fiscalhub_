@@ -44,3 +44,10 @@ A presença de grupos da reforma tributária é preservada na extração; não f
 - [xml-formatter](https://github.com/chrisbottin/xml-formatter): formatação de prévia, sem substituir original assinado.
 - Next.js 16.4.2, documentação instalada de Route Handlers, `serverExternalPackages` e `outputFileTracingIncludes`.
 - [MOC 7 Anexo I](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf): chave, campos, direção/totais e exceções; IBS usa estrutura do XSD 010f e não é atribuído ao MOC anterior à reforma.
+
+## Etapa 5 — revisadas em 23/10/2026
+
+- MOC 7.0, Anexo I: D01, I08-70, 2B08-10, W16-10, seção 4.3, NA01-20, I08-40 e I08-04. Matriz de modelos e limites em `docs/rejections.md`.
+- Artigos Oobj 215, 521, 539, 610, 656, 694, 732 e 770, lidos nas URLs exatas registradas em `catalog/rejections.json`. Resumos próprios; exemplos fiscais externos não copiados.
+- Supabase changelog de 23/10/2026 e documentação atual de Full Text Search/RPC/security invoker; PostgreSQL `pg_trgm` para aproximação.
+- Next.js 16.4.2: documentação instalada de Route Handlers, autenticação repetida na fronteira dos dados e cache privado.

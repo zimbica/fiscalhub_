@@ -13,6 +13,7 @@ export const navigation = [
   { title: "Consulta de CNPJ", href: "/consulta-cnpj", icon: Building2 },
   { title: "Documentos fiscais", href: "/documentos", icon: Files },
   { title: "Validador de XML", href: "/validador", icon: ScanSearch },
+  { title: "Consulta de Rejeições", href: "/rejeicoes", icon: BookOpenText },
   { title: "Histórico de atividade", href: "/historico", icon: History },
   { title: "Configurações", href: "/configuracoes", icon: Settings2 },
   { title: "Etapas do projeto", href: "/projeto", icon: Route },

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import {
   CheckCircle2,
   AlertTriangle,
@@ -104,6 +105,14 @@ export function ValidationResults({
           ))}
         </ul>
       </div>
+      {report.xsd === "failed" && (
+        <Link
+          href="/rejeicoes/215"
+          className="inline-block text-sm text-primary underline"
+        >
+          Consultar orientação sobre falha de schema (215)
+        </Link>
+      )}
       {report.truncated && (
         <p role="alert" className="text-sm text-amber-700">
           Relatório limitado às primeiras 200 ocorrências. Corrija os primeiros

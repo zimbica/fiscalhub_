@@ -26,7 +26,7 @@ import { GlobalSearch } from "@/components/layout/global-search";
 import { usePreferences } from "@/components/settings/preferences-provider";
 import { apiRequest } from "@/lib/http-client";
 import { cn } from "@/lib/utils";
-import { modules, navigation } from "@/lib/navigation";
+import { navigation } from "@/lib/navigation";
 
 export function AppShell({
   fullName,
@@ -88,7 +88,7 @@ export function AppShell({
             Meu espaço
           </p>
           <div className="space-y-1">
-            {navigation.slice(0, 5).map(({ title, href, icon: Icon }) => (
+            {navigation.slice(0, 6).map(({ title, href, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
@@ -106,27 +106,6 @@ export function AppShell({
               </Link>
             ))}
           </div>
-          <p className="mt-8 mb-3 px-3 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            Módulos · próximas etapas
-          </p>
-          <div className="space-y-1">
-            {modules
-              .filter((item) => item.stage > 4)
-              .map(({ title, icon: Icon, stage }) => (
-                <Link
-                  key={title}
-                  href={`/projeto#etapa-${stage}`}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] text-muted-foreground transition-colors hover:bg-muted"
-                >
-                  <Icon className="size-[17px]" />
-                  {title}
-                  <span className="ml-auto text-[9px] opacity-70">
-                    0{stage}
-                  </span>
-                </Link>
-              ))}
-          </div>
         </nav>
         <div className="mt-auto pt-8">
           <div className="mb-5 rounded-xl border border-primary/10 bg-primary/[0.035] p-4">
@@ -136,7 +115,7 @@ export function AppShell({
               Seus documentos e consultas ficam associados à sua conta.
             </p>
           </div>
-          {navigation.slice(5).map(({ title, href, icon: Icon }) => (
+          {navigation.slice(6).map(({ title, href, icon: Icon }) => (
             <Link
               key={href}
               href={href}
@@ -250,7 +229,7 @@ export function AppShell({
           {children}
         </main>
         <footer className="mx-auto flex max-w-[1440px] flex-wrap justify-between gap-2 px-4 py-7 text-[11px] text-muted-foreground sm:px-8">
-          <span>FiscalHub · Etapa 4 — Validação XML</span>
+          <span>FiscalHub · Etapa 5 — Consulta de rejeições</span>
           <Link href="/privacidade" className="hover:text-primary">
             Privacidade e seus dados
           </Link>

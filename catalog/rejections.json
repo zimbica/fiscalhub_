@@ -1,0 +1,366 @@
+{
+  "revision": "2026-10-23.1",
+  "reviewedAt": "2026-10-23T16:45:00Z",
+  "entries": [
+    {
+      "code": "215",
+      "title": "Falha no schema XML",
+      "description": "Falha no schema XML",
+      "models": [
+        "55",
+        "65"
+      ],
+      "explanation": "A mensagem enviada não corresponde à estrutura XSD esperada pelo serviço. O código sozinho não identifica a tag defeituosa.",
+      "causes": [
+        "Versão, namespace, ordem ou tipo de campo incompatível com o schema.",
+        "Campo obrigatório ausente ou valor fora do formato permitido."
+      ],
+      "corrections": [
+        "Valide o XML no schema da mensagem e versão utilizadas.",
+        "Leia o erro detalhado, ajuste a geração no ERP e gere novamente a assinatura quando necessário."
+      ],
+      "xml_fields": [
+        "Namespace e versão da mensagem",
+        "Tag indicada pelo validador XSD"
+      ],
+      "scope_note": "Código genérico; o schema depende do serviço. Nem toda quebra de linha ou espaço no XML é inválido. O FiscalHub cobre somente os tipos listados no validador.",
+      "related_codes": [
+        "610"
+      ],
+      "example": null,
+      "aliases": [
+        "Falha no esquema XML"
+      ],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — D01 / validação da área de dados",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 215",
+          "url": "https://oobj.com.br/bc/rejeicao-215-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "521",
+      "title": "Operação interna e UF do emitente difere da UF do destinatário/remetente contribuinte do ICMS",
+      "description": "Operação interna e UF do emitente difere da UF do destinatário/remetente contribuinte do ICMS",
+      "models": [
+        "55"
+      ],
+      "explanation": "A operação foi classificada como interna, mas as UFs informadas para emitente e destinatário contribuinte não coincidem.",
+      "causes": [
+        "Cadastro de endereço ou classificação de destino incorretos."
+      ],
+      "corrections": [
+        "Confira idDest, indIEDest e os endereços envolvidos.",
+        "Verifique as exceções aplicáveis antes de trocar CFOP ou destino."
+      ],
+      "xml_fields": [
+        "ide/idDest",
+        "dest/indIEDest",
+        "emit/enderEmit/UF",
+        "dest/enderDest/UF",
+        "det/prod/comb/UFCons",
+        "ide/indPres",
+        "transp/modFrete"
+      ],
+      "scope_note": "Regra facultativa na referência. Há exceções para UF de consumo e operação presencial sem frete; confirme vigência e implementação na UF.",
+      "related_codes": [
+        "732",
+        "694"
+      ],
+      "example": null,
+      "aliases": [
+        "Operação interna com UF de destino diferente da origem"
+      ],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — I08-70",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 521",
+          "url": "https://oobj.com.br/bc/rejeicao-521-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "539",
+      "title": "Duplicidade de NF-e com diferença na chave de acesso",
+      "description": "Duplicidade de NF-e com diferença na chave de acesso",
+      "models": [
+        "55",
+        "65"
+      ],
+      "explanation": "O autorizador encontrou um documento com a identificação fiscal já utilizada, mas com outra chave de acesso.",
+      "causes": [
+        "Reenvio após perda do retorno com mudança de cNF, data ou tipo de emissão.",
+        "Reutilização de numeração e série já cadastradas."
+      ],
+      "corrections": [
+        "Consulte a chave e o recibo informados no retorno pelo ERP ou serviço autorizado.",
+        "Recupere o documento/protocolo existente e concilie o estado no ERP antes de decidir por nova emissão."
+      ],
+      "xml_fields": [
+        "infNFe/@Id",
+        "emit/CNPJ",
+        "ide/mod",
+        "ide/serie",
+        "ide/nNF",
+        "ide/cNF",
+        "ide/tpEmis",
+        "ide/dhEmi"
+      ],
+      "scope_note": "Os critérios de identificação diferem entre modelos 55 e 65. Não cancele, inutilize ou altere numeração automaticamente.",
+      "related_codes": [
+        "656"
+      ],
+      "example": null,
+      "aliases": [],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — 2B08-10",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 539",
+          "url": "https://oobj.com.br/bc/rejeicao-539-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "610",
+      "title": "Total da NF difere do somatório dos valores que compõem o valor total",
+      "description": "Total da NF difere do somatório dos valores que compõem o valor total",
+      "models": [
+        "55",
+        "65"
+      ],
+      "explanation": "O valor vNF diverge da composição de totais prevista para a operação.",
+      "causes": [
+        "Desconto, frete, seguro, despesas ou tributos não conciliados com os totais."
+      ],
+      "corrections": [
+        "Confira os componentes de total/ICMSTot e os itens incluídos nos totais.",
+        "Recalcule no ERP usando a regra vigente e suas exceções; confira arredondamentos."
+      ],
+      "xml_fields": [
+        "total/ICMSTot/vNF",
+        "total/ICMSTot/vProd",
+        "total/ICMSTot/vDesc",
+        "total/ICMSTot/vFrete",
+        "total/ICMSTot/vST",
+        "total/ICMSTot/vFCPST"
+      ],
+      "scope_note": "A composição tem exceções, como operações de importação e faturamento direto de veículos. Não aplicar uma fórmula única a todos os documentos; mudanças da reforma exigem revisão das NTs.",
+      "related_codes": [
+        "215"
+      ],
+      "example": null,
+      "aliases": [
+        "Total da NF-e difere do calculado"
+      ],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — W16-10",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 610",
+          "url": "https://oobj.com.br/bc/rejeicao-610-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "656",
+      "title": "Consumo indevido pelo aplicativo da empresa",
+      "description": "Consumo indevido pelo aplicativo da empresa",
+      "models": [
+        "55",
+        "65"
+      ],
+      "explanation": "O serviço detectou um padrão de requisições indevido, como consultas ou reenvios repetidos.",
+      "causes": [
+        "Retentativas automáticas em sequência ou envio repetido com o mesmo erro.",
+        "Aplicativos concorrentes consultando o mesmo serviço."
+      ],
+      "corrections": [
+        "Interrompa o ciclo de retentativas e identifique o serviço e a causa inicial.",
+        "Respeite a espera e os limites documentados pelo autorizador; ajuste filas e intervalos no ERP.",
+        "Se o bloqueio persistir, procure o suporte do autorizador."
+      ],
+      "xml_fields": [
+        "cStat e xMotivo da resposta",
+        "Recibo, chave ou evento referido pelo serviço"
+      ],
+      "scope_note": "Os limites variam por serviço, UF e parametrização. Não há prazo ou quantidade universal; não use troca de certificado/IP para contornar bloqueios.",
+      "related_codes": [
+        "539"
+      ],
+      "example": null,
+      "aliases": [
+        "Consumo indevido"
+      ],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — seção 4.3 / NT 2018.002",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 656",
+          "url": "https://oobj.com.br/bc/rejeicao-656-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "694",
+      "title": "Não informado o grupo de ICMS para a UF de destino",
+      "description": "Não informado o grupo de ICMS para a UF de destino",
+      "models": [
+        "55"
+      ],
+      "explanation": "O autorizador esperava o grupo ICMSUFDest para a operação interestadual com consumidor final não contribuinte.",
+      "causes": [
+        "Grupo ausente quando exigido para a operação.",
+        "Indicadores de destino, consumidor ou contribuinte incompatíveis com a operação real."
+      ],
+      "corrections": [
+        "Confira idDest, indFinal, indIEDest, CRT e a natureza da operação.",
+        "Avalie as exceções da regra e, se aplicável, configure o grupo e a apuração no ERP com orientação fiscal."
+      ],
+      "xml_fields": [
+        "ide/idDest",
+        "ide/indFinal",
+        "dest/indIEDest",
+        "emit/CRT",
+        "det/imposto/ICMSUFDest"
+      ],
+      "scope_note": "Há exceções por regime, tipo de operação, tributação e data, incluindo condições para Simples Nacional, devoluções, remessas e retornos. Não incluir o grupo apenas para eliminar a mensagem.",
+      "related_codes": [
+        "521",
+        "732"
+      ],
+      "example": null,
+      "aliases": [],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — NA01-20",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 694",
+          "url": "https://oobj.com.br/bc/rejeicao-694-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "732",
+      "title": "CFOP de operação interestadual e idDest diferente de 2",
+      "description": "CFOP de operação interestadual e idDest diferente de 2",
+      "models": [
+        "55"
+      ],
+      "explanation": "O CFOP indica operação interestadual, enquanto idDest informa outro destino.",
+      "causes": [
+        "CFOP iniciado por 2 ou 6 com indicador de destino incompatível."
+      ],
+      "corrections": [
+        "Confira a operação, os endereços e o CFOP de cada item.",
+        "Ajuste o cadastro e a geração de idDest no ERP conforme a operação efetiva."
+      ],
+      "xml_fields": [
+        "ide/idDest",
+        "det/prod/CFOP"
+      ],
+      "scope_note": "O exemplo é um fragmento inconsistente para diagnóstico; não é nota completa nem sugestão universal de correção.",
+      "related_codes": [
+        "521",
+        "770"
+      ],
+      "example": "<!-- Fragmento ilustrativo inconsistente: campos em grupos distintos -->\n<ide><idDest>1</idDest></ide>\n<det nItem=\"1\"><prod><CFOP>6102</CFOP></prod></det>",
+      "aliases": [
+        "CFOP de operação interestadual e idDest <> 2"
+      ],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — I08-40",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 732",
+          "url": "https://oobj.com.br/bc/rejeicao-732-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    },
+    {
+      "code": "770",
+      "title": "CFOP inexistente",
+      "description": "CFOP inexistente",
+      "models": [
+        "55",
+        "65"
+      ],
+      "explanation": "O CFOP não consta como permitido para NF-e na tabela de apoio aplicável.",
+      "causes": [
+        "Código inexistente, desatualizado ou não habilitado para uso em NF-e."
+      ],
+      "corrections": [
+        "Consulte a tabela oficial de CFOP vigente e sua indicação de uso em NF-e.",
+        "Confirme o código adequado à operação com o responsável fiscal e atualize o ERP."
+      ],
+      "xml_fields": [
+        "det/prod/CFOP"
+      ],
+      "scope_note": "Um código pode existir em tabela e não ser permitido para NF-e. Não substituir por um CFOP padrão sem analisar a operação.",
+      "related_codes": [
+        "732"
+      ],
+      "example": null,
+      "aliases": [],
+      "sources": [
+        {
+          "title": "MOC 7.0 — Anexo I — I08-04 / NT 2015.002",
+          "url": "https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf",
+          "publisher": "CONFAZ / Projeto NF-e",
+          "is_official": true
+        },
+        {
+          "title": "Oobj — Rejeição 770",
+          "url": "https://oobj.com.br/bc/rejeicao-770-como-resolver/",
+          "publisher": "Oobj",
+          "is_official": false
+        }
+      ]
+    }
+  ]
+}

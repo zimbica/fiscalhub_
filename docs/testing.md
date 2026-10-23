@@ -70,7 +70,7 @@ Fixtures e resultados esperados: `tests/fixtures/xml/README.md`. Os arquivos sã
 
 ## Limites da verificação
 
-- Verificação criptográfica de assinatura, regras fiscais completas por UF/vigência e pesquisa de rejeições continuam pendentes. Fixtures de extração não alegam conformidade XSD; as novas fixtures em `tests/fixtures/xsd` exercitam explicitamente schemas oficiais, com placeholders de assinatura sem validade criptográfica.
+- Verificação criptográfica de assinatura, regras fiscais completas por UF/vigência continuam pendentes; a pesquisa de rejeições foi implementada na etapa 5. Fixtures de extração não alegam conformidade XSD; as novas fixtures em `tests/fixtures/xsd` exercitam explicitamente schemas oficiais, com placeholders de assinatura sem validade criptográfica.
 - Não foi testada entrega de e-mail por SMTP externo; os fluxos usam Mailpit local.
 - Não equivale a teste de carga, auditoria independente, homologação fiscal ou certificação LGPD.
 - No ambiente gerenciado, o driver de imagens Docker exigiu consolidar a imagem oficial do PostgreSQL para evitar amplificação de disco. Os healthchecks de Auth/Storage recebiam 403 ao tentar o endereço local pelo proxy do ambiente; as APIs foram verificadas diretamente e os testes completos passaram. Em desenvolvimento comum/CI, use `supabase start` sem ignorar healthchecks.
@@ -113,3 +113,16 @@ E2E_PRODUCTION=1 npm run test:e2e
 ```
 
 O workflow CI passou a executar o navegador contra o build de produção. O domínio Vercel ainda não foi publicado nem homologado.
+
+## Etapa 5 — catálogo e pesquisa (23/10/2026)
+
+- `npm run check`: catálogo editorial, integridade de schemas, lint, TypeScript, **121 testes unitários** e build aprovados.
+- `npm run test:integration`: **51 testes aprovados** (46 casos e cinco grupos) no Supabase local, incluindo código/texto/aproximação/alias, modelos, paginação, metacaracteres, favoritos idempotentes, histórico privado, catálogo somente leitura e rejeição de sessão revogada.
+- Instalação limpa: oito migrations aplicadas do zero. O CLI ainda termina com o timeout de healthcheck de Storage específico deste ambiente; integração e APIs voltaram a funcionar e foram testadas depois. `npm run db:check` sem erros.
+- `E2E_PRODUCTION=1 npm run test:e2e`: **8 cenários aprovados**, 2 opcionais não executados nesta rodada (BrasilAPI ao vivo e lote de mil XMLs). Inclui regressão das etapas 1–4.
+- Atualização editorial repetida no banco local: mesmos oito IDs, sem duplicar entradas. O gerador reproduz exatamente o SQL versionado e recusa arquivo de saída não vazio.
+- Supabase remoto: migrations `20261023164911_rejection_search` e `20261023164912_rejection_catalog_initial` aplicadas, hashes de SQL conferidos antes de alinhar registros. Oito entradas, 16 fontes, nenhuma WARN/ERROR nos advisors; INFO de índices sem uso e limitador privado continuam esperados.
+
+O teste de navegador da etapa percorre pesquisa, página de explicação/fontes, cópia real para clipboard, favoritos, filtros, erro de digitação, identificação de ERP, código desconhecido, mensagem ambígua, ausência de sessão, origem inválida, segunda conta sem acesso a dados privados, limpeza com confirmação e responsividade. Mensagem com chave sintética não fica persistida no histórico.
+
+As entradas são conteúdo editorial referenciado, não testes de conformidade tributária completa. Não houve varredura/cópia integral de artigos nem requisições às fontes durante a pesquisa do usuário.

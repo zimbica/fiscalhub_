@@ -109,7 +109,7 @@ export default async function Dashboard() {
               </p>
             </div>
             <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary">
-              ETAPA 04
+              ETAPA 05
             </span>
           </div>
           <div className="grid items-center gap-7 p-6 sm:grid-cols-[1fr_160px]">
@@ -213,14 +213,16 @@ export default async function Dashboard() {
                     ? "/documentos"
                     : stage === 4
                       ? "/validador"
-                      : `/projeto#etapa-${stage}`
+                      : stage === 5
+                        ? "/rejeicoes"
+                        : `/projeto#etapa-${stage}`
               }
               className="group rounded-xl border bg-card p-5 transition hover:border-primary/30 hover:shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <Icon className="size-5 text-muted-foreground transition group-hover:text-primary" />
                 <span className="rounded-md bg-muted px-2 py-1 text-[10px] text-muted-foreground">
-                  {stage <= 4 ? "Disponível" : `Etapa ${stage}`}
+                  {stage <= 5 ? "Disponível" : `Etapa ${stage}`}
                 </span>
               </div>
               <h3 className="mt-5 text-sm font-semibold">{title}</h3>
@@ -234,7 +236,9 @@ export default async function Dashboard() {
                     ? "Analisar documentos"
                     : stage === 4
                       ? "Validar XML"
-                      : "Ver o que será entregue"}{" "}
+                      : stage === 5
+                        ? "Pesquisar rejeição"
+                        : "Ver o que será entregue"}{" "}
                 <ArrowUpRight className="size-3" />
               </span>
             </Link>
@@ -244,7 +248,7 @@ export default async function Dashboard() {
       <p className="text-[11px] leading-5 text-muted-foreground">
         Os indicadores usam apenas registros da sua conta. Importe XMLs para
         alimentar a análise fiscal. O validador executa verificações locais; o
-        catálogo de rejeições será adicionado na próxima etapa.
+        catálogo de rejeições oferece orientações com fontes revisadas.
       </p>
     </div>
   );
