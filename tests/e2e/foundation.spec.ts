@@ -28,6 +28,16 @@ test('rotas privadas e endpoints rejeitam acesso anônimo',async ({page,request}
 test('login, perfil, preferências persistentes, histórico, navegação e exclusão',async ({page}) => {
   await page.goto('/entrar');
   await page.getByLabel('E-mail',{exact:true}).fill(email);
+  await page.getByLabel('Senha',{exact:true}).fill(password);
+  await page.route('**/api/auth/login', route => route.abort('failed'), { times: 1 });
+  await page.getByRole('button',{name:'Entrar na minha conta'}).click();
+  await expect(page.locator('form [role=alert]')).toContainText('Não foi possível confirmar');
+  await expect(page.getByRole('button',{name:'Entrar na minha conta'})).toBeEnabled();
+  await expect(page.getByLabel('E-mail',{exact:true})).toHaveValue(email);
+  await page.route('**/api/auth/login', route => route.fulfill({status:503,contentType:'text/html',body:'<html>Temporary hosting error</html>'}), { times: 1 });
+  await page.getByRole('button',{name:'Entrar na minha conta'}).click();
+  await expect(page.locator('form [role=alert]')).toContainText('Não foi possível confirmar');
+  await expect(page.locator('form [role=alert]')).not.toContainText('Temporary hosting');
   await page.getByLabel('Senha',{exact:true}).fill('senha-errada-123');
   await page.getByRole('button',{name:'Entrar na minha conta'}).click();
   await expect(page.locator('form [role=alert]')).toContainText('E-mail ou senha incorretos');

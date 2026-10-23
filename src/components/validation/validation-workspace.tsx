@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { apiRequest } from "@/lib/http-client";
+import { apiFetch, apiRequest } from "@/lib/http-client";
 import { dateTime } from "@/lib/format";
 import { parseXml, MAX_XML_BYTES } from "@/services/xml/tree";
 import type { ValidationReport } from "@/types/validation";
@@ -153,15 +153,12 @@ export function ValidationWorkspace({
     try {
       const params = new URLSearchParams({ name: filename });
       if (source) params.set("source", source);
-      const response = await fetch(`/api/validations?${params}`, {
+      const result = await apiFetch<ValidationReport>(`/api/validations?${params}`, {
         method: "POST",
         headers: { "Content-Type": "application/xml" },
         body: source ? undefined : bytes,
       });
-      const payload = await response.json();
-      if (!response.ok)
-        throw new Error(payload.error?.message || "Falha ao validar.");
-      setReport(payload.data);
+      setReport(result);
       await refreshHistory();
       toast.success("Verificações concluídas e histórico salvo.");
     } catch (error) {

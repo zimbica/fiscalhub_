@@ -164,3 +164,20 @@ Executado após as correções:
 Não houve mudança de schema ou backend nesta revisão. A suíte de integração SQL
 não foi repetida; os E2E usaram autenticação e persistência reais no Supabase local.
 Esses resultados não são uma certificação WCAG nem teste do domínio de produção.
+
+## Etapa 6 — falhas de conexão e respostas inesperadas (23/10/2026)
+
+Adicionados 14 testes unitários do cliente HTTP: transporte JSON/XML, mensagens
+de negócio, conexão interrompida sem reenvio automático, erro HTML, orientações
+HTTP 401/403/413/429 e rejeição de envelopes inválidos. O teste de login no navegador
+agora simula uma conexão interrompida e uma resposta HTML 503, verifica mensagem
+legível e formulário preservado/habilitado, depois efetua login real no Supabase local.
+
+Executados: `npm run check` aprovado com 135 testes unitários, 7 de implantação,
+lint, TypeScript, catálogo, schemas e build. `E2E_PRODUCTION=1 npm run test:e2e`
+aprovado: 10 testes em 41,6 segundos; 2 opcionais não executados (BrasilAPI ao vivo
+e mil XMLs). Nenhuma migration foi alterada. A suíte SQL não foi repetida.
+
+A recuperação de página foi atualizada para `retry` conforme a documentação do
+Next.js 16.4.2 instalado; não foi injetada falha no servidor de produção para testar
+a boundary. O domínio Vercel continua sem publicação/verificação nesta sessão.

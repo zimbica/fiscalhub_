@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { apiRequest } from "@/lib/http-client";
+import { apiFetch, apiRequest } from "@/lib/http-client";
 import { dateTime } from "@/lib/format";
 import type { Database } from "@/types/database";
 import type { ImportFileResult } from "@/types/fiscal";
@@ -174,7 +174,7 @@ export function ImportPanel({
                 message: String(data.error).slice(0, 500),
               });
             else {
-              const response = await fetch(
+              result = await apiFetch<ImportFileResult>(
                 `/api/imports/${id}/files?${new URLSearchParams({ name: data.name })}`,
                 {
                   method: "POST",
@@ -182,10 +182,6 @@ export function ImportPanel({
                   body: data.bytes,
                 },
               );
-              const body = await response.json();
-              if (!response.ok)
-                throw new Error(body.error?.message || "Falha no envio.");
-              result = body.data;
             }
             examined++;
             setProgress((previous) => ({

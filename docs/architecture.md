@@ -95,3 +95,19 @@ Veja [escopo, fontes e regras](xml-validation.md).
 ## Catálogo de rejeições
 
 `catalog/rejections.json` contém resumos próprios e referências; `catalog/contract.mjs` valida o pacote editorial e gera SQL de UPSERT preservando IDs. Migrations separam estrutura de busca e conteúdo inicial. `pg_trgm` complementa busca textual portuguesa; a RPC invoker retorna página, total e tipo de correspondência. `lib/rejections/query.ts` extrai códigos explícitos, detecta ambiguidade e minimiza histórico; a identificação textual confirmada exige descrição exata. `services/rejections.ts` aplica sessão/RLS e consulta dados reais. UI, endpoints e atualização documentados em [catálogo](rejections.md).
+
+## Recuperação de falhas no navegador
+
+`lib/http-client.ts` centraliza as respostas `{data}`/`{error}` para JSON e uploads
+XML (`apiFetch`). Falhas de conexão, respostas HTML da hospedagem e envelopes
+inválidos não exibem erros técnicos de parsing nem são tratados como sucesso.
+Erros de negócio da API mantêm sua mensagem; respostas sem envelope têm orientação
+em português, incluindo sessão indisponível, acesso negado, limite de tamanho e
+limite de solicitações. Não há repetição automática de requisições: uma resposta
+perdida pode corresponder a uma operação já persistida. A mensagem orienta conferir
+os dados/histórico antes de repetir. Essa camada não cobre downloads de XML/CSV nem
+substitui a validação específica dos dados retornados por cada serviço.
+
+A página `app/error.tsx` usa `retry`, API estável desde Next.js 16.3, que refaz a
+busca e renderização do segmento após falha. O antigo `reset` apenas reiniciava o
+estado da boundary. O fallback não apresenta detalhes de infraestrutura ao usuário.
