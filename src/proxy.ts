@@ -23,4 +23,4 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ['/painel/:path*', '/consulta-cnpj/:path*', '/configuracoes/:path*', '/historico/:path*', '/projeto/:path*', '/nova-senha', '/api/:path*'] };
+export const config = { matcher: ['/painel/:path*', '/consulta-cnpj/:path*', '/documentos/:path*', '/configuracoes/:path*', '/historico/:path*', '/projeto/:path*', '/nova-senha', '/api/:path*'] };

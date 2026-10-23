@@ -2,7 +2,7 @@
 
 Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeScript, Tailwind, shadcn/ui e Supabase**.
 
-**Entrega atual: Etapas 1 e 2 — Fundação e consulta cadastral.** Autenticação, perfil, preferências, isolamento de dados e consulta real de CNPJ funcionais. Os módulos fiscais das etapas 3–6 ainda não estão implementados. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
+**Entrega atual: Etapas 1–3 — Fundação, consulta cadastral e análise de XML.** Autenticação, consulta real de CNPJ, importação de XML/ZIP, documentos, gráficos e exportações funcionais. Validador XSD e catálogo de rejeições pertencem às próximas etapas. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
 
 ## Implementado
 
@@ -18,6 +18,11 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Consulta real de CNPJ pela BrasilAPI, dados normalizados e fontes por campo; validação de dígitos numéricos e alfanuméricos.
 - Cache privado por 24 horas, atualização manual, fallback identificado, histórico pesquisável, favoritos e exclusão.
 - IE separada do CNPJ: links oficiais e adaptador opcional para provedor autorizado, sem inferir inscrição ou situação.
+- Importação de NF-e/NFC-e 4.00 e eventos individuais em XML/ZIP, arrastar e soltar, progresso, pausa e retomada idempotente.
+- Extração de itens, partes, pagamentos, tributos e grupos IBS/CBS; originais privados e histórico dos lotes.
+- Duplicidade por usuário/chave/ambiente, conflito de conteúdo e situação derivada das evidências importadas.
+- Dashboard Recharts, filtros avançados, tabela paginada, detalhes, CSV e Excel; exclusão de documentos/lotes com confirmação.
+- Proteções XXE, profundidade, tamanho, expansão ZIP e cálculos decimais exatos.
 - Testes unitários, integração com Supabase real, navegador e workflow CI.
 
 ## Rodar localmente
@@ -52,9 +57,11 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. A integração testa o modelo do banco, não o parser XML, que ainda não existe.
+Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. O parser é testado com arquivos sintéticos; os testes não certificam assinatura, XSD ou autorização SEFAZ.
 
 Detalhes e limitações das fontes: [consulta de CNPJ e IE](docs/company-providers.md). As duas variáveis `IE_PROVIDER_*` são opcionais. Não é necessário contratar um serviço para consultar CNPJ.
+
+Consulte [importação XML, regras de extração e limites](docs/xml-imports.md). O teste opcional de mil XMLs é executado com `BULK_XML_TEST=1 npm run test:e2e -- tests/e2e/documents.spec.ts --grep "mil XMLs"`.
 
 Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.md), [segurança](docs/security.md) e [fontes consultadas](docs/sources.md).
 
@@ -64,7 +71,7 @@ Veja [resultados e cobertura](docs/testing.md), [arquitetura](docs/architecture.
 |---|---|---|
 | 1 | Fundação, Auth, perfil, temas, banco e RLS | Implementada; verificar relatório dos testes |
 | 2 | Consulta real de CNPJ, provedores de IE, cache e histórico | Implementada; IE automática depende de fonte autorizada |
-| 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Pendente |
+| 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
 | 4 | Editor XML, motor XSD real com schemas oficiais, regras fiscais e relatório | Pendente |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Pendente |
 | 6 | Testes fiscais completos, otimização e publicação final | Pendente |
@@ -74,7 +81,7 @@ Validação local nunca será apresentada como autorização da SEFAZ. IE não s
 ## GitHub, Supabase e Vercel
 
 - Repositório: <https://github.com/zimbica/fiscalhub_>.
-- Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`; migrations das etapas 1 e 2 já aplicadas e verificadas.
+- Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`; migrations versionadas em `supabase/migrations`; situação da aplicação remota em [implantação](docs/deployment.md).
 - Publicação Vercel, variáveis secretas e URLs/SMTP de Auth ainda precisam da configuração descrita abaixo.
 - [Passo a passo de implantação](docs/deployment.md), incluindo variáveis, migrations, Auth, SMTP e planos gratuitos.
 

@@ -2,20 +2,20 @@
 
 ## Estado desta entrega
 
-Etapas 1 e 2 implementadas. As etapas 3 a 6 permanecem planejadas. O banco antecipa as entidades fiscais, mas **tabelas não equivalem a módulos implementados**. Não há validador XSD, importador de XML, catálogo de rejeições ou gráficos fictícios nesta entrega.
+Etapas 1–3 implementadas. Importação, persistência, filtros, gráficos e exportações usam dados reais do usuário. Validador XSD e catálogo de rejeições permanecem pendentes; as tabelas dessas funcionalidades antecipam a estrutura.
 
 ## Decisões
 
-- Next.js App Router, React e TypeScript. Route Handlers executam autenticação, perfil, preferências e consultas cadastrais no runtime Node.js da Vercel.
+- Next.js App Router, React e TypeScript. Route Handlers executam autenticação, perfil, preferências, consultas cadastrais, parsing e análise de documentos no runtime Node.js da Vercel.
 - Supabase Auth é o único sistema de identidade. Cookies SSR com `@supabase/ssr`; `proxy.ts` renova tokens com `getClaims`; acesso a dados usa `getUser` e verificação de sessão ativa no banco.
 - Todo registro privado pertence a `profiles.id`, vinculado a `auth.users.id`. Políticas combinam `auth.uid()` e existência da sessão. `user_metadata` nunca concede privilégios.
 - Relacionamentos entre registros privados usam FKs compostas `(user_id,id)`, impedindo itens, consultas ou validações de apontarem para dados de outro proprietário.
 - `profiles.role` prepara papéis `user/admin`. Usuários só têm `UPDATE(full_name)`. Nenhuma interface ou endpoint concede o papel administrativo nesta etapa.
 - `schema_versions`, catálogo e fontes de rejeição têm leitura autenticada; somente operações administrativas podem alimentar essas tabelas. Nenhum artigo ou regra foi inventado para preenchê-las.
-- `numeric(18,2)` para totais; `numeric(21,10)` para quantidades e valores unitários. Agregação monetária retorna string decimal e formatação usa `BigInt`. Campos tributários complementares ficam em JSONB até sua extração versionada na etapa 3.
-- Eventos independem da existência prévia da NF-e. Autorização, cancelamento e finalidade de devolução têm campos diferentes. Nenhuma classificação é inferida pela fundação.
-- Supabase Storage: bucket `fiscal-xml` privado, 5 MiB por objeto, prefixo do usuário, sem permissão de atualização/upsert. O controle de conteúdo XML/ZIP e processamento em lotes será implementado com o importador.
-- UI em português, shadcn/ui gerado pelo CLI oficial, Lucide e Tailwind 4. Aparência é persistida no banco e aplicada via `next-themes`. A pesquisa global atual localiza páginas; busca de documentos será adicionada com o importador.
+- `numeric(18,2)` para totais; `numeric(21,10)` para quantidades e valores unitários. Agregação monetária retorna string decimal e formatação usa `BigInt`. Tributos e grupos complementares são preservados em JSONB; totais suportados são extraídos sem duplicar valores de grupos pais e filhos.
+- Eventos independem da existência prévia da NF-e. Autorização, cancelamento e finalidade de devolução têm campos diferentes. A classificação é recalculada a partir dos recibos e eventos restantes quando uma evidência é excluída.
+- Supabase Storage: bucket `fiscal-xml` privado, 5 MiB por objeto, prefixo do usuário, sem permissão de atualização/upsert. O importador limita cada XML a 2 MiB e descompacta ZIP em Web Worker, enviando um XML por requisição.
+- UI em português, shadcn/ui gerado pelo CLI oficial, Lucide e Tailwind 4. Aparência é persistida no banco e aplicada via `next-themes`. A pesquisa global atual localiza páginas; a pesquisa de documentos fica em `/documentos`.
 
 ## Camadas
 
@@ -50,15 +50,36 @@ docs/                     arquitetura, implantação, fontes e resultados
 | PATCH | `/api/companies/[id]` | Favoritar/desfavoritar consulta própria |
 | DELETE | `/api/companies/[id]` | Excluir cache e consultas relacionadas próprias |
 
-Respostas: `{ data: ... }` ou `{ error: { code, message } }`. Limite de corpo: 8 KiB. Mutação exige origem exatamente igual a `NEXT_PUBLIC_APP_URL`. Rotas autenticadas validam a sessão no servidor. Não usar cache público/ISR nas rotas com cookies.
+Respostas: `{ data: ... }` ou `{ error: { code, message } }`. Limite de JSON: 8 KiB; upload XML usa streaming limitado a 2 MiB. Mutação exige origem exatamente igual a `NEXT_PUBLIC_APP_URL`. Rotas autenticadas validam a sessão no servidor. Não usar cache público/ISR nas rotas com cookies.
 
 ## Consulta cadastral
 
 `services/providers` define contratos intercambiáveis. BrasilAPI é a fonte padrão de CNPJ; o adaptador de IE só usa um gateway HTTPS explicitamente configurado. A transação `save_company_query` atualiza o cache, substitui IEs e registra a consulta; falhas revertem todo o conjunto. Não guarda QSA nem CPF de sócios. Detalhes em [provedores](company-providers.md).
 
+## Importação e relatórios
+
+- `services/xml`: árvore Saxes com namespaces e extração fiscal; `decimal.js` para cálculos, originais imutáveis.
+- `workers/import.worker.ts` e `lib/documents/archive.ts`: descompactação limitada com contrapressão; o navegador espera cada persistência antes de enviar o próximo arquivo.
+- `services/documents.ts`: Storage privado, chamadas RPC, relatórios e exclusão em blocos de 50 recibos.
+- `import_files`: proveniência por lote/arquivo; `save_import_file` grava nota, itens, pagamentos e recibo em uma transação. Bloqueios impedem duplicação sob concorrência.
+- RPCs `document_report` e `document_details` executam com privilégios do usuário e RLS. Valores decimais saem como texto. Gráficos convertem para número somente na apresentação.
+- A exclusão de um lote preserva documentos que ainda tenham originais em outro lote. A exclusão de documento remove seus recibos e eventos identificados; a exclusão de conta também limpa Storage antes da cascata Auth.
+
+| Método | Rota | Finalidade |
+|---|---|---|
+| GET/POST | `/api/imports` | Listar/criar lotes |
+| GET/PATCH/DELETE | `/api/imports/[id]` | Recibos paginados, estado e exclusão retomável |
+| POST | `/api/imports/[id]/files` | Importar um XML original |
+| POST | `/api/imports/[id]/rejections` | Registrar falha de arquivo no lote |
+| GET | `/api/documents` | Indicadores, gráficos e linhas filtradas |
+| GET/DELETE | `/api/documents/[id]` | Detalhes e exclusão retomável |
+| GET | `/api/documents/export` | CSV/XLSX filtrados, até 5.000 documentos |
+| GET | `/api/import-files/[id]` | Download autenticado do original |
+
+Veja [regras, limites e evidências](xml-imports.md).
+
 ## Plano das próximas etapas
 
-3. Parser seguro, arquivos XML/ZIP com limites de tamanho/quantidade/expansão, fila em lotes curtos e retomada. Extração de modelos 55/65 e eventos, dashboard real com Recharts, filtros e exportações.
 4. Homologar um motor XSD real compatível com Vercel, empacotar dependências oficiais e fixar hashes/versões. Avaliar WebAssembly/libxml2 com isolamento e limites. Testar `xs:include/import`, ordem, obrigatoriedade, namespaces e esquemas IBS/CBS. Não usar regex como validador XSD.
 5. Catálogo pesquisável com resumos próprios, referências oficiais e links Oobj revisados, favoritos e histórico. Mecanismo de atualização permitido e versionado.
 6. Testes fiscais completos, revisão de acessibilidade, desempenho, segurança e implantação. Os testes atuais não certificam regras fiscais nem conformidade tributária.

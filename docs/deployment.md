@@ -5,7 +5,7 @@
 O projeto informado nesta sessão é `kwgrlocfbkxbupydxmdu`. Confirme no painel que é o FiscalHub antes de aplicar qualquer SQL. Nenhum outro projeto deve receber estas migrations.
 
 1. Em uma organização Free, crie ou use o projeto FiscalHub. A cota gratuita é contabilizada conforme as condições atuais da conta/organizações; criar outra organização não garante mais projetos gratuitos.
-2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql` e `20261022180528_company_query_index.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
+2. Aplique as migrations em ordem (`20261022144803_foundation.sql`, `20261022174422_company_queries.sql`, `20261022180528_company_query_index.sql`, `20261022181403_document_imports.sql` e `20261022232514_document_reports.sql`) pelo SQL Editor do projeto novo e vazio. Se a fundação já foi aplicada, execute somente as pendentes. Alternativamente, no seu computador autenticado:
 
    ```bash
    npx supabase login
@@ -67,11 +67,13 @@ O repositório foi criado público pelo proprietário. Somente código, document
 
 Não foi adicionado serviço pago. O Vercel Hobby é destinado a uso **pessoal e não comercial**. Para uso empresarial/comercial, revisar o plano ou escolher hospedagem compatível com os termos. Supabase Free tem limites de banco, arquivos, tráfego e e-mail e pode pausar projetos inativos; consulte os limites atuais antes de importar arquivos reais. Não ativar recursos pagos automaticamente.
 
-A etapa 3 deve processar lotes curtos, respeitar payload/tempo/memória das Functions e permitir retomada. A etapa 4 só será considerada pronta após demonstrar XSD real no runtime de produção.
+A etapa 3 envia um XML de até 2 MiB por requisição, com pausa/retomada e descompactação no navegador. Nenhuma função precisa permanecer ativa durante todo o lote. ZIPs e centenas de originais consomem cotas de Storage, banco e tráfego: monitore o uso no painel. Consulte [limites](xml-imports.md). A etapa 4 só será considerada pronta após demonstrar XSD real no runtime de produção.
 
 ## Estado de verificação
 
-Em 22/10/2026 as três migrations foram aplicadas no projeto `kwgrlocfbkxbupydxmdu` pela conexão Supabase autorizada. Foram conferidas 18 tabelas públicas com RLS, quatro funções públicas e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório após conferir que o SQL aplicado era idêntico ao arquivo local; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR. Os INFO restantes são índices ainda não usados no banco vazio e RLS sem política em `private.rate_limits`, intencionalmente acessível apenas ao serviço.
+Em 23/10/2026 as cinco migrations das etapas 1–3 estão aplicadas no projeto `kwgrlocfbkxbupydxmdu`. Foram conferidas 19 tabelas públicas com RLS, funções de importação/relatórios/detalhes e bucket XML privado. O registro das migrations foi alinhado aos timestamps do repositório somente após conferir os hashes do SQL aplicado; não reaplique migrations já presentes. Os advisors remotos ficaram sem WARN/ERROR.
+
+Os INFO restantes são [índices ainda não usados](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index) no banco sem documentos e [RLS sem política no limitador privado](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), intencionalmente acessível apenas ao serviço. Não abra políticas para usuários nesse limitador.
 
 **Ainda não publicado na Vercel.** A conexão disponível não fornece chave secreta nem configura URLs/SMTP de Auth. Configure essas opções e as variáveis diretamente nos painéis, sem enviar segredos no chat. Os testes completos de usuário foram executados no Supabase local; no remoto foi conferida a estrutura, não o login no domínio final.
 

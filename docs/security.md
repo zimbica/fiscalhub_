@@ -23,7 +23,11 @@ Perfis administrativos são uma estrutura futura. A instalação não deve abrir
 
 Configure JWT de curta duração (o ambiente local usa 15 minutos), confirmação de e-mail, URLs exatas de redirecionamento e SMTP adequado para usuários reais. Avalie CAPTCHA nativo do Supabase conforme exposição; nenhum CAPTCHA é contornado.
 
-Ainda serão implementados os controles de parsing XML, XXE, entidades, ZIP bombs, assinatura, regras fiscais e limites de lote nas etapas 3 e 4. A existência do bucket não significa que um XML nele seja válido.
+O parser Saxes rejeita DOCTYPE/entidades externas, XML malformado, namespace incorreto, UTF-8 inválido e complexidade excessiva. ZIP é processado em worker com limites de entradas, proporção, tamanho declarado e bytes efetivamente expandidos; caminhos inseguros, criptografia e CRC inválido são recusados. Não há extração para diretórios do servidor. Os limites detalhados estão em [importação XML](xml-imports.md).
+
+Originais são baixados como anexos por endpoint autenticado, nunca renderizados como HTML. CSV neutraliza prefixos de fórmula; XLSX grava dados como texto para preservar chaves e decimais. Storage e PostgreSQL não compartilham transação: uma falha de remoção interrompe a exclusão e permite retomar. Falha de compensação após upload pode deixar objeto privado órfão, removido na exclusão da conta; não há coletor automático de órfãos nesta etapa.
+
+Assinaturas digitais, XSD e regras fiscais completas serão verificados na etapa 4. Importação e evidência de protocolo não comprovam autenticidade nem autorização online pela SEFAZ.
 
 Antes de uso público, o controlador deve completar a página de privacidade, contato, base legal, retenção, política de backups, resposta a incidentes e atendimento LGPD. Esses procedimentos organizacionais não são substituídos por código.
 

@@ -16,10 +16,22 @@ Revisão em 22/10/2026. As versões efetivamente usadas estão fixadas em `packa
 
 Para a etapa 2, também foram revisados BrasilAPI (documentação e código do provedor), manual oficial de DV do CNPJ, CCC e cadastro SEFAZ-RS. Links, contrato e limites estão em [provedores cadastrais](company-providers.md).
 
-Fontes fiscais indicadas para as próximas etapas, ainda sem regras implementadas:
+Fontes para o validador completo e catálogo das próximas etapas:
 
 - [Portal Nacional da NF-e](https://www.nfe.fazenda.gov.br/portal/).
 - [Validador SEFAZ-RS](https://www.sefaz.rs.gov.br/nfe/nfe-val.aspx).
 - [Base Oobj](https://oobj.com.br/bc/).
 
 Esses links não significam que schemas ou artigos já foram baixados, homologados ou catalogados nesta etapa.
+
+## Etapa 3: XML e análise
+
+- [Saxes](https://github.com/lddubeau/saxes): parser com namespaces, eventos de erro e rejeição de DOCTYPE na aplicação; README da versão instalada revisado.
+- [zip.js](https://gildas-lormeau.github.io/zip.js/api/): `ZipReader`, entradas incrementais, `checkCrc32`, limites de fluxo e validação de caminhos; processamento em Web Worker próprio.
+- [Decimal.js](https://mikemcl.github.io/decimal.js/): aritmética decimal e conversão explícita de escala.
+- [Recharts](https://github.com/recharts/recharts): composição de gráficos, eixos e tooltips; documentação do pacote instalado revisada.
+- [write-excel-file](https://github.com/catamphetamine/write-excel-file): API v4 `toBuffer()` e células de texto para preservar identificadores e decimais.
+- [MOC 7, Anexo I](https://www.confaz.fazenda.gov.br/legislacao/arquivo-manuais/moc7-anexo-i-leiaute-e-rv.pdf): leiaute, chave, protocolos e conferência de produtos/descontos. As verificações restritas implementadas estão documentadas em [XML](xml-imports.md).
+- [NT 2018.004](https://www.nfe.fazenda.gov.br/Portal/exibirArquivo.aspx?conteudo=DEisbx2XCIs%3D): evento 110112 de cancelamento por substituição de NFC-e.
+
+A presença de grupos da reforma tributária é preservada na extração; não foram inferidas regras de vigência nem homologado um pacote XSD nesta entrega.

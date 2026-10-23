@@ -1,20 +1,21 @@
-# Verificação das Etapas 1 e 2
+# Verificação das Etapas 1–3
 
-Executada em 22/10/2026, com Node.js 24.19, Next.js 16.4.2 e Supabase local PostgreSQL 17.11. Os testes acessam Auth, PostgREST e Storage reais; não são mocks dessas integrações.
+Executada em 22–23/10/2026, com Node.js 24.19, Next.js 16.4.2 e Supabase local PostgreSQL 17.11. Os testes acessam Auth, PostgREST e Storage reais; não são mocks dessas integrações.
 
 | Verificação | Resultado |
 |---|---|
 | ESLint | Passou |
 | TypeScript / geração de rotas Next.js | Passou |
-| Vitest | 56 testes passaram |
-| Integração Node.js / Supabase | 19 cenários passaram (21 resultados contando os dois agrupadores) |
-| Playwright Chromium | 6 fluxos passaram, incluindo consulta externa real e viewport móvel |
+| Vitest | 87 testes passaram |
+| Integração Node.js / Supabase | 34 cenários passaram (37 resultados contando três agrupadores) |
+| Playwright Chromium | 6 fluxos passaram; 2 opt-in ignorados no conjunto padrão |
+| Playwright volume opt-in | 1.000 XMLs com pausa/retomada e limpeza final: passou em aproximadamente 2,4 minutos |
 | Build Next.js de produção | Passou |
 | npm audit --omit=dev | 0 vulnerabilidades reportadas |
 | SQL lint `public,private` | Sem erros |
 | Advisor de segurança local | Sem problemas no nível verificado |
 | Advisor de desempenho local | Sem avisos/erros |
-| Supabase remoto | Três migrations conferidas, 18 tabelas com RLS e bucket privado; advisors sem WARN/ERROR |
+| Supabase remoto | 5 migrations conferidas, 19 tabelas com RLS e bucket privado; advisors sem WARN/ERROR |
 
 ## Cobertura efetivamente executada
 
@@ -42,7 +43,21 @@ Executada em 22/10/2026, com Node.js 24.19, Next.js 16.4.2 e Supabase local Post
 - RPC com gravação atômica, rollback de falha, favoritos, isolamento entre usuários, FK e exclusão em cascata.
 - Navegador: validação client/server, cache persistido, favoritos, pesquisa, copiar, exclusão e tela móvel.
 - Consulta ao vivo pela interface à BrasilAPI para o CNPJ público do Banco do Brasil; resposta gravada no PostgreSQL local e IE exibida como não verificada. Usuário de teste removido ao final.
-- CI da fundação também passou no GitHub Actions. O teste externo é opt-in (`REAL_CNPJ_TEST=1`), portanto o CI padrão executa cinco fluxos e marca esse sexto como ignorado.
+- CI da fundação também passou no GitHub Actions. O teste externo é opt-in (`REAL_CNPJ_TEST=1`). Na etapa 3, o CI padrão executa seis fluxos e ignora dois testes opt-in (consulta externa e lote de mil XMLs).
+
+## Cobertura XML adicionada
+
+- NF-e/NFC-e, namespaces, decimal exato, soma de produtos ICMS com `indTot`, exclusão de ISSQN, descontos e alerta aritmético limitado de `vNF`.
+- XML malformado, DOCTYPE/XXE, namespace incorreto, data impossível, excesso de profundidade/tamanho, grupos e itens duplicados, campos essenciais ausentes.
+- ZIP real, subdiretórios, bytes preservados, CRC, caminhos inseguros, expansão excessiva e arquivos ignorados.
+- Eventos vinculados/não vinculados, pedido sem resposta, autorização posterior, cancelamento, devolução independente e evento anterior à nota.
+- Gravação atômica, rollback, duplicidade sob concorrência, conflitos, retomada idempotente, ambientes separados e RLS entre contas.
+- Exclusão de evidência recalcula situação; exclusão de conta via Auth remove notas/eventos/recibos sem conceder privilégios adicionais ao serviço Auth.
+- Relatórios filtrados, decimais preservados nos detalhes, CSV sem fórmula e XLSX real.
+- Teste opt-in com 1.000 XMLs em ZIP: processamento no navegador, pausa e retomada, 1.000 notas persistidas, zero erros e soma exata de R$ 300,00. A execução inicial levou aproximadamente 158 segundos localmente. Ela revelou uma falha na limpeza da conta ao final, posteriormente corrigida e coberta por teste de integração explícito. A execução completa foi repetida após a correção: passou em aproximadamente 2,4 minutos, incluindo remoção da conta, dos recibos, documentos e objetos; a conferência final encontrou zero registros temporários nessas entidades.
+- As cinco migrations foram reaplicadas do zero no Supabase local antes da verificação final. O CLI encontrou timeout no healthcheck do Storage causado pelo proxy deste ambiente; schema, API Storage e testes foram verificados diretamente.
+
+Fixtures e resultados esperados: `tests/fixtures/xml/README.md`. Os arquivos são exclusivamente sintéticos.
 
 ## Problemas encontrados e corrigidos
 
@@ -55,7 +70,7 @@ Executada em 22/10/2026, com Node.js 24.19, Next.js 16.4.2 e Supabase local Post
 
 ## Limites da verificação
 
-- Testes do motor fiscal (XML válido/inválido, XSD, namespaces, eventos, regras de negócio, totais fiscais e rejeições) ainda pertencem às próximas etapas. Os documentos usados nos testes de RLS são registros sintéticos, não arquivos XML nem notas autorizadas.
+- XSD, assinatura digital, regras fiscais completas por UF/vigência e pesquisa de rejeições ainda não foram implementados/testados. Os XMLs sintéticos de extração não têm assinatura nem validade fiscal e não são fixtures que alegam conformidade XSD.
 - Não foi testada entrega de e-mail por SMTP externo; os fluxos usam Mailpit local.
 - Não equivale a teste de carga, auditoria independente, homologação fiscal ou certificação LGPD.
 - No ambiente gerenciado, o driver de imagens Docker exigiu consolidar a imagem oficial do PostgreSQL para evitar amplificação de disco. Os healthchecks de Auth/Storage recebiam 403 ao tentar o endereço local pelo proxy do ambiente; as APIs foram verificadas diretamente e os testes completos passaram. Em desenvolvimento comum/CI, use `supabase start` sem ignorar healthchecks.
@@ -73,6 +88,8 @@ npx supabase db advisors --local --type security --level warn --fail-on error
 npm run test:integration
 npx playwright install --with-deps chromium
 npm run test:e2e
+# Opcional: volume local com pausa e retomada
+BULK_XML_TEST=1 npm run test:e2e -- tests/e2e/documents.spec.ts --grep "mil XMLs"
 # Opcional: inclui a fonte externa real
 REAL_CNPJ_TEST=1 npm run test:e2e -- tests/e2e/companies.spec.ts
 ```

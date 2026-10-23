@@ -73,14 +73,14 @@ isOneToOne: false
                   ]
                 },"fiscal_documents": {
                   Row: {
-                    "access_key": string,"authorized_at": string | null,"created_at": string,"discount_value": number,"emission_type": string | null,"environment": string,"evidence": NonNullable<Json>,"freight_value": number,"id": string,"import_id": string | null,"issued_at": string,"issuer": NonNullable<Json>,"issuer_tax_id": string,"layout_version": string,"model": string,"number": string,"operation_nature": string | null,"original_path": string | null,"other_totals": NonNullable<Json>,"product_value": number,"purpose": string | null,"recipient": NonNullable<Json>,"recipient_name": string | null,"recipient_tax_id": string | null,"series": string,"sha256": string | null,"status": string,"tax_totals": NonNullable<Json>,"total_value": number,"uf": string | null,"updated_at": string,"user_id": string
+                    "access_key": string,"authorized_at": string | null,"base_status": string,"content_hash": string | null,"created_at": string,"data": NonNullable<Json>,"deleting": boolean,"discount_value": number,"emission_type": string | null,"environment": string,"evidence": NonNullable<Json>,"freight_value": number,"id": string,"import_id": string | null,"issued_at": string,"issuer": NonNullable<Json>,"issuer_tax_id": string,"issues": NonNullable<Json>,"layout_version": string,"model": string,"number": string,"operation_nature": string | null,"operation_type": string | null,"original_path": string | null,"other_totals": NonNullable<Json>,"product_value": number,"purpose": string | null,"recipient": NonNullable<Json>,"recipient_name": string | null,"recipient_tax_id": string | null,"series": string,"sha256": string | null,"status": string,"tax_totals": NonNullable<Json>,"total_value": number,"uf": string | null,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "access_key": string,"authorized_at"?: string | null,"created_at"?: string,"discount_value"?: number,"emission_type"?: string | null,"environment": string,"evidence"?: NonNullable<Json>,"freight_value"?: number,"id"?: string,"import_id"?: string | null,"issued_at": string,"issuer"?: NonNullable<Json>,"issuer_tax_id": string,"layout_version": string,"model": string,"number": string,"operation_nature"?: string | null,"original_path"?: string | null,"other_totals"?: NonNullable<Json>,"product_value"?: number,"purpose"?: string | null,"recipient"?: NonNullable<Json>,"recipient_name"?: string | null,"recipient_tax_id"?: string | null,"series": string,"sha256"?: string | null,"status"?: string,"tax_totals"?: NonNullable<Json>,"total_value": number,"uf"?: string | null,"updated_at"?: string,"user_id": string
+                    "access_key": string,"authorized_at"?: string | null,"base_status"?: string,"content_hash"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"deleting"?: boolean,"discount_value"?: number,"emission_type"?: string | null,"environment": string,"evidence"?: NonNullable<Json>,"freight_value"?: number,"id"?: string,"import_id"?: string | null,"issued_at": string,"issuer"?: NonNullable<Json>,"issuer_tax_id": string,"issues"?: NonNullable<Json>,"layout_version": string,"model": string,"number": string,"operation_nature"?: string | null,"operation_type"?: string | null,"original_path"?: string | null,"other_totals"?: NonNullable<Json>,"product_value"?: number,"purpose"?: string | null,"recipient"?: NonNullable<Json>,"recipient_name"?: string | null,"recipient_tax_id"?: string | null,"series": string,"sha256"?: string | null,"status"?: string,"tax_totals"?: NonNullable<Json>,"total_value": number,"uf"?: string | null,"updated_at"?: string,"user_id": string
                   }
                   Update: {
-                    "access_key"?: string,"authorized_at"?: string | null,"created_at"?: string,"discount_value"?: number,"emission_type"?: string | null,"environment"?: string,"evidence"?: NonNullable<Json>,"freight_value"?: number,"id"?: string,"import_id"?: string | null,"issued_at"?: string,"issuer"?: NonNullable<Json>,"issuer_tax_id"?: string,"layout_version"?: string,"model"?: string,"number"?: string,"operation_nature"?: string | null,"original_path"?: string | null,"other_totals"?: NonNullable<Json>,"product_value"?: number,"purpose"?: string | null,"recipient"?: NonNullable<Json>,"recipient_name"?: string | null,"recipient_tax_id"?: string | null,"series"?: string,"sha256"?: string | null,"status"?: string,"tax_totals"?: NonNullable<Json>,"total_value"?: number,"uf"?: string | null,"updated_at"?: string,"user_id"?: string
+                    "access_key"?: string,"authorized_at"?: string | null,"base_status"?: string,"content_hash"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"deleting"?: boolean,"discount_value"?: number,"emission_type"?: string | null,"environment"?: string,"evidence"?: NonNullable<Json>,"freight_value"?: number,"id"?: string,"import_id"?: string | null,"issued_at"?: string,"issuer"?: NonNullable<Json>,"issuer_tax_id"?: string,"issues"?: NonNullable<Json>,"layout_version"?: string,"model"?: string,"number"?: string,"operation_nature"?: string | null,"operation_type"?: string | null,"original_path"?: string | null,"other_totals"?: NonNullable<Json>,"product_value"?: number,"purpose"?: string | null,"recipient"?: NonNullable<Json>,"recipient_name"?: string | null,"recipient_tax_id"?: string | null,"series"?: string,"sha256"?: string | null,"status"?: string,"tax_totals"?: NonNullable<Json>,"total_value"?: number,"uf"?: string | null,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -99,14 +99,14 @@ isOneToOne: false
                   ]
                 },"fiscal_events": {
                   Row: {
-                    "access_key": string,"created_at": string,"event_type": string,"evidence": NonNullable<Json>,"id": string,"occurred_at": string | null,"original_path": string | null,"protocol": string | null,"registered_at": string | null,"sequence": number,"status_code": string | null,"user_id": string
+                    "accepted": boolean,"access_key": string,"created_at": string,"environment": string,"event_type": string,"evidence": NonNullable<Json>,"id": string,"occurred_at": string | null,"original_path": string | null,"protocol": string | null,"registered_at": string | null,"sequence": number,"status_code": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "access_key": string,"created_at"?: string,"event_type": string,"evidence": NonNullable<Json>,"id"?: string,"occurred_at"?: string | null,"original_path"?: string | null,"protocol"?: string | null,"registered_at"?: string | null,"sequence": number,"status_code"?: string | null,"user_id": string
+                    "accepted"?: boolean,"access_key": string,"created_at"?: string,"environment": string,"event_type": string,"evidence": NonNullable<Json>,"id"?: string,"occurred_at"?: string | null,"original_path"?: string | null,"protocol"?: string | null,"registered_at"?: string | null,"sequence": number,"status_code"?: string | null,"user_id": string
                   }
                   Update: {
-                    "access_key"?: string,"created_at"?: string,"event_type"?: string,"evidence"?: NonNullable<Json>,"id"?: string,"occurred_at"?: string | null,"original_path"?: string | null,"protocol"?: string | null,"registered_at"?: string | null,"sequence"?: number,"status_code"?: string | null,"user_id"?: string
+                    "accepted"?: boolean,"access_key"?: string,"created_at"?: string,"environment"?: string,"event_type"?: string,"evidence"?: NonNullable<Json>,"id"?: string,"occurred_at"?: string | null,"original_path"?: string | null,"protocol"?: string | null,"registered_at"?: string | null,"sequence"?: number,"status_code"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -119,14 +119,14 @@ isOneToOne: false
                   ]
                 },"fiscal_items": {
                   Row: {
-                    "cest": string | null,"cfop": string | null,"code": string | null,"created_at": string,"description": string,"discount_value": number,"document_id": string,"gtin": string | null,"id": string,"item_number": number,"ncm": string | null,"quantity": number,"tax_situation": string | null,"taxes": NonNullable<Json>,"total_value": number,"unit": string | null,"unit_value": number,"user_id": string
+                    "cest": string | null,"cfop": string | null,"code": string | null,"created_at": string,"data": NonNullable<Json>,"description": string,"discount_value": number,"document_id": string,"gtin": string | null,"id": string,"item_number": number,"ncm": string | null,"quantity": number,"tax_situation": string | null,"taxes": NonNullable<Json>,"total_value": number,"unit": string | null,"unit_value": number,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "cest"?: string | null,"cfop"?: string | null,"code"?: string | null,"created_at"?: string,"description": string,"discount_value"?: number,"document_id": string,"gtin"?: string | null,"id"?: string,"item_number": number,"ncm"?: string | null,"quantity": number,"tax_situation"?: string | null,"taxes"?: NonNullable<Json>,"total_value": number,"unit"?: string | null,"unit_value": number,"user_id": string
+                    "cest"?: string | null,"cfop"?: string | null,"code"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"description": string,"discount_value"?: number,"document_id": string,"gtin"?: string | null,"id"?: string,"item_number": number,"ncm"?: string | null,"quantity": number,"tax_situation"?: string | null,"taxes"?: NonNullable<Json>,"total_value": number,"unit"?: string | null,"unit_value": number,"user_id": string
                   }
                   Update: {
-                    "cest"?: string | null,"cfop"?: string | null,"code"?: string | null,"created_at"?: string,"description"?: string,"discount_value"?: number,"document_id"?: string,"gtin"?: string | null,"id"?: string,"item_number"?: number,"ncm"?: string | null,"quantity"?: number,"tax_situation"?: string | null,"taxes"?: NonNullable<Json>,"total_value"?: number,"unit"?: string | null,"unit_value"?: number,"user_id"?: string
+                    "cest"?: string | null,"cfop"?: string | null,"code"?: string | null,"created_at"?: string,"data"?: NonNullable<Json>,"description"?: string,"discount_value"?: number,"document_id"?: string,"gtin"?: string | null,"id"?: string,"item_number"?: number,"ncm"?: string | null,"quantity"?: number,"tax_situation"?: string | null,"taxes"?: NonNullable<Json>,"total_value"?: number,"unit"?: string | null,"unit_value"?: number,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -167,6 +167,44 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
+    }
+                  ]
+                },"import_files": {
+                  Row: {
+                    "created_at": string,"document_id": string | null,"event_id": string | null,"filename": string,"id": string,"import_id": string,"message": string | null,"original_path": string | null,"outcome": string,"sha256": string,"source_data": NonNullable<Json>,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"document_id"?: string | null,"event_id"?: string | null,"filename": string,"id"?: string,"import_id": string,"message"?: string | null,"original_path"?: string | null,"outcome": string,"sha256": string,"source_data"?: NonNullable<Json>,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"document_id"?: string | null,"event_id"?: string | null,"filename"?: string,"id"?: string,"import_id"?: string,"message"?: string | null,"original_path"?: string | null,"outcome"?: string,"sha256"?: string,"source_data"?: NonNullable<Json>,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "import_files_user_id_document_id_fkey"
+      columns: ["user_id","document_id"]
+isOneToOne: false
+      referencedRelation: "fiscal_documents"
+      referencedColumns: ["user_id","id"]
+    },{
+      foreignKeyName: "import_files_user_id_event_id_fkey"
+      columns: ["user_id","event_id"]
+isOneToOne: false
+      referencedRelation: "fiscal_events"
+      referencedColumns: ["user_id","id"]
+    },{
+      foreignKeyName: "import_files_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "import_files_user_id_import_id_fkey"
+      columns: ["user_id","import_id"]
+isOneToOne: false
+      referencedRelation: "xml_imports"
+      referencedColumns: ["user_id","id"]
     }
                   ]
                 },"profiles": {
@@ -357,14 +395,14 @@ isOneToOne: false
                   ]
                 },"xml_imports": {
                   Row: {
-                    "created_at": string,"duplicate_files": number,"errors": NonNullable<Json>,"id": string,"name": string,"processed_files": number,"status": string,"total_files": number,"updated_at": string,"user_id": string
+                    "created_at": string,"duplicate_files": number,"error_count": number,"errors": NonNullable<Json>,"id": string,"name": string,"processed_files": number,"status": string,"total_files": number,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"duplicate_files"?: number,"errors"?: NonNullable<Json>,"id"?: string,"name": string,"processed_files"?: number,"status"?: string,"total_files"?: number,"updated_at"?: string,"user_id": string
+                    "created_at"?: string,"duplicate_files"?: number,"error_count"?: number,"errors"?: NonNullable<Json>,"id"?: string,"name": string,"processed_files"?: number,"status"?: string,"total_files"?: number,"updated_at"?: string,"user_id": string
                   }
                   Update: {
-                    "created_at"?: string,"duplicate_files"?: number,"errors"?: NonNullable<Json>,"id"?: string,"name"?: string,"processed_files"?: number,"status"?: string,"total_files"?: number,"updated_at"?: string,"user_id"?: string
+                    "created_at"?: string,"duplicate_files"?: number,"error_count"?: number,"errors"?: NonNullable<Json>,"id"?: string,"name"?: string,"processed_files"?: number,"status"?: string,"total_files"?: number,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -419,11 +457,20 @@ isOneToOne: false
 "dashboard_summary":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
+"document_details":
+{ Args: { "p_id": string }; Returns: Json
+                           },
+"document_report":
+{ Args: { "p_export"?: boolean,"p_filters"?: Json,"p_page"?: number }; Returns: Json
+                           },
 "has_active_session":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "save_company_query":
 { Args: { "p_cnpj": string,"p_company": Json,"p_ie": Json,"p_ttl_seconds"?: number }; Returns: Json
+                           },
+"save_import_file":
+{ Args: { "p_error"?: string,"p_filename": string,"p_import_id": string,"p_path"?: string,"p_payload": Json,"p_sha256": string }; Returns: Json
                            }
           }
           Enums: {
