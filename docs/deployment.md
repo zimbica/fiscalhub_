@@ -75,7 +75,7 @@ Em 23/10/2026 as oito migrations das etapas 1–5 estão aplicadas no projeto `k
 
 Os INFO restantes são [índices ainda não usados](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index) no banco sem documentos e [RLS sem política no limitador privado](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), intencionalmente acessível apenas ao serviço. Não abra políticas para usuários nesse limitador.
 
-**Ainda não publicado na Vercel.** A conexão disponível não fornece chave secreta nem configura URLs/SMTP de Auth. Configure essas opções e as variáveis diretamente nos painéis, sem enviar segredos no chat. Os testes completos de usuário foram executados no Supabase local; no remoto foi conferida a estrutura, não o login no domínio final.
+**Publicado na Vercel em 26/10/2026; veja o registro de verificação abaixo.** A conexão disponível não fornece chave secreta nem configura URLs/SMTP de Auth. Configure essas opções e as variáveis diretamente nos painéis, sem enviar segredos no chat. Os testes completos de usuário foram executados no Supabase local; no remoto foi conferida a estrutura, não o login no domínio final.
 
 Veja `docs/testing.md` para os testes realmente executados. Ter o projeto vinculado ao GitHub no Supabase não configura automaticamente o deploy da Vercel, as migrations, o SMTP nem as variáveis da aplicação.
 
@@ -116,15 +116,14 @@ SMTP, redirects de Auth, migrations e empacotamento funcionam no domínio final.
 
 Criado o projeto `fiscalhub` na conta/time `gustavoandrade-6858` (Hobby),
 ID `prj_FYPsXKZyllDUAvL10jBvVJCgJEhD`. Domínio reservado e verificado:
-`https://fiscalhub-beta.vercel.app`. Isso ainda não comprova deploy publicado.
+`https://fiscalhub-beta.vercel.app`. O primeiro deploy foi publicado após a configuração das cinco variáveis.
 
 Configurados Next.js, Node 24, instalação `npm ci` e build com verificação prévia
 `npm run deploy:check && npm run build`. As variáveis Production
 `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SUPABASE_URL`,
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` e `RATE_LIMIT_SECRET` foram adicionadas.
 O segredo do limitador foi gerado aleatoriamente e armazenado como Sensitive.
-Falta ao proprietário adicionar `SUPABASE_SECRET_KEY` como Sensitive/Production,
-diretamente no painel. Não copiar credenciais locais para produção.
+O proprietário adicionou `SUPABASE_SECRET_KEY` como Sensitive/Production diretamente no painel; a conexão foi verificada pelo backend publicado. Não copiar credenciais locais para produção.
 
 O vínculo GitHub automático foi recusado pela Vercel por ausência de Login
 Connection com GitHub. Conecte a conta GitHub em Account Settings → Authentication
@@ -140,3 +139,33 @@ Após a publicação, configure no Supabase → Authentication → URL Configura
 
 Mantenha a confirmação por e-mail e configure SMTP apropriado conforme explicado
 acima. Esses ajustes de Auth não foram executados pela conexão disponível.
+
+## Primeiro deploy publicado — 26/10/2026
+
+- URL pública: https://fiscalhub-beta.vercel.app
+- Projeto: `gustavoandrade-6858/fiscalhub`, plano Hobby.
+- Deployment: `dpl_Ai97AmLgPbSLieBgxBTmb2SWYhoQ`, estado `READY`, Production.
+- Código publicado: `fce399479a4b52715aaa4ebd10ac9f14bb8cc6f3`.
+- Build remoto executou `npm ci`, `deploy:check`, Next.js/TypeScript e verificação
+  dos 14 schemas e motor WASM. A etapa de instalação informou zero vulnerabilidades.
+- Deploy inicialmente sem atribuição do domínio principal; promovido após testes
+  de acesso ao Supabase e proteção de documentos.
+- `POST /api/auth/login` com JSON vazio e origem canônica retornou 400 de validação
+  depois da execução bem-sucedida do limitador no Supabase. Isso verifica o uso da
+  chave secreta pelo servidor, sem revelar seu valor ou criar conta de teste.
+- `GET /api/documents` anônimo retornou 401. `/painel` retornou 307 para `/entrar`.
+- `/entrar` público retornou 200; Chromium confirmou título e botão de login
+  habilitado; layout de 390 px sem rolagem horizontal.
+- Consulta dos logs de erro do deployment nos 15 minutos anteriores à verificação
+  retornou zero registros. Isso não comprova ausência de falhas em fluxos não testados.
+
+A variável adicional `publishable_key` foi cadastrada pelo proprietário, mas não
+é utilizada pelo código. As cinco variáveis documentadas continuam sendo as
+necessárias. Não foram alteradas proteções do projeto para testar o deployment;
+o CLI usou o mecanismo autorizado de acesso da Vercel.
+
+Ainda não verificados no domínio publicado: cadastro com confirmação por e-mail,
+recuperação por e-mail, SMTP e fluxos fiscais autenticados completos. As suítes E2E
+continuam limitadas ao Supabase local; não remova essa proteção para testar em
+produção. Configure Site URL/Redirect URLs e SMTP antes de abrir cadastros ao público.
+O vínculo GitHub automático ainda depende da Login Connection da Vercel descrita acima.

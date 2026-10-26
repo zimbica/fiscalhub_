@@ -79,15 +79,15 @@ Consulte o [validador XML, schemas instalados e limites](docs/xml-validation.md)
 | 3 | XML/ZIP, extração NF-e/NFC-e/eventos, dashboards, filtros e exportação | Implementada; veja limites de arquivos e evidências |
 | 4 | Editor XML, XSD oficial real, regras locais condicionais, histórico e relatório | Implementada no escopo de [validação](docs/xml-validation.md) |
 | 5 | Catálogo de rejeições revisado, fontes Oobj/oficiais, busca e favoritos | Implementada; [cobertura e atualização](docs/rejections.md) |
-| 6 | Revisão, testes e preparação para publicação | Em andamento; verificador de configuração e revisão automatizada de acessibilidade implementados; publicação pendente |
+| 6 | Revisão, testes e preparação para publicação | Em andamento; verificador de configuração e revisão automatizada de acessibilidade implementados; publicado; verificação de e-mail pendente |
 
-Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo inicial é limitado às oito entradas revisadas; não representa todas as rejeições. O motor usa libxml2/WASM no runtime Node; publicação e verificação no domínio Vercel ainda dependem da configuração de implantação.
+Validação local nunca será apresentada como autorização da SEFAZ. IE não será inferida da situação do CNPJ. O catálogo inicial é limitado às oito entradas revisadas; não representa todas as rejeições. O motor usa libxml2/WASM no runtime Node; deploy Vercel concluído; veja os testes executados e as pendências de Auth na documentação de implantação.
 
 ## GitHub, Supabase e Vercel
 
 - Repositório: <https://github.com/zimbica/fiscalhub_>.
 - Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`; migrations versionadas em `supabase/migrations`; situação da aplicação remota em [implantação](docs/deployment.md).
-- Publicação Vercel, variáveis secretas e URLs/SMTP de Auth ainda precisam da configuração descrita abaixo.
+- Publicado em https://fiscalhub-beta.vercel.app. URLs/SMTP de Auth e o fluxo completo de confirmação por e-mail ainda precisam de verificação.
 - [Passo a passo de implantação](docs/deployment.md), incluindo variáveis, migrations, Auth, SMTP e planos gratuitos.
 
 Nenhum serviço pago é necessário para desenvolver/testar localmente. Vercel Hobby permite uso pessoal e não comercial; uso comercial exige revisão do plano/termos. Supabase Free e SMTP possuem limites: custo zero depende de permanecer dentro das cotas e ter serviços de e-mail adequados. Não foram habilitados serviços pagos automaticamente.
