@@ -39,6 +39,12 @@ test('CNPJ inválido, cache real, favoritos, pesquisa, responsividade e exclusã
     await expect(page.getByText('Nenhuma empresa corresponde ao filtro.')).toBeVisible();
     await page.getByLabel('Pesquisar empresas no histórico').fill('Empresa sintética');await page.getByRole('button',{name:'Pesquisar histórico',exact:true}).click();
     await expect(page.getByRole('button',{name:'Empresa sintética E2E',exact:true})).toBeVisible();
+    const source={name:'Provedor sintético E2E',url:'https://example.org',retrievedAt:new Date().toISOString()};
+    const savedIe=await client.rpc('save_company_query',{p_cnpj:cnpj,p_company:company,p_ie:{outcome:'verified',source,message:'Fixture de IE nacional',registrations:[{uf:'MA',registration:'123456789',status:'unknown',verified:true,source,statusDescription:'Não habilitada · Bloqueado como destinatário na UF',sourceUpdatedAt:source.retrievedAt}]}});
+    expect(savedIe.error).toBeNull();
+    await page.getByRole('button',{name:'Empresa sintética E2E',exact:true}).click();
+    await expect(page.getByText('Não habilitada · Bloqueado como destinatário na UF',{exact:true})).toBeVisible();
+    await expect(page.getByText(/Dados da fonte:/)).toBeVisible();
     await page.setViewportSize({width:390,height:844});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
     await page.getByRole('button',{name:'Excluir consulta de Empresa sintética E2E'}).click();

@@ -18,6 +18,7 @@ export const registrationSchema=z.object({
   uf:z.string().regex(/^[A-Z]{2}$/),registration:z.string().min(1).max(30),
   status:z.enum(['active','suspended','closed','unfit','unknown']),
   verified:z.boolean(),source:sourceSchema,
+  statusDescription:z.string().max(500).optional(),sourceUpdatedAt:z.iso.datetime().optional(),
 });
 export const ieResultSchema=z.object({
   outcome:z.enum(['verified','not_found','unavailable']),registrations:z.array(registrationSchema),

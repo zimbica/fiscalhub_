@@ -47,3 +47,8 @@ test('CLI fails safely without printing sensitive values', () => {
   assert.equal(result.status, 1);
   assert.ok(!`${result.stdout}${result.stderr}`.includes(marker));
 });
+
+test('blocks CNPJa key copied into public environment', () => {
+  assert.deepEqual(deploymentIssues({ ...valid, CNPJA_API_KEY: 'synthetic-provider-key' }), []);
+  assert.ok(deploymentIssues({ ...valid, CNPJA_API_KEY: 'synthetic-provider-key', NEXT_PUBLIC_PROVIDER_KEY: 'synthetic-provider-key' }).some(issue => issue.includes('segredo')));
+});

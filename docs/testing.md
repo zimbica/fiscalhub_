@@ -187,3 +187,17 @@ e mil XMLs). Nenhuma migration foi alterada. A suíte SQL não foi repetida.
 A recuperação de página foi atualizada para `retry` conforme a documentação do
 Next.js 16.4.2 instalado; não foi injetada falha no servidor de produção para testar
 a boundary. O domínio Vercel continua sem publicação/verificação nesta sessão.
+
+## Conector nacional de IE CNPJá — 26/10/2026
+
+- `npm run check`: lint, TypeScript, build, 161 testes unitários e 8 testes de deploy passaram.
+- Supabase local: 55 resultados de integração passaram, incluindo persistência das
+  descrições de habilitação e data da fonte no JSON privado da consulta.
+- Playwright de consulta cadastral com build de produção: 1 fluxo passou, 1 consulta
+  externa opt-in não executada. Conferidos descrição de restrição, data da fonte,
+  cache, favoritos, exclusão e layout móvel.
+- 20 casos novos de contrato/falhas do CNPJá usam respostas sintéticas: todas as UFs,
+  múltiplas IEs, ausência, dados antigos, identificador divergente, resposta malformada,
+  limites/cota, timeout, exposição de chave e seleção do provedor.
+- Não houve chamada autenticada real ao CNPJá: depende da chave da conta gratuita.
+  Cobertura nacional é a documentada pelo provedor, não homologação das 27 UFs.

@@ -36,7 +36,7 @@ export function deploymentIssues(env) {
   }
   // Use fixed messages: even a malicious variable name/value must not leak credentials.
   if (Object.entries(env).some(([name, value]) => name.startsWith('NEXT_PUBLIC_') && value &&
-      (value.startsWith('sb_secret_') || role(value) === 'service_role' || value === secret || value === rateSecret || value === env.IE_PROVIDER_TOKEN))) {
+      (value.startsWith('sb_secret_') || role(value) === 'service_role' || value === secret || value === rateSecret || value === env.IE_PROVIDER_TOKEN || value === env.CNPJA_API_KEY))) {
     issues.push('Variável NEXT_PUBLIC_* contém segredo de servidor: remova a exposição antes do build.');
   }
   if (Boolean(env.IE_PROVIDER_URL) !== Boolean(env.IE_PROVIDER_TOKEN)) {

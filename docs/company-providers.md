@@ -71,3 +71,60 @@ Para novos provedores, implemente `CompanyProvider`/`StateRegistrationProvider` 
 4. Para teste automatizado externo contra **Supabase local**, execute `REAL_CNPJ_TEST=1 npm run test:e2e -- tests/e2e/companies.spec.ts`. Esse teste consulta ao vivo o CNPJ público do Banco do Brasil e remove sua conta de teste. Não entra no CI padrão para não tornar os checks dependentes da disponibilidade externa.
 
 Em redes que exigem proxy, o Node.js 24 pode precisar de `NODE_USE_ENV_PROXY=1`, com as variáveis de proxy/CA fornecidas pelo ambiente e `NO_PROXY` para localhost. Não desative TLS nem copie credenciais do proxy para o projeto. Isso não é necessário na implantação padrão da Vercel.
+
+## Integração CNPJá sem certificado — 26/10/2026
+
+Foi adicionado um conector real para `GET https://api.cnpja.com/ccc`, usando
+`taxId=<CNPJ>&states=ALL&source=CCC&strategy=CACHE_IF_FRESH&maxAge=1`.
+O CNPJ continua sendo obtido pela BrasilAPI; a chamada adicional consulta somente IE.
+O FiscalHub não solicita certificado digital nem acesso gov.br. O responsável precisa
+criar uma conta **gratuita** no CNPJá e configurar `CNPJA_API_KEY` no servidor.
+
+### Gratuidade e ativação
+
+- A página de preços consultada anuncia **50 créditos gratuitos mensais**. O guia
+  informa 1 crédito por consulta online ao CCC, independentemente das UFs, e cache
+  sem consumo. Essa cota é compartilhada pela conta do fornecedor, não por visitante
+  do FiscalHub. Termos/cotas podem mudar: verificar antes de ativar.
+- Usar exclusivamente o plano gratuito, sem contratar assinatura ou comprar créditos.
+  Não existem chamadas de contratação, recarga ou pagamento no conector.
+- Criar conta em https://cnpja.com/pricing e obter chave em https://cnpja.com/me/api-key.
+  Na Vercel, cadastrar `CNPJA_API_KEY` como variável sensível em Production, sem
+  prefixo `NEXT_PUBLIC_`, e fazer novo deploy. Não enviar a chave no chat ou Git.
+- `IE_PROVIDER_URL` + `IE_PROVIDER_TOKEN`, se configurados, têm precedência para
+  preservar um gateway existente. Sem gateway ou chave, permanece a orientação manual.
+- Após ativar, usar **Atualizar** em empresas já consultadas: o cache privado pode
+  conter uma resposta anterior sem IE por até 24 horas.
+- HTTP 429/402 interrompe a consulta com aviso de cota; não há repetição automática,
+  troca para provedor pago ou ampliação automática de plano. O CNPJ segue disponível.
+
+### Evidência e cobertura
+
+`ALL` solicita todas as UFs ao CCC. Isso é cobertura documentada pelo fornecedor,
+não teste individual das 27 UFs nem garantia de disponibilidade estadual.
+O fornecedor intermediário é identificado na tela; não se apresenta como API direta
+do governo. Retornos incluem origem, data da consulta e data de atualização da fonte.
+
+O contrato foi conferido no guia e nos tipos publicados do SDK oficial `@cnpja/sdk`
+1.9.1 (não instalado como dependência). A chave vai somente no cabeçalho Authorization,
+sem Bearer, para domínio fixo; timeout de 10 segundos, limite de 1 MiB e redirecionamentos
+bloqueados. Não se persiste nome de produtor rural, QSA nem campos desnecessários.
+
+`enabled` indica habilitação; `status.id` descreve restrições como destinatário.
+Bloqueio não é traduzido em baixa, suspensão ou inaptidão. A descrição recebida é
+preservada. Dados com mais de 24h ou `stale=true` são exibidos como históricos, sem
+confirmar situação atual. CNPJ divergente, UF inválida, data futura, resposta incompleta,
+HTML, timeout e 404 nunca são classificados como ausência de IE. Lista vazia válida
+indica ausência apenas no escopo da fonte. Não há fallback silencioso para dados antigos.
+
+### Referências e verificação
+
+- Guia e contrato: https://cnpja.com/api e https://cnpja.com/api/reference
+- Cota gratuita: https://cnpja.com/pricing
+- SDK oficial: https://www.npmjs.com/package/@cnpja/sdk
+- FiscalAPI não selecionada: https://fiscalapi.com.br/precos/ informa gratuidade no
+  painel, mas exige plano para a API por chave.
+
+A integração externa não pode ser homologada sem a chave. Os testes de contrato
+usam respostas sintéticas claramente identificadas; não comprovam uma consulta real
+nem disponibilidade do fornecedor. Nenhuma credencial foi criada ou contratada.

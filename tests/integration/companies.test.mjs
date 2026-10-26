@@ -11,7 +11,7 @@ const key=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 const cnpj='00000000000191';
 const source={name:'Fixture de integração',url:'https://example.org',retrievedAt:new Date().toISOString()};
 const company={cnpj,legalName:'Empresa sintética para teste',tradeName:null,status:'ATIVA',fieldSources:{legalName:source}};
-const ie={outcome:'verified',source,message:'Fixture',registrations:[{uf:'SP',registration:'fixture-sp',status:'active',verified:true,source},{uf:'RS',registration:'fixture-rs',status:'suspended',verified:true,source}]};
+const ie={outcome:'verified',source,message:'Fixture',registrations:[{uf:'SP',registration:'fixture-sp',status:'active',verified:true,source,statusDescription:'Habilitada · Sem restrição',sourceUpdatedAt:source.retrievedAt},{uf:'RS',registration:'fixture-rs',status:'suspended',verified:true,source}]};
 
 test('consultas cadastrais atômicas e isoladas no PostgreSQL',async(t)=>{
   const ids=[],clients=[];
@@ -25,6 +25,9 @@ test('consultas cadastrais atômicas e isoladas no PostgreSQL',async(t)=>{
     await t.test('salva empresa, múltiplas IEs, histórico e atividade em uma transação',async()=>{
       const result=await alice.rpc('save_company_query',{p_cnpj:cnpj,p_company:company,p_ie:ie});assert.equal(result.error,null);companyId=result.data.id;
       assert.ok(new Date(result.data.expiresAt)>new Date(result.data.queriedAt));
+      const persisted=(await alice.from('companies').select('ie_result').eq('id',companyId).single()).data.ie_result;
+      assert.equal(persisted.registrations[0].statusDescription,'Habilitada · Sem restrição');
+      assert.equal(persisted.registrations[0].sourceUpdatedAt,source.retrievedAt);
       assert.equal((await alice.from('state_registrations').select('*')).data.length,2);
       assert.equal((await alice.from('cnpj_queries').select('*')).data.length,1);
       assert.equal((await alice.from('activity_events').select('*').eq('action','cnpj_queried')).data.length,1);

@@ -19,7 +19,7 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Limites persistentes de requisição, validação server-side, proteção de origem, erros padronizados e segredos restritos ao servidor.
 - Consulta real de CNPJ pela BrasilAPI, dados normalizados e fontes por campo; validação de dígitos numéricos e alfanuméricos.
 - Cache privado por 24 horas, atualização manual, fallback identificado, histórico pesquisável, favoritos e exclusão.
-- IE separada do CNPJ: links oficiais e adaptador opcional para provedor autorizado, sem inferir inscrição ou situação.
+- IE separada do CNPJ: conector CNPJá/CCC com consulta nacional e cota gratuita documentada, dependente de chave; gateway autorizado e links oficiais como alternativas. Sem inferir inscrição ou situação.
 - Importação de NF-e/NFC-e 4.00 e eventos individuais em XML/ZIP, arrastar e soltar, progresso, pausa e retomada idempotente.
 - Extração de itens, partes, pagamentos, tributos e grupos IBS/CBS; originais privados e histórico dos lotes.
 - Duplicidade por usuário/chave/ambiente, conflito de conteúdo e situação derivada das evidências importadas.
@@ -64,7 +64,7 @@ npm run test:e2e
 
 Integração e E2E exigem Supabase **local** em execução e `.env.local`. Recusam endpoints remotos para evitar escrever testes em produção. Os testes criam usuários/documentos sintéticos temporários e os removem. O parser é testado com arquivos sintéticos; as fixtures de validação também testam XSD real, sem certificar assinatura ou autorização SEFAZ.
 
-Detalhes e limitações das fontes: [consulta de CNPJ e IE](docs/company-providers.md). As duas variáveis `IE_PROVIDER_*` são opcionais. Não é necessário contratar um serviço para consultar CNPJ.
+Detalhes e limitações das fontes: [consulta de CNPJ e IE](docs/company-providers.md). `CNPJA_API_KEY` e as duas variáveis `IE_PROVIDER_*` são opcionais; veja a ativação gratuita documentada. Não é necessário contratar um serviço para consultar CNPJ.
 
 Consulte [importação XML, regras de extração e limites](docs/xml-imports.md). O teste opcional de mil XMLs é executado com `BULK_XML_TEST=1 npm run test:e2e -- tests/e2e/documents.spec.ts --grep "mil XMLs"`.
 

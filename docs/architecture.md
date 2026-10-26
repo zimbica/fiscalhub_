@@ -54,7 +54,7 @@ Respostas: `{ data: ... }` ou `{ error: { code, message } }`. Limite de JSON: 8 
 
 ## Consulta cadastral
 
-`services/providers` define contratos intercambiáveis. BrasilAPI é a fonte padrão de CNPJ; o adaptador de IE só usa um gateway HTTPS explicitamente configurado. A transação `save_company_query` atualiza o cache, substitui IEs e registra a consulta; falhas revertem todo o conjunto. Não guarda QSA nem CPF de sócios. Detalhes em [provedores](company-providers.md).
+`services/providers` define contratos intercambiáveis. BrasilAPI é a fonte padrão de CNPJ; a IE usa o conector CNPJá/CCC quando CNPJA_API_KEY está configurada, ou um gateway HTTPS explícito (com precedência). Sem credencial, usa orientação manual. A transação `save_company_query` atualiza o cache, substitui IEs e registra a consulta; falhas revertem todo o conjunto. Não guarda QSA nem CPF de sócios. Detalhes em [provedores](company-providers.md).
 
 ## Importação e relatórios
 
