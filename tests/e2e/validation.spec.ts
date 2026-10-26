@@ -1,3 +1,4 @@
+import { legacySession } from './helpers/session';
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
@@ -23,10 +24,7 @@ test("validador XSD real, editor, linha, histórico, originais e controle de ace
   if (created.error) throw created.error;
   const userId = created.data.user.id;
   try {
-    await page.goto("/entrar");
-    await page.getByLabel("E-mail", { exact: true }).fill(email);
-    await page.getByLabel("Senha", { exact: true }).fill(password);
-    await page.getByRole("button", { name: "Entrar na minha conta" }).click();
+    await legacySession(page, email, password);
     await expect(page).toHaveURL(/\/painel$/);
     await page
       .getByRole("link", { name: "Validador de XML", exact: true })

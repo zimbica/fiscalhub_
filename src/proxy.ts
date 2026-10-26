@@ -38,6 +38,7 @@ export const config = {
     "/historico/:path*",
     "/projeto/:path*",
     "/nova-senha",
+    "/entrar",
     "/api/:path*",
   ],
 };

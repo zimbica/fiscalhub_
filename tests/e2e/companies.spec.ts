@@ -1,3 +1,4 @@
+import { legacySession } from './helpers/session';
 import {test,expect} from '@playwright/test';
 import {createClient} from '@supabase/supabase-js';
 import {randomUUID} from 'node:crypto';
@@ -18,8 +19,7 @@ test('CNPJ inválido, cache real, favoritos, pesquisa, responsividade e exclusã
     const login=await client.auth.signInWithPassword({email,password});if(login.error)throw login.error;
     const company=normalizeBrasilApi({cnpj,razao_social:'Empresa sintética E2E',descricao_situacao_cadastral:'ATIVA',uf:'RS'},cnpj);
     const seed=await client.rpc('save_company_query',{p_cnpj:cnpj,p_company:company,p_ie:unavailableIe()});if(seed.error)throw seed.error;
-    await page.goto('/entrar');await page.getByLabel('E-mail',{exact:true}).fill(email);await page.getByLabel('Senha',{exact:true}).fill(password);
-    await page.getByRole('button',{name:'Entrar na minha conta'}).click();await expect(page).toHaveURL(/\/painel$/);
+    await legacySession(page, email, password);await expect(page).toHaveURL(/\/painel$/);
     await page.goto('/consulta-cnpj');
     const invalid=await page.request.post('/api/companies',{headers:{origin:'http://localhost:3000'},data:{cnpj:'00000000000192'}});
     expect(invalid.status()).toBe(400);
@@ -54,8 +54,7 @@ test('consulta BrasilAPI ao vivo pelo navegador e grava resultado no banco',asyn
   const email=`cnpj-live-${randomUUID()}@example.test`,password=`Senha-${randomUUID()}!`;
   const created=await admin.auth.admin.createUser({email,password,email_confirm:true});if(created.error)throw created.error;
   try{
-    await page.goto('/entrar');await page.getByLabel('E-mail',{exact:true}).fill(email);await page.getByLabel('Senha',{exact:true}).fill(password);
-    await page.getByRole('button',{name:'Entrar na minha conta'}).click();await expect(page).toHaveURL(/\/painel$/);
+    await legacySession(page, email, password);await expect(page).toHaveURL(/\/painel$/);
     await page.goto('/consulta-cnpj');await page.getByLabel('CNPJ da empresa').fill(cnpj);
     const responsePromise=page.waitForResponse(response=>response.url().endsWith('/api/companies') && response.request().method()==='POST');
     await page.getByRole('button',{name:'Consultar CNPJ',exact:true}).click();

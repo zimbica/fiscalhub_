@@ -1,3 +1,4 @@
+import { legacySession } from './helpers/session';
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
@@ -28,12 +29,7 @@ test("rejeições: busca real, aproximação, ERP, fontes, favoritos e históric
       users.push(r.data.user.id);
       credentials.push({ email, password });
     }
-    await page.goto("/entrar");
-    await page.getByLabel("E-mail", { exact: true }).fill(credentials[0].email);
-    await page
-      .getByLabel("Senha", { exact: true })
-      .fill(credentials[0].password);
-    await page.getByRole("button", { name: "Entrar na minha conta" }).click();
+    await legacySession(page, credentials[0].email, credentials[0].password);
     await expect(page).toHaveURL(/\/painel$/);
     await page
       .getByRole("link", { name: "Consulta de Rejeições", exact: true })
@@ -137,12 +133,7 @@ test("rejeições: busca real, aproximação, ERP, fontes, favoritos e históric
     });
     try {
       const p = await other.newPage();
-      await p.goto("/entrar");
-      await p.getByLabel("E-mail", { exact: true }).fill(credentials[1].email);
-      await p
-        .getByLabel("Senha", { exact: true })
-        .fill(credentials[1].password);
-      await p.getByRole("button", { name: "Entrar na minha conta" }).click();
+      await legacySession(p, credentials[1].email, credentials[1].password);
       await expect(p).toHaveURL(/\/painel$/);
       expect(
         (await (await p.request.get("/api/rejections/history")).json()).data,

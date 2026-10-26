@@ -1,9 +1,20 @@
-import { AuthForm } from '@/components/auth/auth-form';
+import { NicknameForm } from '@/components/auth/nickname-form';
 import { serverConfigured } from '@/lib/env';
-export const metadata = { title: 'Entrar' };
+import { requirePageUser } from '@/lib/auth/session';
+import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
+export const metadata = { title: 'Começar' };
 export const dynamic = 'force-dynamic';
-export default async function Login({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+export default async function Entry({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+  if (serverConfigured()) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: active, error } = await supabase.rpc('has_active_session');
+      if (error) await requirePageUser();
+      if (active) redirect('/painel');
+    }
+  }
   const params = await searchParams;
-  const notice = params.erro === 'link' ? 'O link expirou ou foi aberto em outro navegador. Solicite um novo link e abra-o no navegador usado para iniciar o processo.' : params.senha === 'atualizada' ? 'Senha atualizada. Entre com sua nova senha.' : params.conta === 'excluida' ? 'Sua conta e seus dados foram excluídos.' : undefined;
-  return <AuthForm mode="login" configured={serverConfigured()} notice={notice} />;
+  return <NicknameForm configured={serverConfigured()} notice={params.conta === 'excluida' ? 'Seu espaço e seus dados foram excluídos.' : undefined} />;
 }

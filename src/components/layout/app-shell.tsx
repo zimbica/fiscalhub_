@@ -22,6 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { GlobalSearch } from "@/components/layout/global-search";
 import { usePreferences } from "@/components/settings/preferences-provider";
 import { apiRequest } from "@/lib/http-client";
@@ -30,14 +31,17 @@ import { navigation } from "@/lib/navigation";
 
 export function AppShell({
   fullName,
+  anonymous = false,
   children,
 }: {
   fullName: string;
+  anonymous?: boolean;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const { preferences, save, saving } = usePreferences();
   const { resolvedTheme } = useTheme();
@@ -79,7 +83,7 @@ export function AppShell({
           <div className="min-w-0">
             <p className="truncate text-xs font-semibold">Meu espaço fiscal</p>
             <p className="mt-1 text-[11px] text-muted-foreground">
-              Conta individual
+              {anonymous ? "Neste navegador" : "Conta individual"}
             </p>
           </div>
         </div>
@@ -133,7 +137,7 @@ export function AppShell({
             </Link>
           ))}
           <button
-            onClick={logout}
+            onClick={() => anonymous ? setConfirmLogout(true) : logout()}
             disabled={leaving}
             className="mt-2 flex h-10 w-full items-center gap-3 rounded-lg px-3 text-[13px] text-muted-foreground hover:bg-muted"
           >
@@ -142,7 +146,7 @@ export function AppShell({
             ) : (
               <LogOut className="size-4" />
             )}
-            {leaving ? "Saindo..." : "Sair da conta"}
+            {leaving ? "Saindo..." : anonymous ? "Encerrar acesso" : "Sair da conta"}
           </button>
         </div>
       </div>
@@ -156,6 +160,9 @@ export function AppShell({
       >
         Ir para o conteúdo
       </a>
+      <Dialog open={confirmLogout} onOpenChange={setConfirmLogout}>
+        <DialogContent><DialogTitle>Encerrar este acesso?</DialogTitle><DialogDescription>Você perderá o acesso aos documentos deste espaço. Digitar o mesmo apelido depois cria um novo espaço. Para apagar os documentos, use Excluir minha conta nas configurações antes de sair.</DialogDescription><div className="flex justify-end gap-3"><Button variant="outline" disabled={leaving} onClick={() => setConfirmLogout(false)}>Continuar aqui</Button><Button variant="destructive" disabled={leaving} onClick={logout}>Encerrar mesmo assim</Button></div></DialogContent>
+      </Dialog>
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-card lg:block">
         <Sidebar />
       </aside>

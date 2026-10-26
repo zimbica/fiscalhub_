@@ -2,15 +2,17 @@
 
 Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeScript, Tailwind, shadcn/ui e Supabase**.
 
+**Acesso atual:** entre apenas com um apelido, sem e-mail ou senha. Os documentos pertencem à sessão deste navegador; o apelido não recupera acesso após sair ou apagar cookies. Veja [funcionamento e limites](docs/nickname-access.md).
+
 **Entrega atual: Etapas 1–5 — Fundação, consulta cadastral, XML e pesquisa de rejeições.** Autenticação, CNPJ, importação de XML/ZIP, gráficos, exportações e validador XSD real funcionais. Catálogo inicial com oito rejeições revisadas, busca, favoritos e histórico. Não há dados de demonstração no painel nem simulação de consultas ou XSD.
 
 ## Implementado
 
-- Cadastro, login, logout global, confirmação de e-mail e recuperação de senha via Supabase Auth.
+- Entrada por apelido com Supabase Auth anônimo; cookies persistentes, saída com confirmação e documentos privados por sessão.
 - Sessão SSR, proteção de páginas/endpoints e bloqueio de JWT de sessão revogada nas políticas RLS.
 - Perfil individual, papel `user/admin` preparado sem permitir autoelevação e alteração do nome.
 - Temas claro/escuro/sistema, azul/roxo e preferências persistidas por usuário.
-- Exclusão da própria conta com confirmação e reautenticação, limpeza de arquivos e dados associados.
+- Exclusão do espaço com confirmação, limpeza de arquivos e dados associados; reautenticação apenas para contas legadas com senha.
 - Interface responsiva, sidebar, busca de páginas com Ctrl/Cmd+K, toasts, estados vazios e carregamento.
 - Painel com indicadores consultados do banco e histórico real com filtro e paginação.
 - Modelagem inicial das entidades fiscais, índices, valores decimais, vínculos por proprietário e bucket XML privado.
@@ -87,7 +89,7 @@ Validação local nunca será apresentada como autorização da SEFAZ. IE não s
 
 - Repositório: <https://github.com/zimbica/fiscalhub_>.
 - Projeto Supabase indicado pelo proprietário: `kwgrlocfbkxbupydxmdu`; migrations versionadas em `supabase/migrations`; situação da aplicação remota em [implantação](docs/deployment.md).
-- Publicado em https://fiscalhub-beta.vercel.app. URLs/SMTP de Auth e o fluxo completo de confirmação por e-mail ainda precisam de verificação.
+- Publicado em https://fiscalhub-beta.vercel.app. A entrada por apelido substitui o fluxo de e-mail/senha; habilite Anonymous Sign-Ins no Supabase.
 - [Passo a passo de implantação](docs/deployment.md), incluindo variáveis, migrations, Auth, SMTP e planos gratuitos.
 
 Nenhum serviço pago é necessário para desenvolver/testar localmente. Vercel Hobby permite uso pessoal e não comercial; uso comercial exige revisão do plano/termos. Supabase Free e SMTP possuem limites: custo zero depende de permanecer dentro das cotas e ter serviços de e-mail adequados. Não foram habilitados serviços pagos automaticamente.

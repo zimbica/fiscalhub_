@@ -16,3 +16,6 @@ export const profileSchema = z.object({ fullName: z.string().trim().min(3, 'Info
 export const settingsSchema = z.object({ theme: z.enum(['light', 'dark', 'system']), accent: z.enum(['blue', 'purple']) });
 export const deletionSchema = z.object({ password: z.string().min(1).max(128), confirmation: z.literal('EXCLUIR', { error: 'Digite EXCLUIR para confirmar.' }) });
 export type UserPreferences = z.infer<typeof settingsSchema>;
+
+export const nicknameSchema = z.object({ nickname: z.string().trim().min(3, 'Use pelo menos 3 caracteres no apelido.').max(100, 'Use até 100 caracteres.') });
+export const anonymousDeletionSchema = z.object({ confirmation: z.literal('EXCLUIR', { error: 'Digite EXCLUIR para confirmar.' }) });

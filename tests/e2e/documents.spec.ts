@@ -1,3 +1,4 @@
+import { legacySession } from './helpers/session';
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
@@ -37,10 +38,7 @@ test("XML/ZIP, retomada, filtros, gráficos, originais, CSV/Excel e exclusão re
   if (created.error) throw created.error;
   const userId = created.data.user.id;
   try {
-    await page.goto("/entrar");
-    await page.getByLabel("E-mail", { exact: true }).fill(email);
-    await page.getByLabel("Senha", { exact: true }).fill(password);
-    await page.getByRole("button", { name: "Entrar na minha conta" }).click();
+    await legacySession(page, email, password);
     await expect(page).toHaveURL(/\/painel$/);
     await page.goto("/documentos");
     await expect(page.getByTestId("document-count")).toHaveText("0");
@@ -301,10 +299,7 @@ test("lote de mil XMLs em ZIP com pausa e retomada", async ({ page }) => {
         new TextReader(fixtureNfe({ number })),
       );
     const buffer = Buffer.from(await writer.close());
-    await page.goto("/entrar");
-    await page.getByLabel("E-mail", { exact: true }).fill(email);
-    await page.getByLabel("Senha", { exact: true }).fill(password);
-    await page.getByRole("button", { name: "Entrar na minha conta" }).click();
+    await legacySession(page, email, password);
     await expect(page).toHaveURL(/\/painel$/);
     await page.goto("/documentos");
     await page.getByLabel("Nome do lote").fill("Volume 1000");

@@ -1,3 +1,5 @@
+> **Mudança de acesso:** a interface agora usa somente apelido e Supabase Auth anônimo. Habilite Anonymous Sign-Ins conforme [estas instruções](nickname-access.md). SMTP e redirects de e-mail abaixo referem-se ao fluxo anterior e não são necessários para a entrada por apelido.
+
 # Implantação: GitHub + Supabase + Vercel
 
 ## 1. Supabase

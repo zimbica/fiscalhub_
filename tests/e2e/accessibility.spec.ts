@@ -1,3 +1,4 @@
+import { legacySession } from './helpers/session';
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { createClient } from '@supabase/supabase-js';
@@ -31,10 +32,7 @@ test('formulários públicos sem violações automáticas WCAG A/AA', async ({ p
 
 test('áreas privadas, temas e menu móvel acessíveis', async ({ page }) => {
   test.setTimeout(180000);
-  await page.goto('/entrar');
-  await page.getByLabel('E-mail', { exact: true }).fill(email);
-  await page.getByLabel('Senha', { exact: true }).fill(password);
-  await page.getByRole('button', { name: 'Entrar na minha conta' }).click();
+  await legacySession(page, email, password);
   await expect(page).toHaveURL(/\/painel$/);
   for (const theme of ['light', 'dark']) {
     await page.evaluate(theme => { document.documentElement.classList.toggle('dark', theme === 'dark'); }, theme);

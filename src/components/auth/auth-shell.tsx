@@ -13,10 +13,10 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
         <div className="relative mt-12 rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl backdrop-blur-sm">
           <div className="flex items-center justify-between"><div className="flex items-center gap-3"><span className="flex size-10 items-center justify-center rounded-xl bg-blue-400/15 text-blue-300"><FileCode2 className="size-5" /></span><div><p className="text-sm font-medium">Seu ambiente fiscal</p><p className="mt-0.5 text-xs text-slate-400">Privado. Organizado. Seu.</p></div></div><ShieldCheck className="size-5 text-emerald-300" /></div>
           <div className="mt-6 grid grid-cols-3 gap-3" aria-hidden="true">{['NF-e', 'NFC-e', 'XML'].map((label) => <div key={label} className="rounded-xl border border-white/10 bg-[#101f39] p-4"><Layers3 className="mb-4 size-5 text-blue-300/70" /><span className="text-xs font-medium tracking-wider text-slate-300">{label}</span></div>)}</div>
-          <div className="mt-5 flex items-center gap-2 text-xs text-slate-400"><Fingerprint className="size-4 text-blue-300" /> Acesso individual com Supabase Auth</div>
+          <div className="mt-5 flex items-center gap-2 text-xs text-slate-400"><Fingerprint className="size-4 text-blue-300" /> Seu espaço, neste navegador</div>
         </div>
       </div>
-      <div className="relative z-10 flex items-center justify-between text-xs text-slate-400"><span>FiscalHub · Em construção por etapas</span><Link href="/privacidade" className="flex items-center gap-1 hover:text-white">Privacidade <ArrowUpRight className="size-3" /></Link></div>
+      <div className="relative z-10 flex items-center justify-between text-xs text-slate-400"><span>FiscalHub · Simples desde o início</span><Link href="/privacidade" className="flex items-center gap-1 hover:text-white">Privacidade <ArrowUpRight className="size-3" /></Link></div>
     </aside>
     <main className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-12">
       <div className="mb-10 flex items-center justify-between lg:justify-end"><Link href="/entrar" className="lg:hidden"><Logo /></Link><span className="flex items-center gap-1.5 text-xs text-muted-foreground"><ShieldCheck className="size-3.5" /> Acesso seguro</span></div>

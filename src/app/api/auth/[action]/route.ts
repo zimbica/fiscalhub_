@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { ApiError, assertSameOrigin, failure, readBody, success } from '@/lib/api';
-import { deletionSchema, loginSchema, passwordUpdateSchema, recoverySchema, signupSchema } from '@/lib/auth/schemas';
+import { anonymousDeletionSchema, nicknameSchema, deletionSchema, loginSchema, passwordUpdateSchema, recoverySchema, signupSchema } from '@/lib/auth/schemas';
 import { appUrl, serverConfigured } from '@/lib/env';
 import { rateLimit } from '@/services/rate-limit';
 import { requireUser } from '@/lib/auth/session';
@@ -21,8 +21,24 @@ export async function POST(request: Request, context: { params: Promise<{ action
     if (!serverConfigured()) throw new ApiError(503, 'Conecte o Supabase para usar a autenticação.', 'NOT_CONFIGURED');
     assertSameOrigin(request);
     const { action } = await context.params;
-    if (!['login','signup','recovery','password','logout','delete'].includes(action)) throw new ApiError(404, 'Ação não encontrada.');
+    if (!['anonymous','login','signup','recovery','password','logout','delete'].includes(action)) throw new ApiError(404, 'Ação não encontrada.');
     const supabase = await createClient();
+    if (action === 'anonymous') {
+      const body = await readBody(request, nicknameSchema);
+      const { data: { user: current } } = await supabase.auth.getUser();
+      if (current) {
+        // A live session always wins; nicknames never select or recover an account.
+        const { data: active, error: sessionError } = await supabase.rpc('has_active_session');
+        if (sessionError) throw new ApiError(503, 'Não foi possível verificar seu acesso. Tente novamente.');
+        if (active) return success({ redirect: '/painel' });
+        await supabase.auth.signOut({ scope: 'local' });
+      }
+      await rateLimit(request, 'anonymous', 10, 3600);
+      const { error } = await supabase.auth.signInAnonymously({ options: { data: { full_name: body.nickname } } });
+      if (error?.code === 'anonymous_provider_disabled') throw new ApiError(503, 'A entrada por apelido ainda não foi ativada. Tente novamente mais tarde.', 'ANONYMOUS_DISABLED');
+      if (error) authFailure(error, 'Não foi possível abrir seu espaço. Tente novamente em instantes.');
+      return success({ redirect: '/painel' }, 201);
+    }
     if (action === 'logout') {
       const { error } = await supabase.auth.signOut({ scope: 'global' });
       if (error && error.status !== 403 && error.status !== 401) throw new ApiError(503, 'Não foi possível encerrar sua sessão. Tente novamente.');
@@ -63,8 +79,13 @@ export async function POST(request: Request, context: { params: Promise<{ action
       if (signOutError) throw new ApiError(503, 'Senha alterada, mas não foi possível encerrar todas as sessões. Tente sair novamente.');
       return success({ message: 'Senha atualizada. Entre com sua nova senha.', redirect: '/entrar?senha=atualizada' });
     }
-    const body = await readBody(request, deletionSchema);
-    await deleteOwnAccount(body.password);
+    if (user.is_anonymous) {
+      await readBody(request, anonymousDeletionSchema);
+      await deleteOwnAccount();
+    } else {
+      const body = await readBody(request, deletionSchema);
+      await deleteOwnAccount(body.password);
+    }
     return success({ redirect: '/entrar?conta=excluida' });
   } catch (error) { return failure(error); }
 }

@@ -111,3 +111,7 @@ substitui a validação específica dos dados retornados por cada serviço.
 A página `app/error.tsx` usa `retry`, API estável desde Next.js 16.3, que refaz a
 busca e renderização do segmento após falha. O antigo `reset` apenas reiniciava o
 estado da boundary. O fallback não apresenta detalhes de infraestrutura ao usuário.
+
+## Entrada atual por apelido
+
+A interface de autenticação foi substituída por `NicknameForm` e `POST /api/auth/anonymous`, mantendo Supabase Auth e políticas de propriedade. Veja [fluxo, ativação e limites](nickname-access.md). As rotas legadas de API permanecem para compatibilidade; as páginas públicas de senha e cadastro redirecionam para a entrada por apelido.

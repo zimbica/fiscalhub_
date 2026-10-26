@@ -1,3 +1,9 @@
+# Verificação da entrada por apelido — 26/10/2026
+
+Executada com Supabase local e build de produção. ESLint, TypeScript e build passaram; 141 testes unitários, 7 testes de preparação de deploy e 55 resultados de integração passaram. Playwright: 8 fluxos passaram; 2 cenários opt-in (BrasilAPI ao vivo e lote de mil XMLs) não foram repetidos nesta alteração.
+
+A cobertura nova verifica entrada sem e-mail/senha, persistência da sessão, apelidos iguais em navegadores separados, RLS de documentos, impossibilidade de elevar permissões por metadados, confirmação de saída e exclusão de usuário/arquivos com bloqueio de token antigo. As rotas antigas de cadastro e recuperação redirecionam para a entrada por apelido. Os resultados abaixo são históricos das etapas anteriores.
+
 # Verificação das Etapas 1–3
 
 Executada em 22–23/10/2026, com Node.js 24.19, Next.js 16.4.2 e Supabase local PostgreSQL 17.11. Os testes acessam Auth, PostgREST e Storage reais; não são mocks dessas integrações.

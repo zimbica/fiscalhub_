@@ -25,8 +25,17 @@ async function removeUserFiles(userId: string) {
   await removeFolder(userId);
 }
 
-export async function deleteOwnAccount(password: string) {
+export async function deleteOwnAccount(password?: string) {
   const { user, supabase } = await requireUser();
+  if (user.is_anonymous) {
+    // Keep the session usable if Storage cleanup fails. Auth deletion cascades sessions.
+    await removeUserFiles(user.id);
+    const { error } = await createAdminClient().auth.admin.deleteUser(user.id);
+    if (error) throw new ApiError(503, 'Não foi possível concluir a exclusão. Mantenha esta sessão aberta e tente novamente.');
+    await supabase.auth.signOut({ scope: 'local' });
+    return;
+  }
+  if (!password) throw new ApiError(400, 'Confirme sua senha para excluir esta conta.');
   if (!user.email) throw new ApiError(400, 'Conta sem e-mail de autenticação.');
   const env = publicEnv()!;
   const verifier = createIsolatedClient(env.url, env.key, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
