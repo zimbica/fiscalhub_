@@ -171,3 +171,20 @@ recuperação por e-mail, SMTP e fluxos fiscais autenticados completos. As suít
 continuam limitadas ao Supabase local; não remova essa proteção para testar em
 produção. Configure Site URL/Redirect URLs e SMTP antes de abrir cadastros ao público.
 O vínculo GitHub automático ainda depende da Login Connection da Vercel descrita acima.
+
+## Entrada por apelido publicada — 26/10/2026
+
+- Código: `7a2d512`, enviado ao GitHub.
+- Deployment: `dpl_JCzpi519PaS8yJ1T6jnPXqwJF98V`, READY, promovido para produção.
+- URL: https://fiscalhub-beta.vercel.app/entrar
+- Chromium confirmou o formulário com somente Apelido, sem campos de e-mail/senha.
+- A tentativa real de criação anônima retornou HTTP 503 com código
+  `ANONYMOUS_DISABLED` (Supabase: `anonymous_provider_disabled`). Não foi criado
+  espaço de teste. O fluxo publicado ainda depende de habilitar e salvar
+  **Allow anonymous sign-ins** no projeto configurado `kwgrlocfbkxbupydxmdu`.
+- A conexão Supabase disponível neste ambiente não expõe alteração da configuração
+  de Auth. O proprietário informou ativação, mas a resposta real acima indica que
+  ela ainda não está efetiva no backend usado pelo site.
+- Não foi possível confirmar painel ou exclusão no domínio publicado nesta revisão.
+  Esses fluxos passaram no Supabase local; consulte `testing.md` e `nickname-access.md`.
+- SMTP e configuração de e-mail não são necessários para este novo fluxo.
