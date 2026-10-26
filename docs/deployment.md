@@ -198,3 +198,12 @@ pela interface exigiu apenas `EXCLUIR`, retornou sucesso e redirecionou para a e
 A consulta de documentos após exclusão retornou HTTP 401. Os espaços sintéticos de
 verificação foram excluídos. O bloqueio `ANONYMOUS_DISABLED` registrado acima foi
 resolvido, sem necessidade de alterar o deployment ou configurar SMTP.
+
+## Conector de IE sem certificado — 26/10/2026
+
+Código `eff2390`, deployment `dpl_8YLxuYP3qUUz89WxZHcBxBXUaV2V`, READY e promovido
+para https://fiscalhub-beta.vercel.app. Entrada pública HTTP 200; API de empresas sem
+sessão HTTP 401. Build remoto concluído. O conector CNPJá foi publicado, mas
+`CNPJA_API_KEY` ainda não constava nas variáveis de Production ao conferir a implantação.
+Não houve consulta autenticada ao fornecedor nem contratação. A ativação exige chave
+de conta gratuita e novo deploy; detalhes em `company-providers.md`.
