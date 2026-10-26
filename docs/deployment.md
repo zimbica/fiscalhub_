@@ -188,3 +188,13 @@ O vínculo GitHub automático ainda depende da Login Connection da Vercel descri
 - Não foi possível confirmar painel ou exclusão no domínio publicado nesta revisão.
   Esses fluxos passaram no Supabase local; consulte `testing.md` e `nickname-access.md`.
 - SMTP e configuração de e-mail não são necessários para este novo fluxo.
+
+### Acesso anônimo confirmado após ativação — 26/10/2026
+
+Após o proprietário salvar a configuração, a verificação no endereço público passou:
+entrada somente com apelido retornou HTTP 201; painel abriu e manteve a sessão após
+recarregar; viewport móvel de 390 px não apresentou rolagem horizontal. A exclusão
+pela interface exigiu apenas `EXCLUIR`, retornou sucesso e redirecionou para a entrada.
+A consulta de documentos após exclusão retornou HTTP 401. Os espaços sintéticos de
+verificação foram excluídos. O bloqueio `ANONYMOUS_DISABLED` registrado acima foi
+resolvido, sem necessidade de alterar o deployment ou configurar SMTP.
