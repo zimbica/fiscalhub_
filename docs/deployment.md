@@ -111,3 +111,32 @@ Após publicar, execute no domínio final, com uma conta de teste:
 
 A aprovação da configuração local não substitui esses testes nem confirma que
 SMTP, redirects de Auth, migrations e empacotamento funcionam no domínio final.
+
+## Vercel configurada — 26/10/2026 (UTC)
+
+Criado o projeto `fiscalhub` na conta/time `gustavoandrade-6858` (Hobby),
+ID `prj_FYPsXKZyllDUAvL10jBvVJCgJEhD`. Domínio reservado e verificado:
+`https://fiscalhub-beta.vercel.app`. Isso ainda não comprova deploy publicado.
+
+Configurados Next.js, Node 24, instalação `npm ci` e build com verificação prévia
+`npm run deploy:check && npm run build`. As variáveis Production
+`NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SUPABASE_URL`,
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` e `RATE_LIMIT_SECRET` foram adicionadas.
+O segredo do limitador foi gerado aleatoriamente e armazenado como Sensitive.
+Falta ao proprietário adicionar `SUPABASE_SECRET_KEY` como Sensitive/Production,
+diretamente no painel. Não copiar credenciais locais para produção.
+
+O vínculo GitHub automático foi recusado pela Vercel por ausência de Login
+Connection com GitHub. Conecte a conta GitHub em Account Settings → Authentication
+para permitir vincular `zimbica/fiscalhub_`. A publicação por CLI autenticado pode
+ser feita independentemente desse vínculo. `.vercelignore` exclui `.env*`, caches,
+artefatos locais e relatórios do upload; preserve os schemas e scripts de build.
+
+Após a publicação, configure no Supabase → Authentication → URL Configuration:
+
+- Site URL: `https://fiscalhub-beta.vercel.app`
+- Redirect URL: `https://fiscalhub-beta.vercel.app/auth/callback`
+- Redirect URL: `https://fiscalhub-beta.vercel.app/auth/callback?next=/nova-senha`
+
+Mantenha a confirmação por e-mail e configure SMTP apropriado conforme explicado
+acima. Esses ajustes de Auth não foram executados pela conexão disponível.

@@ -1,0 +1,14 @@
+.git
+.vercel
+.env*
+node_modules
+.next
+.artifacts
+playwright-report
+test-results
+coverage
+*.tsbuildinfo
+*.log
+*.zip
+*.tar
+*.bundle
