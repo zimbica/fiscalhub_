@@ -22,3 +22,10 @@ Nenhuma alteração nos Route Handlers, serviços, validadores fiscais, integra�
 - Inspeção visual das capturas de desktop e celular; tabelas roláveis acessíveis pelo teclado e ausência de transbordamento horizontal da página nas rotas verificadas.
 
 Reproduzir: `npm run check`, `npm run test:integration` e `E2E_PRODUCTION=1 npm run test:e2e`, com Supabase local configurado conforme README. Não executar as suítes de integração/E2E contra produção.
+
+## Publicação
+
+- Código: commit `f255311`, enviado a `zimbica/fiscalhub_`.
+- Vercel: `dpl_4hTqqsSP6BxKyXgY7b7tSzEzfGmL`, estado Ready e promovido para produção.
+- Endereço: https://fiscalhub-beta.vercel.app
+- Verificação pontual no site publicado: entrada HTTP 200, tema escuro, criação de sessão por apelido, persistência após recarga e abertura de documentos no celular sem transbordamento horizontal. Espaço temporário excluído ao terminar (HTTP 200).
