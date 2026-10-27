@@ -275,17 +275,13 @@ export function ImportPanel({
   }
   return (
     <section id="importar" className="scroll-mt-24 space-y-5">
-      <div className="rounded-xl border bg-card p-5 sm:p-6">
+      <div className="rounded-md border bg-card p-4 sm:p-4">
         <div className="flex items-start gap-3">
-          <span className="rounded-xl bg-primary/10 p-3 text-primary-text">
-            <UploadCloud className="size-5" />
+          <span className="text-muted-foreground">
+            <UploadCloud className="size-4" />
           </span>
           <div>
             <h2 className="font-semibold">Importar documentos fiscais</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              XMLs e ZIPs do seu ERP, com originais preservados e progresso por
-              arquivo.
-            </p>
           </div>
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto]">
@@ -297,7 +293,6 @@ export function ImportPanel({
               disabled={busy || Boolean(resume)}
               onChange={(e) => setName(e.target.value)}
               maxLength={160}
-              placeholder="Ex.: Notas de outubro"
             />
           </div>
           <div className="flex items-end gap-2">
@@ -317,18 +312,16 @@ export function ImportPanel({
           </div>
         </div>
         <label
-          className={`mt-4 flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed p-7 text-center transition-colors hover:border-primary/50 ${busy ? "pointer-events-none opacity-60" : ""}`}
+          className={`mt-4 flex cursor-pointer flex-wrap items-center gap-3 rounded-md border border-dashed px-4 py-3 transition-colors hover:border-primary/50 ${busy ? "pointer-events-none opacity-60" : ""}`}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             e.preventDefault();
             if (!busy) setFiles(Array.from(e.dataTransfer.files));
           }}
         >
-          <FolderOpen className="size-7 text-primary-text" />
-          <span className="mt-3 text-sm font-medium">
-            Arraste arquivos aqui ou clique para selecionar
-          </span>
-          <span className="mt-1 text-xs text-muted-foreground">
+          <FolderOpen className="size-4 text-primary-text" />
+          <span className="text-xs font-medium">Selecionar XML ou ZIP</span>
+          <span className="text-xs text-muted-foreground">
             XML até 2 MiB · ZIP até 32 MiB · até 10.000 entradas por lote
           </span>
           <input
@@ -379,14 +372,12 @@ export function ImportPanel({
           </div>
         )}
         <p className="mt-4 text-xs leading-6 text-muted-foreground">
-          ZIPs são abertos em um Web Worker, com até 128 MiB de expansão por
-          seleção. Para retomar, selecione novamente os mesmos arquivos. A
-          importação analisa as evidências do XML; não consulta a SEFAZ nem
-          valida XSD ou assinatura nesta etapa.
+          Limite descompactado: 128 MiB. Retomada exige os mesmos arquivos. A
+          importação não valida XSD, assinatura ou situação online na SEFAZ.
         </p>
       </div>
-      <div className="overflow-hidden rounded-xl border bg-card">
-        <div className="flex items-center justify-between border-b p-5">
+      <div className="overflow-hidden rounded-md border bg-card">
+        <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-sm font-semibold">Histórico de importações</h2>
           <Button
             variant="ghost"
@@ -403,7 +394,12 @@ export function ImportPanel({
           </Button>
         </div>
         {history.items.length ? (
-          <div className="overflow-x-auto">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Tabela com rolagem horizontal"
+            className="overflow-x-auto"
+          >
             <table className="w-full text-left text-sm">
               <thead className="bg-muted/40 text-xs text-muted-foreground">
                 <tr>
@@ -431,7 +427,7 @@ export function ImportPanel({
                       >
                         {job.name}
                       </button>
-                      <p className="mt-1 text-xs text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {dateTime(job.created_at)}
                       </p>
                     </td>
@@ -475,7 +471,7 @@ export function ImportPanel({
           </div>
         ) : (
           <p className="p-8 text-center text-sm text-muted-foreground">
-            Nenhum lote importado. Seus documentos começam no campo acima.
+            Nenhuma importação registrada.
           </p>
         )}
         <div className="flex justify-between border-t p-4 text-xs text-muted-foreground">

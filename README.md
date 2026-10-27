@@ -11,7 +11,7 @@ Plataforma fiscal brasileira construída por etapas com **Next.js, React, TypeSc
 - Entrada por apelido com Supabase Auth anônimo; cookies persistentes, saída com confirmação e documentos privados por sessão.
 - Sessão SSR, proteção de páginas/endpoints e bloqueio de JWT de sessão revogada nas políticas RLS.
 - Perfil individual, papel `user/admin` preparado sem permitir autoelevação e alteração do nome.
-- Temas claro/escuro/sistema, azul/roxo e preferências persistidas por usuário.
+- Interface exclusivamente escura, grafite e azul, com navegação compacta e responsiva. Preferências antigas continuam armazenadas, sem alterar o tema atual.
 - Exclusão do espaço com confirmação, limpeza de arquivos e dados associados; reautenticação apenas para contas legadas com senha.
 - Interface responsiva, sidebar, busca de páginas com Ctrl/Cmd+K, toasts, estados vazios e carregamento.
 - Painel com indicadores consultados do banco e histórico real com filtro e paginação.

@@ -1,4 +1,4 @@
-import { legacySession } from './helpers/session';
+import { legacySession } from "./helpers/session";
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
@@ -41,6 +41,7 @@ test("XML/ZIP, retomada, filtros, gráficos, originais, CSV/Excel e exclusão re
     await legacySession(page, email, password);
     await expect(page).toHaveURL(/\/painel$/);
     await page.goto("/documentos");
+    await expect(page.getByTestId("document-count")).toHaveCount(1);
     await expect(page.getByTestId("document-count")).toHaveText("0");
     await page.getByLabel("Nome do lote").fill("XMLs de teste");
     await page
@@ -133,13 +134,11 @@ test("XML/ZIP, retomada, filtros, gráficos, originais, CSV/Excel e exclusão re
     );
     const zipBuffer = Buffer.from(await writer.close());
     await page.getByLabel("Nome do lote").fill("Eventos e cópias");
-    await page
-      .getByLabel("Selecionar XMLs ou ZIPs")
-      .setInputFiles({
-        name: "erp.zip",
-        mimeType: "application/zip",
-        buffer: zipBuffer,
-      });
+    await page.getByLabel("Selecionar XMLs ou ZIPs").setInputFiles({
+      name: "erp.zip",
+      mimeType: "application/zip",
+      buffer: zipBuffer,
+    });
     await page
       .getByRole("button", { name: "Iniciar importação", exact: true })
       .click();
@@ -162,13 +161,11 @@ test("XML/ZIP, retomada, filtros, gráficos, originais, CSV/Excel e exclusão re
     expect(imports.data?.processed_files).toBe(2);
     expect(imports.data?.duplicate_files).toBe(1);
     await zipRow.getByRole("button", { name: "Retomar", exact: true }).click();
-    await page
-      .getByLabel("Selecionar XMLs ou ZIPs")
-      .setInputFiles({
-        name: "erp.zip",
-        mimeType: "application/zip",
-        buffer: zipBuffer,
-      });
+    await page.getByLabel("Selecionar XMLs ou ZIPs").setInputFiles({
+      name: "erp.zip",
+      mimeType: "application/zip",
+      buffer: zipBuffer,
+    });
     await page
       .getByRole("button", { name: "Retomar lote", exact: true })
       .click();

@@ -21,28 +21,22 @@ export default function Project() {
   ];
   return (
     <div className="max-w-4xl">
-      <p className="text-xs font-medium text-primary-text">CONSTRUÇÃO POR ETAPAS</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-        Cada etapa, uma base mais sólida.
+      <h1 className="mt-3 text-xl font-semibold tracking-tight">
+        Status do projeto
       </h1>
-      <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-        Esta entrega disponibiliza a fundação, a consulta de CNPJ e a análise e
-        validação local de XMLs. Os módulos marcados como planejados ainda serão
-        implementados e testados. Nenhuma consulta ou validação fiscal é
-        simulada.
-      </p>
-      <div className="mt-8 space-y-4">
+
+      <div className="mt-5 divide-y overflow-hidden rounded-md border bg-card">
         {stages.map(({ stage, title, description, complete }) => (
           <section
             id={`etapa-${stage}`}
             key={stage}
-            className="scroll-mt-24 rounded-xl border bg-card p-6"
+            className="scroll-mt-24 p-4"
           >
             <div className="flex items-start gap-4">
               {complete ? (
-                <CheckCircle2 className="mt-1 size-6 shrink-0 text-emerald-600" />
+                <CheckCircle2 className="mt-1 size-4 shrink-0 text-emerald-400" />
               ) : (
-                <CircleDashed className="mt-1 size-6 shrink-0 text-muted-foreground/50" />
+                <CircleDashed className="mt-1 size-4 shrink-0 text-muted-foreground/50" />
               )}
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -50,12 +44,12 @@ export default function Project() {
                     {String(stage).padStart(2, "0")} · {title}
                   </h2>
                   <span
-                    className={`rounded-md px-2 py-1 text-[10px] font-medium ${complete ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"}`}
+                    className={`rounded-md px-2 py-1 text-[10px] font-medium ${complete ? "bg-emerald-500/10 text-emerald-400 dark:text-emerald-400" : "bg-muted text-muted-foreground"}`}
                   >
                     {complete ? "Implementada" : "Planejada"}
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">
                   {description}
                 </p>
                 {stage === 5 && (

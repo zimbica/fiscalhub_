@@ -153,11 +153,14 @@ export function ValidationWorkspace({
     try {
       const params = new URLSearchParams({ name: filename });
       if (source) params.set("source", source);
-      const result = await apiFetch<ValidationReport>(`/api/validations?${params}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/xml" },
-        body: source ? undefined : bytes,
-      });
+      const result = await apiFetch<ValidationReport>(
+        `/api/validations?${params}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/xml" },
+          body: source ? undefined : bytes,
+        },
+      );
       setReport(result);
       await refreshHistory();
       toast.success("Verificações concluídas e histórico salvo.");
@@ -260,21 +263,13 @@ export function ValidationWorkspace({
     }
   }
   return (
-    <div className="space-y-7">
+    <div className="space-y-5">
       <header>
-        <p className="text-[11px] font-semibold tracking-wider text-primary-text">
-          VALIDAÇÃO FISCAL LOCAL
-        </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+        <h1 className="mt-2 text-xl font-semibold tracking-tight">
           Validador de XML
         </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-          Confira estrutura, schemas oficiais e regras locais. Entenda cada
-          inconsistência com a mensagem original, a linha e a fonte da
-          verificação.
-        </p>
       </header>
-      <section className="rounded-xl border bg-card p-4 sm:p-6">
+      <section className="rounded-md border bg-card p-4 sm:p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <FileCode2 className="size-5 text-primary-text" />
@@ -299,10 +294,10 @@ export function ValidationWorkspace({
             event.preventDefault();
             if (!busy) void readFile(event.dataTransfer.files[0]);
           }}
-          className="mt-5 rounded-lg border border-dashed p-5 text-center"
+          className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-dashed px-4 py-3"
         >
-          <UploadCloud className="mx-auto size-6 text-primary-text" />
-          <label className="mt-3 inline-block cursor-pointer text-sm font-medium text-primary-text">
+          <UploadCloud className="size-4 text-muted-foreground" />
+          <label className="inline-block cursor-pointer text-xs font-medium text-primary-text">
             Selecionar XML
             <input
               aria-label="Selecionar XML para validar"
@@ -316,8 +311,8 @@ export function ValidationWorkspace({
               }}
             />
           </label>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Arraste um arquivo de até 2 MiB ou cole o código no editor abaixo.
+          <p className="ml-auto text-xs text-muted-foreground">
+            XML · até 2 MiB
           </p>
         </div>
         <div className="my-4 flex flex-wrap items-center justify-between gap-3">
@@ -375,9 +370,8 @@ export function ValidationWorkspace({
           focus={focus}
         />
         <p className="mt-3 text-xs leading-5 text-muted-foreground">
-          Ctrl/Cmd+F pesquisa no XML. Formatar exibe uma prévia: a validação usa
-          o código bruto. Alterações em uma cópia podem invalidar a assinatura;
-          o original importado permanece preservado.
+          Validação sobre o código bruto. Alterar uma cópia pode invalidar a
+          assinatura; o original é preservado.
         </p>
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
@@ -402,7 +396,7 @@ export function ValidationWorkspace({
           }}
         />
       )}
-      <section className="rounded-xl border bg-card p-4 sm:p-6">
+      <section className="rounded-md border bg-card p-4 sm:p-4">
         <div className="flex items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <History className="size-5 text-primary-text" />
@@ -414,10 +408,15 @@ export function ValidationWorkspace({
         </div>
         {!history.items.length ? (
           <p className="py-10 text-center text-sm text-muted-foreground">
-            Valide seu primeiro XML para acompanhar os resultados aqui.
+            Nenhuma validação registrada.
           </p>
         ) : (
-          <div className="relative mt-5 overflow-x-auto">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Tabela com rolagem horizontal"
+            className="relative mt-5 overflow-x-auto"
+          >
             <table className="w-full min-w-[650px] text-left text-xs">
               <thead className="border-b text-muted-foreground">
                 <tr>

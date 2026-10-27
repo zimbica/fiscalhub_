@@ -42,7 +42,7 @@ function Party({ title, data }: { title: string; data: Json }) {
     Json
   >;
   return (
-    <section className="rounded-xl border bg-card p-5">
+    <section className="rounded-md border bg-card p-4">
       <h2 className="text-sm font-semibold">{title}</h2>
       <p className="mt-4 font-medium">
         {String(record.xNome || "Não informado")}
@@ -117,7 +117,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
     }
   }
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <Link
         href="/documentos"
         className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary-text"
@@ -130,7 +130,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
           <p className="text-xs font-medium text-primary-text">
             DETALHES DO DOCUMENTO
           </p>
-          <h1 className="mt-2 text-2xl font-semibold">
+          <h1 className="mt-2 text-xl font-semibold">
             {d.model === "55" ? "NF-e" : "NFC-e"} {d.number} · Série {d.series}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -144,7 +144,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
           Excluir documento
         </Button>
       </div>
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-md border bg-card p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs text-muted-foreground">Chave de acesso</p>
@@ -191,7 +191,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
         </dl>
       </section>
       <p className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4 text-xs leading-6 text-muted-foreground">
-        <AlertTriangle className="mr-2 inline size-4 text-amber-600" />A
+        <AlertTriangle className="mr-2 inline size-4 text-amber-400" />A
         situação foi identificada nas evidências importadas. Não houve consulta
         à SEFAZ nem validação de autenticidade da assinatura. Devolução e
         cancelamento são tratados separadamente.
@@ -200,7 +200,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
         <Party title="Emitente" data={d.issuer} />
         <Party title="Destinatário" data={d.recipient} />
       </div>
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-md border bg-card p-4">
         <h2 className="mb-4 text-sm font-semibold">
           Indicadores de análise ({issues.length})
         </h2>
@@ -245,11 +245,16 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
           </p>
         )}
       </section>
-      <section className="overflow-hidden rounded-xl border bg-card">
-        <h2 className="border-b p-5 text-sm font-semibold">
+      <section className="overflow-hidden rounded-md border bg-card">
+        <h2 className="border-b p-4 text-sm font-semibold">
           Produtos ({items.length})
         </h2>
-        <div className="overflow-x-auto">
+        <div
+          tabIndex={0}
+          role="region"
+          aria-label="Tabela com rolagem horizontal"
+          className="overflow-x-auto"
+        >
           <table className="w-full text-left text-xs">
             <thead className="bg-muted/40 text-muted-foreground">
               <tr>
@@ -313,7 +318,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
         </div>
       </section>
       <div className="grid gap-5 lg:grid-cols-2">
-        <section className="rounded-xl border bg-card p-5">
+        <section className="rounded-md border bg-card p-4">
           <h2 className="mb-4 text-sm font-semibold">
             Tributos e totais do XML
           </h2>
@@ -328,7 +333,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
             />
           </div>
         </section>
-        <section className="rounded-xl border bg-card p-5">
+        <section className="rounded-md border bg-card p-4">
           <h2 className="mb-4 text-sm font-semibold">Pagamentos</h2>
           {payments.length ? (
             payments.map((p) => (
@@ -351,7 +356,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
           />
         </section>
       </div>
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-md border bg-card p-4">
         <h2 className="mb-4 text-sm font-semibold">
           Eventos identificados ({events.length})
         </h2>
@@ -401,7 +406,7 @@ export function DocumentDetailView({ data }: { data: DocumentDetail }) {
           />
         </div>
       </section>
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-md border bg-card p-4">
         <h2 className="mb-4 text-sm font-semibold">
           Arquivos originais ({files.length})
         </h2>

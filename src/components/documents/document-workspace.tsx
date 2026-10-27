@@ -28,7 +28,7 @@ const Charts = dynamic(
   {
     ssr: false,
     loading: () => (
-      <p className="p-6 text-sm text-muted-foreground">
+      <p className="p-4 text-sm text-muted-foreground">
         Carregando gráficos...
       </p>
     ),
@@ -123,19 +123,12 @@ export function DocumentWorkspace({
     ["Precisam de análise", String(m.review)],
   ];
   return (
-    <div className="space-y-7">
+    <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-medium text-primary-text">
-            ANÁLISE DE DOCUMENTOS FISCAIS
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-            Seus XMLs, organizados em informação.
+          <h1 className="mt-2 text-xl font-semibold tracking-tight">
+            Documentos fiscais
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            NF-e, NFC-e e eventos importados, com rastreabilidade até o arquivo
-            original.
-          </p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -163,7 +156,7 @@ export function DocumentWorkspace({
         onApply={(value) => void load({ ...value, page: 1 })}
         busy={busy}
       />
-      <div aria-busy={busy} className={`space-y-6 ${busy ? "opacity-60" : ""}`}>
+      <div aria-busy={busy} className={`space-y-4 ${busy ? "opacity-60" : ""}`}>
         {busy && (
           <p
             role="status"
@@ -174,18 +167,21 @@ export function DocumentWorkspace({
           </p>
         )}
         <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-4 text-xs leading-6 text-muted-foreground">
-          <AlertTriangle className="mr-2 inline size-4 text-amber-600" />
+          <AlertTriangle className="mr-2 inline size-4 text-amber-400" />
           Os totais representam os XMLs selecionados pelos filtros, incluindo
           cancelados, devoluções e homologação quando selecionados. Não
           equivalem a faturamento ou apuração fiscal. Situações derivam dos
           arquivos importados, sem consulta online ou verificação da assinatura.
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-2 overflow-hidden rounded-md border bg-card md:grid-cols-3 xl:grid-cols-4">
           {cards.map(([title, value]) => (
-            <section key={title} className="rounded-xl border bg-card p-5">
+            <section
+              key={title}
+              className="border-r border-b border-border p-3"
+            >
               <p className="text-xs text-muted-foreground">{title}</p>
               <p
-                className="mt-3 text-2xl font-semibold tracking-tight"
+                className="mt-2 text-lg font-semibold tracking-tight tabular-nums"
                 data-testid={
                   title === "Documentos" ? "document-count" : undefined
                 }
@@ -213,25 +209,26 @@ export function DocumentWorkspace({
         {report.total > 0 ? (
           <Charts report={report} />
         ) : (
-          <div className="rounded-xl border border-dashed bg-card/40 p-10 text-center">
+          <div className="rounded-md border border-dashed bg-card/40 p-4 text-center">
             <Files className="mx-auto size-9 text-primary-text/50" />
             <h2 className="mt-4 font-semibold">
               Nenhum documento nesta seleção.
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Importe XMLs ou ajuste os filtros para começar sua análise.
-            </p>
           </div>
         )}
-        <section className="overflow-hidden rounded-xl border bg-card">
-          <div className="border-b p-5">
+        <section className="overflow-hidden rounded-md border bg-card">
+          <div className="border-b p-4">
             <h2 className="text-sm font-semibold">Documentos importados</h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              {report.total} documento(s) · valores monetários preservados em
-              decimal
+              {report.total} documento(s)
             </p>
           </div>
-          <div className="overflow-x-auto">
+          <div
+            tabIndex={0}
+            role="region"
+            aria-label="Tabela com rolagem horizontal"
+            className="overflow-x-auto"
+          >
             <table className="w-full text-left text-sm">
               <thead className="bg-muted/40 text-xs text-muted-foreground">
                 <tr>
@@ -295,7 +292,7 @@ export function DocumentWorkspace({
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between border-t p-5 text-xs text-muted-foreground">
+          <div className="flex justify-between border-t p-4 text-xs text-muted-foreground">
             <span>
               Página {report.page} de{" "}
               {Math.max(1, Math.ceil(report.total / 25))}

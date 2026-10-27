@@ -33,7 +33,8 @@ function Chart({
     <Tooltip
       content={({ active, payload }) => {
         const row = payload?.[0]?.payload as
-          { name: string; exact: string } | undefined;
+          | { name: string; exact: string }
+          | undefined;
         return active && row ? (
           <div className="max-w-64 rounded-lg border bg-card p-3 text-xs shadow-lg">
             <p className="mb-1 font-medium">{row.name}</p>
@@ -44,10 +45,10 @@ function Chart({
     />
   );
   return (
-    <section className="min-w-0 rounded-xl border bg-card p-5">
-      <h3 className="mb-5 text-sm font-semibold">{title}</h3>
+    <section className="min-w-0 rounded-md border bg-card p-4">
+      <h3 className="mb-4 text-sm font-semibold">{title}</h3>
       {data.length ? (
-        <div className="h-56 w-full" aria-label={title}>
+        <div className="h-48 w-full" aria-label={title}>
           <ResponsiveContainer width="100%" height="100%">
             {area ? (
               <AreaChart
@@ -61,14 +62,14 @@ function Chart({
                 />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 10 }}
+                  tick={{ fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   minTickGap={24}
                 />
                 <YAxis
                   width={45}
-                  tick={{ fontSize: 10 }}
+                  tick={{ fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) =>
@@ -98,7 +99,7 @@ function Chart({
                 />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 10 }}
+                  tick={{ fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) => String(v).slice(0, 14)}
@@ -106,7 +107,7 @@ function Chart({
                 />
                 <YAxis
                   width={45}
-                  tick={{ fontSize: 10 }}
+                  tick={{ fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) =>
@@ -127,7 +128,7 @@ function Chart({
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="flex h-56 items-center justify-center text-center text-xs text-muted-foreground">
+        <div className="flex h-48 items-center justify-center text-center text-xs text-muted-foreground">
           Sem dados para os filtros selecionados.
         </div>
       )}

@@ -90,21 +90,13 @@ export function RejectionWorkspace({
     }
   }
   return (
-    <div className="space-y-7">
+    <div className="space-y-5">
       <header>
-        <p className="text-[11px] font-semibold tracking-wider text-primary-text">
-          BASE DE CONHECIMENTO FISCAL
-        </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+        <h1 className="mt-2 text-xl font-semibold tracking-tight">
           Consulta de Rejeições
         </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-          Encontre o significado da mensagem, os campos envolvidos e o que
-          conferir no ERP, com referências oficiais e orientações práticas da
-          Oobj.
-        </p>
       </header>
-      <section className="rounded-2xl border bg-card p-5 sm:p-7">
+      <section className="rounded-lg border bg-card p-4 sm:p-4">
         <div className="mb-5 flex flex-wrap gap-2">
           <Button
             size="sm"
@@ -143,7 +135,6 @@ export function RejectionWorkspace({
                 maxLength={500}
                 disabled={busy}
                 rows={3}
-                placeholder="Ex.: cStat: 694 — Não informado o grupo de ICMS para a UF de destino"
                 className="w-full min-w-0 rounded-lg border bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-primary"
               />
             ) : (
@@ -153,11 +144,10 @@ export function RejectionWorkspace({
                 onChange={(e) => setQuery(e.target.value)}
                 maxLength={500}
                 disabled={busy}
-                placeholder="Ex.: 694, falha no schema XML, CFOP inexistente"
-                className="h-11"
+                className="h-9"
               />
             )}
-            <Button type="submit" disabled={busy} className="h-11">
+            <Button type="submit" disabled={busy} className="h-9">
               {busy ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
@@ -168,8 +158,7 @@ export function RejectionWorkspace({
           </div>
           {identify && (
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
-              Até 500 caracteres. A mensagem completa do ERP não é salva no
-              histórico. Remova dados pessoais antes de colar.
+              Até 500 caracteres. A mensagem completa não é salva no histórico.
             </p>
           )}
         </form>
@@ -225,14 +214,12 @@ export function RejectionWorkspace({
         </span>
       </div>
       <p className="rounded-lg border bg-primary/5 p-4 text-xs leading-6 text-muted-foreground">
-        A pesquisa usa o catálogo instalado. Não há busca automática na internet
-        nem cobertura de todas as rejeições. Novas entradas e revisões são
-        publicadas por atualizações versionadas.
+        Catálogo local; cobertura limitada às rejeições cadastradas.
       </p>
       {submittedIdentify && (
         <div
           role="status"
-          className={`rounded-xl border p-4 text-sm ${results.identifiedCode ? "border-emerald-500/30 bg-emerald-500/5" : "border-amber-500/30 bg-amber-500/5"}`}
+          className={`rounded-md border p-4 text-sm ${results.identifiedCode ? "border-emerald-500/30 bg-emerald-500/5" : "border-amber-500/30 bg-amber-500/5"}`}
         >
           {results.identifiedCode ? (
             <>
@@ -257,12 +244,11 @@ export function RejectionWorkspace({
         </div>
       )}
       {!results.items.length ? (
-        <section className="rounded-xl border bg-card px-6 py-14 text-center">
+        <section className="rounded-md border bg-card px-6 py-8 text-center">
           <BookOpenText className="mx-auto size-9 text-muted-foreground/60" />
           <h2 className="mt-4 font-semibold">Nenhuma rejeição encontrada</h2>
           <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
-            Tente o código exato, menos palavras ou outro filtro. A ausência
-            nesta base não significa que a mensagem seja inválida.
+            A ausência no catálogo não invalida a mensagem do ERP.
           </p>
           <a
             href="https://oobj.com.br/bc/"
@@ -277,13 +263,10 @@ export function RejectionWorkspace({
       ) : (
         <section
           aria-label="Resultados de rejeições"
-          className="grid gap-4 md:grid-cols-2"
+          className="divide-y overflow-hidden rounded-md border bg-card"
         >
           {results.items.map((item) => (
-            <article
-              key={item.id}
-              className="rounded-xl border bg-card p-5 transition-shadow hover:shadow-sm"
-            >
+            <article key={item.id} className="p-4 hover:bg-muted/40">
               <div className="flex items-center justify-between gap-3">
                 <span className="rounded-lg bg-primary/10 px-3 py-1.5 font-mono text-sm font-semibold text-primary-text">
                   {item.code}
@@ -322,7 +305,7 @@ export function RejectionWorkspace({
               </p>
               <Link
                 href={`/rejeicoes/${item.code}`}
-                className="mt-5 inline-flex items-center gap-2 text-xs font-medium text-primary-text"
+                className="mt-3 inline-flex items-center gap-2 text-xs font-medium text-primary-text"
               >
                 Ver causas e orientação
                 <ArrowUpRight className="size-3.5" />
@@ -350,7 +333,7 @@ export function RejectionWorkspace({
           Próxima
         </Button>
       </div>
-      <section className="rounded-xl border bg-card p-5">
+      <section className="rounded-md border bg-card p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <History className="size-4 text-primary-text" />
@@ -368,7 +351,7 @@ export function RejectionWorkspace({
         </div>
         {!history.length ? (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            Suas pesquisas aparecerão aqui após a primeira consulta.
+            Nenhuma pesquisa registrada.
           </p>
         ) : (
           <ul className="mt-4 divide-y">

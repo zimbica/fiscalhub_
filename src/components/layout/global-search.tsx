@@ -36,25 +36,24 @@ export function GlobalSearch() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex h-9 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground hover:bg-muted sm:w-64 sm:border sm:bg-muted/40"
+        className="flex h-9 items-center gap-2 whitespace-nowrap rounded-md px-3 text-xs text-muted-foreground hover:bg-muted sm:w-56 sm:border sm:bg-muted/40"
       >
         <Search className="size-4" />
         <span className="sr-only sm:not-sr-only">Buscar páginas</span>
-        <kbd className="ml-auto hidden rounded border bg-background px-1.5 py-0.5 text-[10px] sm:inline">
+        <kbd className="ml-auto hidden shrink-0 whitespace-nowrap rounded border bg-background px-1.5 py-0.5 text-[10px] sm:inline">
           Ctrl K
         </kbd>
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogTitle>Ir para uma página</DialogTitle>
-          <DialogDescription>
-            Busque as páginas disponíveis nesta etapa do FiscalHub.
+          <DialogDescription className="sr-only">
+            Navegação e pesquisa de rejeições.
           </DialogDescription>
           <Input
             maxLength={500}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Digite o nome de uma página"
             aria-label="Nome da página"
             autoFocus
           />

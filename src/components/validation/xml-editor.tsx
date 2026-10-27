@@ -18,9 +18,10 @@ import {
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import {
   syntaxHighlighting,
-  defaultHighlightStyle,
+  HighlightStyle,
   bracketMatching,
 } from "@codemirror/language";
+import { tags } from "@lezer/highlight";
 import { lintGutter, setDiagnostics } from "@codemirror/lint";
 import type { ValidationIssue } from "@/types/validation";
 type Props = {
@@ -58,7 +59,16 @@ export function XmlEditor({
           highlightSelectionMatches(),
           bracketMatching(),
           xml(),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+          syntaxHighlighting(
+            HighlightStyle.define([
+              { tag: tags.tagName, color: "#8cb8ff" },
+              { tag: tags.attributeName, color: "#c6cad3" },
+              { tag: tags.attributeValue, color: "#9bd0ac" },
+              { tag: tags.comment, color: "#969ca8" },
+              { tag: tags.angleBracket, color: "#9ba4b8" },
+              { tag: tags.processingInstruction, color: "#b6cafa" },
+            ]),
+          ),
           lintGutter(),
           keymap.of([
             ...defaultKeymap,
@@ -78,31 +88,34 @@ export function XmlEditor({
             if (update.docChanged && !syncing.current)
               callback.current(update.state.doc.toString());
           }),
-          EditorView.theme({
-            "&": {
-              height: "480px",
-              fontSize: "12px",
-              backgroundColor: "var(--card)",
-              color: "var(--foreground)",
+          EditorView.theme(
+            {
+              "&": {
+                height: "480px",
+                fontSize: "12px",
+                backgroundColor: "var(--card)",
+                color: "var(--foreground)",
+              },
+              ".cm-scroller": { overflow: "auto", fontFamily: "monospace" },
+              ".cm-gutters": {
+                backgroundColor: "var(--muted)",
+                color: "var(--muted-foreground)",
+                border: "none",
+              },
+              ".cm-activeLine": {
+                backgroundColor:
+                  "color-mix(in srgb, var(--primary) 5%, transparent)",
+              },
+              ".cm-content": { padding: "12px 0" },
+              "&.cm-focused": { outline: "2px solid var(--primary)" },
+              ".cm-tooltip": {
+                backgroundColor: "var(--card)",
+                color: "var(--foreground)",
+              },
+              ".cm-cursor": { borderLeftColor: "var(--foreground)" },
             },
-            ".cm-scroller": { overflow: "auto", fontFamily: "monospace" },
-            ".cm-gutters": {
-              backgroundColor: "var(--muted)",
-              color: "var(--muted-foreground)",
-              border: "none",
-            },
-            ".cm-activeLine": {
-              backgroundColor:
-                "color-mix(in srgb, var(--primary) 5%, transparent)",
-            },
-            ".cm-content": { padding: "12px 0" },
-            "&.cm-focused": { outline: "2px solid var(--primary)" },
-            ".cm-tooltip": {
-              backgroundColor: "var(--card)",
-              color: "var(--foreground)",
-            },
-            ".cm-cursor": { borderLeftColor: "var(--foreground)" },
-          }),
+            { dark: true },
+          ),
         ],
       }),
     });

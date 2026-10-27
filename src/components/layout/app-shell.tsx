@@ -2,16 +2,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useTheme } from "next-themes";
-import {
-  ChevronRight,
-  Loader2,
-  LogOut,
-  Menu,
-  Moon,
-  ShieldCheck,
-  Sun,
-} from "lucide-react";
+import { ChevronRight, Loader2, LogOut, Menu } from "lucide-react";
 import { toast } from "sonner";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -22,9 +13,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { GlobalSearch } from "@/components/layout/global-search";
-import { usePreferences } from "@/components/settings/preferences-provider";
 import { apiRequest } from "@/lib/http-client";
 import { cn } from "@/lib/utils";
 import { navigation } from "@/lib/navigation";
@@ -38,13 +33,11 @@ export function AppShell({
   anonymous?: boolean;
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [confirmLogout, setConfirmLogout] = useState(false);
-  const [leaving, setLeaving] = useState(false);
-  const { preferences, save, saving } = usePreferences();
-  const { resolvedTheme } = useTheme();
+  const pathname = usePathname(),
+    router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false),
+    [confirmLogout, setConfirmLogout] = useState(false),
+    [leaving, setLeaving] = useState(false);
   const initials = fullName
     .split(" ")
     .filter(Boolean)
@@ -52,6 +45,8 @@ export function AppShell({
     .map((part) => part[0])
     .join("")
     .toUpperCase();
+  const active = (href: string) =>
+    pathname === href || pathname.startsWith(href + "/");
   async function logout() {
     setLeaving(true);
     try {
@@ -66,108 +61,119 @@ export function AppShell({
       setLeaving(false);
     }
   }
+  function links(items: typeof navigation) {
+    return items.map(({ title, href, icon: Icon }) => (
+      <Link
+        key={href}
+        href={href}
+        onClick={() => setMobileOpen(false)}
+        aria-current={active(href) ? "page" : undefined}
+        className={cn(
+          "flex min-h-10 items-center gap-2.5 rounded-md px-3 text-[13px] transition-colors hover:bg-muted",
+          active(href)
+            ? "bg-accent text-accent-foreground"
+            : "text-muted-foreground",
+        )}
+      >
+        <Icon className="size-4" strokeWidth={1.7} />
+        {title}
+      </Link>
+    ));
+  }
   function Sidebar() {
     return (
-      <div className="flex h-full flex-col overflow-y-auto px-5 py-7">
-        <Link
-          href="/painel"
-          className="px-2"
-          onClick={() => setMobileOpen(false)}
-        >
-          <Logo />
-        </Link>
-        <div className="mt-8 flex items-center gap-3 rounded-xl border bg-background px-3 py-3">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary-text">
-            {initials}
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-xs font-semibold">Meu espaço fiscal</p>
-            <p className="mt-1 text-[11px] text-muted-foreground">
-              {anonymous ? "Neste navegador" : "Conta individual"}
-            </p>
-          </div>
+      <div className="flex h-full flex-col">
+        <div className="flex h-14 shrink-0 items-center border-b px-5">
+          <Link href="/painel" onClick={() => setMobileOpen(false)}>
+            <Logo />
+          </Link>
         </div>
-        <nav aria-label="Navegação principal" className="mt-7">
-          <p className="mb-3 px-3 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            Meu espaço
-          </p>
-          <div className="space-y-1">
-            {navigation.slice(0, 6).map(({ title, href, icon: Icon }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                aria-current={pathname === href ? "page" : undefined}
-                className={cn(
-                  "flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] font-medium transition-colors hover:bg-muted",
-                  pathname === href
-                    ? "bg-primary/10 text-primary-text"
-                    : "text-muted-foreground",
-                )}
-              >
-                <Icon className="size-[17px]" />
-                {title}
-              </Link>
-            ))}
+        <nav
+          aria-label="Navegação principal"
+          className="flex flex-1 flex-col overflow-y-auto p-3"
+        >
+          <div className="space-y-1">{links(navigation.slice(0, 6))}</div>
+          <div className="mt-auto space-y-1 border-t pt-3">
+            {links(navigation.slice(6))}
+            <Link
+              href="/privacidade"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-md px-3 py-2.5 text-xs text-muted-foreground hover:bg-muted"
+            >
+              Privacidade
+            </Link>
           </div>
         </nav>
-        <div className="mt-auto pt-8">
-          <div className="mb-5 rounded-xl border border-primary/10 bg-primary/[0.035] p-4">
-            <ShieldCheck className="mb-2 size-5 text-primary-text" />
-            <p className="text-xs font-medium">Seu espaço é privado</p>
-            <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
-              Seus documentos e consultas ficam associados à sua conta.
-            </p>
-          </div>
-          {navigation.slice(6).map(({ title, href, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setMobileOpen(false)}
-              aria-current={pathname === href ? "page" : undefined}
-              className={cn(
-                "flex h-10 items-center gap-3 rounded-lg px-3 text-[13px] hover:bg-muted",
-                pathname === href
-                  ? "bg-primary/10 text-primary-text"
-                  : "text-muted-foreground",
-              )}
+        <div className="border-t p-3">
+          <div className="flex items-center gap-2 rounded-md px-2 py-2">
+            <span
+              aria-hidden="true"
+              className="flex size-7 shrink-0 items-center justify-center rounded bg-secondary text-[10px] font-medium"
             >
-              <Icon className="size-[17px]" />
-              {title}
+              {initials}
+            </span>
+            <Link
+              href="/configuracoes"
+              onClick={() => setMobileOpen(false)}
+              className="min-w-0 flex-1 truncate text-xs"
+            >
+              {fullName}
             </Link>
-          ))}
-          <button
-            onClick={() => anonymous ? setConfirmLogout(true) : logout()}
-            disabled={leaving}
-            className="mt-2 flex h-10 w-full items-center gap-3 rounded-lg px-3 text-[13px] text-muted-foreground hover:bg-muted"
-          >
-            {leaving ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              <LogOut className="size-4" />
-            )}
-            {leaving ? "Saindo..." : anonymous ? "Encerrar acesso" : "Sair da conta"}
-          </button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={leaving}
+              aria-label={anonymous ? "Encerrar acesso" : "Sair da conta"}
+              onClick={() =>
+                anonymous ? setConfirmLogout(true) : void logout()
+              }
+            >
+              {leaving ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <LogOut className="size-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
   return (
-    <div className="min-h-svh bg-[#f7f9fc] dark:bg-background">
+    <div className="min-h-svh bg-background">
       <a
         href="#conteudo"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-primary focus:p-3 focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded focus:bg-primary focus:p-3 focus:text-white"
       >
         Ir para o conteúdo
       </a>
       <Dialog open={confirmLogout} onOpenChange={setConfirmLogout}>
-        <DialogContent><DialogTitle>Encerrar este acesso?</DialogTitle><DialogDescription>Você perderá o acesso aos documentos deste espaço. Digitar o mesmo apelido depois cria um novo espaço. Para apagar os documentos, use Excluir minha conta nas configurações antes de sair.</DialogDescription><div className="flex justify-end gap-3"><Button variant="outline" disabled={leaving} onClick={() => setConfirmLogout(false)}>Continuar aqui</Button><Button variant="destructive" disabled={leaving} onClick={logout}>Encerrar mesmo assim</Button></div></DialogContent>
+        <DialogContent>
+          <DialogTitle>Encerrar este acesso?</DialogTitle>
+          <DialogDescription>
+            Você perderá o acesso aos documentos deste espaço. O mesmo apelido
+            não recupera os dados. Para removê-los, use Excluir minha conta nas
+            configurações.
+          </DialogDescription>
+          <div className="flex flex-wrap justify-end gap-2">
+            <Button
+              variant="outline"
+              disabled={leaving}
+              onClick={() => setConfirmLogout(false)}
+            >
+              Continuar aqui
+            </Button>
+            <Button variant="destructive" disabled={leaving} onClick={logout}>
+              Encerrar mesmo assim
+            </Button>
+          </div>
+        </DialogContent>
       </Dialog>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-card lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-56 border-r bg-sidebar lg:block">
         <Sidebar />
       </aside>
-      <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex h-[72px] items-center gap-3 border-b bg-card/95 px-4 backdrop-blur sm:px-8">
+      <div className="min-w-0 lg:pl-56">
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b bg-background px-4 sm:px-6">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button
@@ -179,69 +185,44 @@ export function AppShell({
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 gap-0 p-0">
+            <SheetContent side="left" className="w-64 gap-0 bg-sidebar p-0">
               <SheetTitle className="sr-only">
                 Navegação do FiscalHub
               </SheetTitle>
               <SheetDescription className="sr-only">
-                Páginas e módulos do seu espaço fiscal.
+                Ferramentas e configurações.
               </SheetDescription>
               <Sidebar />
             </SheetContent>
           </Sheet>
-          <div className="hidden items-center gap-2 text-xs text-muted-foreground md:flex">
-            <span>Meu espaço</span>
-            <ChevronRight className="size-3" />
-            <span className="font-medium text-foreground">
-              {navigation.find((item) => item.href === pathname)?.title ||
+          <div className="flex min-w-0 items-center gap-2 text-xs">
+            <span className="hidden text-muted-foreground sm:inline">
+              FiscalHub
+            </span>
+            <ChevronRight className="hidden size-3 text-muted-foreground sm:block" />
+            <span className="truncate">
+              {navigation.find((item) => active(item.href))?.title ||
                 "FiscalHub"}
             </span>
           </div>
-          <div className="ml-auto flex items-center gap-2 sm:gap-4">
+          <div className="ml-auto flex shrink-0 items-center gap-3">
             <GlobalSearch />
-            <Button
-              variant="ghost"
-              size="icon"
-              disabled={saving}
-              onClick={() =>
-                save({
-                  ...preferences,
-                  theme: resolvedTheme === "dark" ? "light" : "dark",
-                })
-              }
-              aria-label="Alternar tema claro ou escuro"
-            >
-              <Sun className="hidden dark:block" />
-              <Moon className="dark:hidden" />
-            </Button>
-            <span className="hidden h-6 border-l sm:block" />
             <Link
               href="/configuracoes"
-              className="flex items-center gap-2.5"
+              aria-label={`${initials} — Abrir configurações do perfil`}
+              className="flex size-8 items-center justify-center rounded-md border text-[11px] font-medium hover:bg-muted"
             >
-              <span className="sr-only">Abrir configurações do perfil </span>
-              <span aria-hidden="true" className="flex size-9 items-center justify-center rounded-full border border-primary/10 bg-primary/10 text-xs font-semibold text-primary-text">
-                {initials}
-              </span>
-              <span className="hidden max-w-32 truncate text-xs font-medium xl:block">
-                {fullName.split(" ")[0]}
-              </span>
+              <span aria-hidden="true">{initials}</span>
             </Link>
           </div>
         </header>
         <main
           id="conteudo"
           tabIndex={-1}
-          className="mx-auto max-w-[1440px] px-4 py-7 sm:px-8 lg:py-9"
+          className="workspace-content mx-auto max-w-[1600px] px-4 py-5 sm:px-6"
         >
           {children}
         </main>
-        <footer className="mx-auto flex max-w-[1440px] flex-wrap justify-between gap-2 px-4 py-7 text-[11px] text-muted-foreground sm:px-8">
-          <span>FiscalHub · Etapa 5 — Consulta de rejeições</span>
-          <Link href="/privacidade" className="hover:text-primary-text">
-            Privacidade e seus dados
-          </Link>
-        </footer>
       </div>
     </div>
   );

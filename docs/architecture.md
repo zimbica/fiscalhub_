@@ -15,7 +15,7 @@ Etapas 1–5 implementadas, com escopo e limites documentados. Importação, per
 - `numeric(18,2)` para totais; `numeric(21,10)` para quantidades e valores unitários. Agregação monetária retorna string decimal e formatação usa `BigInt`. Tributos e grupos complementares são preservados em JSONB; totais suportados são extraídos sem duplicar valores de grupos pais e filhos.
 - Eventos independem da existência prévia da NF-e. Autorização, cancelamento e finalidade de devolução têm campos diferentes. A classificação é recalculada a partir dos recibos e eventos restantes quando uma evidência é excluída.
 - Supabase Storage: bucket `fiscal-xml` privado, 5 MiB por objeto, prefixo do usuário, sem permissão de atualização/upsert. O importador limita cada XML a 2 MiB e descompacta ZIP em Web Worker, enviando um XML por requisição.
-- UI em português, shadcn/ui gerado pelo CLI oficial, Lucide e Tailwind 4. Aparência é persistida no banco e aplicada via `next-themes`. A pesquisa global atual localiza páginas; a pesquisa de documentos fica em `/documentos`.
+- UI em português, shadcn/ui gerado pelo CLI oficial, Lucide e Tailwind 4. A interface usa tema escuro e azul fixos via `next-themes`; a API e as preferências antigas no banco permanecem compatíveis. A pesquisa global atual localiza páginas; a pesquisa de documentos fica em `/documentos`.
 
 ## Camadas
 

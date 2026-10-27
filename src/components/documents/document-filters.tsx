@@ -43,7 +43,7 @@ export function DocumentFilterForm({
         e.preventDefault();
         onApply(value);
       }}
-      className="rounded-xl border bg-card p-5"
+      className="rounded-md border bg-card p-4"
     >
       <div className="mb-4 flex items-center gap-2">
         <Filter className="size-4 text-primary-text" />

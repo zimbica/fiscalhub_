@@ -39,7 +39,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
     }
   }
   return (
-    <article className="mx-auto max-w-5xl space-y-6">
+    <article className="mx-auto max-w-5xl space-y-4">
       <Link
         href="/rejeicoes"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary-text"
@@ -47,7 +47,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
         <ArrowLeft className="size-4" />
         Voltar ao catálogo
       </Link>
-      <header className="rounded-2xl border bg-card p-5 sm:p-8">
+      <header className="rounded-lg border bg-card p-4 sm:p-8">
         <div className="flex items-start justify-between gap-3">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary-text">
             <BookOpenText className="size-4" />
@@ -55,7 +55,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
           </span>
           <FavoriteButton code={entry.code} initial={entry.favorite} />
         </div>
-        <h1 className="mt-5 text-2xl font-semibold leading-tight sm:text-3xl">
+        <h1 className="mt-5 text-xl font-semibold leading-tight sm:text-xl">
           {entry.title}
         </h1>
         <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
@@ -68,9 +68,9 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
           <span>Versão {entry.revision}</span>
         </div>
       </header>
-      <div className="grid items-start gap-6 lg:grid-cols-[1fr_280px]">
+      <div className="grid items-start gap-4 lg:grid-cols-[1fr_280px]">
         <div className="min-w-0 space-y-5">
-          <section className="rounded-xl border bg-card p-6">
+          <section className="rounded-md border bg-card p-4">
             <h2 className="font-semibold">O que significa?</h2>
             <p className="mt-3 text-sm leading-7 text-muted-foreground">
               {entry.explanation}
@@ -82,7 +82,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
               ))}
             </ul>
           </section>
-          <section className="rounded-xl border bg-card p-6">
+          <section className="rounded-md border bg-card p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="font-semibold">Como resolver?</h2>
               <Button size="sm" variant="outline" onClick={copy}>
@@ -96,7 +96,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
               ))}
             </ol>
           </section>
-          <section className="rounded-xl border bg-card p-6">
+          <section className="rounded-md border bg-card p-4">
             <h2 className="font-semibold">Onde verificar no XML?</h2>
             <ul className="mt-4 space-y-2">
               {entry.xml_fields.map((field) => (
@@ -118,7 +118,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
             )}
           </section>
           {entry.example && (
-            <section className="min-w-0 rounded-xl border bg-card p-6">
+            <section className="min-w-0 rounded-md border bg-card p-4">
               <h2 className="font-semibold">Exemplo ilustrativo</h2>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">
                 Fragmento para entender o problema. Não é documento completo nem
@@ -131,7 +131,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
           )}
         </div>
         <aside className="min-w-0 space-y-5">
-          <section className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-5">
+          <section className="rounded-md border border-amber-500/25 bg-amber-500/5 p-4">
             <h2 className="text-sm font-semibold">Condições e exceções</h2>
             <p className="mt-3 text-xs leading-6 text-muted-foreground">
               {entry.scope_note}
@@ -141,7 +141,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
               data de revisão não define vigência legal.
             </p>
           </section>
-          <section className="rounded-xl border bg-card p-5">
+          <section className="rounded-md border bg-card p-4">
             <h2 className="flex items-center gap-2 text-sm font-semibold">
               <ShieldCheck className="size-4 text-primary-text" />
               Fontes
@@ -168,7 +168,7 @@ export function RejectionArticle({ entry }: { entry: RejectionDetail }) {
             </div>
           </section>
           {!!entry.related.length && (
-            <section className="rounded-xl border bg-card p-5">
+            <section className="rounded-md border bg-card p-4">
               <h2 className="text-sm font-semibold">Rejeições relacionadas</h2>
               <div className="mt-4 space-y-3">
                 {entry.related.map((r) => (

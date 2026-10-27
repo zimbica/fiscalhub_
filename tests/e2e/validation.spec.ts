@@ -1,4 +1,4 @@
-import { legacySession } from './helpers/session';
+import { legacySession } from "./helpers/session";
 import { test, expect } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
@@ -27,6 +27,7 @@ test("validador XSD real, editor, linha, histórico, originais e controle de ace
     await legacySession(page, email, password);
     await expect(page).toHaveURL(/\/painel$/);
     await page
+      .getByRole("navigation", { name: "Navegação principal" })
       .getByRole("link", { name: "Validador de XML", exact: true })
       .click();
     const valid = validSchemaNfe();
